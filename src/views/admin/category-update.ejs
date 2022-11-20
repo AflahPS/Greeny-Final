@@ -1,0 +1,253 @@
+<%- include('./partials/__admin-head.ejs') %>
+<title>Greeny | Update Category</title>
+<!-- PLUGINS CSS STYLE -->
+<link href="/assets/plugins/simplebar/simplebar.css" rel="stylesheet" />
+
+<!-- Data Tables -->
+<link href='/assets/plugins/data-tables/datatables.bootstrap5.min.css' rel='stylesheet'>
+<link href='/assets/plugins/data-tables/responsive.datatables.min.css' rel='stylesheet'>
+</head>
+
+<body class="ec-header-fixed ec-sidebar-fixed ec-sidebar-dark ec-header-light" id="body">
+
+  <!-- WRAPPER -->
+  <div class="wrapper">
+
+    <!-- LEFT MAIN SIDEBAR -->
+    <!-- LEFT MAIN SIDEBAR -->
+    <div class="ec-left-sidebar ec-bg-sidebar">
+      <div id="sidebar" class="sidebar ec-sidebar-footer">
+
+        <div class="ec-brand">
+          <a href="/admin" title="Greeny">
+            <img class="ec-brand-icon" src="/assets/img/logo/ec-site-logo.png" alt="" />
+            <!-- <span class="ec-brand-name text-truncate"></span> -->
+          </a>
+        </div>
+
+        <!-- begin sidebar scrollbar -->
+        <div class="ec-navigation" data-simplebar>
+          <!-- sidebar menu -->
+          <ul class="nav sidebar-inner" id="sidebar-menu">
+
+            <!-- Dashboard -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin">
+                <i class="mdi mdi-view-dashboard-outline"></i>
+                <span class="nav-text">Dashboard</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Vendors -->
+
+
+            <!-- Users -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/user-list">
+                <i class="mdi mdi-account-group"></i>
+                <span class="nav-text">Users</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Products -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/product-list">
+                <i class="mdi mdi-palette-advanced"></i>
+                <span class="nav-text">Products</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Category -->
+            <li class="nav-lis active">
+              <a class="sidenav-item-link" href="/admin/category-list">
+                <i class="mdi mdi-dns-outline"></i>
+                <span class="nav-text">Categories</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Orders -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/order-list">
+                <i class="mdi mdi-cart"></i>
+                <span class="nav-text">Orders</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Coupons -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/coupon-list">
+                <i class="mdi mdi-tag-faces"></i>
+                <span class="nav-text">Coupons</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Banners -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/banner-list">
+                <i class="mdi mdi-image-area"></i>
+                <span class="nav-text">Banners</span>
+              </a>
+            </li>
+            <hr>
+
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/home">
+                <i class="mdi mdi-home-outline"></i>
+                <span class="nav-text">User -Home Page</span>
+              </a>
+            </li>
+            <hr>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE WRAPPER -->
+    <div class="ec-page-wrapper">
+
+      <!-- Header -->
+      <%- include('./partials/__admin-header.ejs') %>
+
+      <!-- CONTENT WRAPPER -->
+      <div class="ec-content-wrapper">
+        <div class="content">
+          <div class="breadcrumb-wrapper breadcrumb-wrapper-2 breadcrumb-contacts">
+            <div>
+              <h1>Update Category</h1>
+              <p class="breadcrumbs">
+                <span><a href="/admin">Home</a></span>
+                <span><i class="mdi mdi-chevron-right"></i></span>
+                <span><a href="/admin/category-list">Categories</a></span>
+                <span><i class="mdi mdi-chevron-right"></i></span>Update Category
+              </p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="card card-default">
+                <div class="card-header card-header-border-bottom">
+                  <h2>Add Category</h2>
+                </div>
+
+                <div class="card-body">
+                  <div class="row ec-vendor-uploads">
+
+                    <form class="row g-3" action="/admin/category-update?id=<%= category._id %>" method="post" enctype="multipart/form-data">
+
+                      <div class="col-lg-4">
+                        <div class="ec-vendor-img-upload">
+                          <div class="ec-vendor-main-img">
+                            <div class="avatar-upload">
+                              <div class="avatar-edit">
+                                <input type='file' id="imageUpload" class="ec-image-upload" name="thumbnail" accept="image/*" />
+                                <label for="imageUpload"><img src="/assets/img/icons/edit.svg" class="svg_img header_svg" alt="edit" /></label>
+                              </div>
+                              <div class="avatar-preview ec-preview">
+                                <div class="imagePreview ec-div-preview">
+                                  <img class="ec-image-preview" src="/images/category/<%= category.thumbnail %>" alt="edit" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-8">
+                        <div class="ec-vendor-upload-detail">
+                          <div class="col-md-6">
+                            <label for="name" class="form-label">Product Name</label>
+                            <input type="text" name="name" class="form-control slug-title" id="name" value="<%= category.name %>" required>
+                          </div>
+                          <div class="col-md-12 mt-3">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+                  </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="row">
+            <div class="col-lg-12">
+              <div class="ec-cat-list card card-default mb-24px">
+                <div class="card-body">
+                  <div class="ec-cat-form">
+                    <h4>Update Category</h4>
+
+                    <form action="/admin/category-update?id=<%= category._id %>" method="POST" enctype="multipart/form-data">
+                      <div class="form-group row">
+                        <label for="name" class="col-12 col-form-label">Name</label>
+                        <div class="col-12">
+                          <input id="text" name="name" value="<%= category.name %>" class="form-control here slug-title" type="text">
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <label for="thumbnail" class="col-12 col-form-label">Thumnail</label>
+                        <div class="imagePreview ec-div-preview">
+                          <img class="ec-image-preview" style="max-height: 360px; margin-bottom: 15px;" src="/images/category/<%= category.thumbnail %>" alt="edit" />
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-12">
+                          <input type='file' id="imageUpload" name="thumbnail" class="form-control ec-image-upload" accept="image/*" />
+                        </div>
+                      </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <input name="submit" type="submit" class="btn btn-primary" value="Submit" />
+                    </div>
+                  </div>
+                  </form>
+
+                </div>
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div> <!-- End Content -->
+    </div> <!-- End Content Wrapper -->
+
+    <!-- Footer -->
+    <%- include('./partials/__admin-footer.ejs') %>
+
+  </div> <!-- End Page Wrapper -->
+
+  </div> <!-- End Wrapper -->
+
+  <!-- Common Javascript -->
+  <script src="/assets/plugins/jquery/jquery-3.5.1.min.js"></script>
+  <script src="/assets/plugins/jquery/jquery.notify.min.js"></script>
+  <script src="/assets/plugins/jquery/jquery.bundle.notify.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/plugins/tags-input/bootstrap-tagsinput.js"></script>
+  <script src="/assets/plugins/simplebar/simplebar.min.js"></script>
+  <script src="/assets/plugins/jquery-zoom/jquery.zoom.min.js"></script>
+  <script src="/assets/plugins/slick/slick.min.js"></script>
+
+  <!-- Data Tables -->
+  <script src='/assets/plugins/data-tables/jquery.datatables.min.js'></script>
+  <script src='/assets/plugins/data-tables/datatables.bootstrap5.min.js'></script>
+  <script src='/assets/plugins/data-tables/datatables.responsive.min.js'></script>
+
+  <!-- Option Switcher -->
+  <script src="/assets/plugins/options-sidebar/optionswitcher.js"></script>
+
+  <!-- Ekka Custom -->
+  <script src="/assets/js/ekka.js"></script>
+</body>
+
+</html>

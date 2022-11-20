@@ -1,0 +1,105 @@
+<%- include('./partials/__user-head.ejs') %>
+<link rel="stylesheet" href="/css/all-category.css">
+<title>Greeny - All Category</title>
+</head>
+
+<body>
+
+  <%- include('./partials/__user-nav.ejs') %>
+  <%- include('./partials/__user-side-cat.ejs') %>
+  <%- include('./partials/__user-cart.ejs') %>
+  <%- include('./partials/__user-sidenav.ejs') %>
+  <%- include('./partials/__user-mobile.ejs') %>
+
+  <!-------------- Here the body starts  -->
+
+  <section class="inner-section single-banner" style="background: url(images/single-banner.jpg) no-repeat center;">
+    <div class="container">
+      <h2>All category</h2>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/home">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">all-category</li>
+      </ol>
+    </div>
+  </section>
+  <section class="inner-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="top-filter">
+            <div class="filter-show"><label class="filter-label">Show :</label><select class="form-select filter-select">
+                <option value="1">12</option>
+                <option value="2">24</option>
+                <option value="3">36</option>
+              </select></div>
+            <div class="filter-short"><label class="filter-label">Short by :</label><select class="form-select filter-select">
+                <option selected>default</option>
+                <option value="3">trending</option>
+                <option value="1">featured</option>
+                <option value="2">recommend</option>
+              </select></div>
+          </div>
+        </div>
+      </div>
+      <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 justify-content-center">
+
+        <!-- iterate through categories -->
+        <% categories.forEach(cat => { %>
+
+        <div class="col">
+          <div class="category-wrap">
+            <div class="category-media"><img src="/images/category/<%= cat.thumbnail %>" alt="<%= cat.name %>">
+              <div class="category-overlay">
+                <a href="/shop?category=<%= cat._id %>"><i class="fas fa-link"></i></a>
+              </div>
+            </div>
+            <div class="category-meta">
+              <h4><%= cat.name %></h4>
+              <p>(<%= cat.totalProducts %> items)</p>
+            </div>
+          </div>
+        </div>
+
+        <% }) %>
+
+        <!-- /iterate through categories -->
+
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="bottom-paginate">
+            <p class="page-info">Showing <%= categories.length %> of 60 Results</p>
+            <ul class="pagination">
+              <li class="page-item"><a class="page-link" href="#"><i class="fas fa-long-arrow-alt-left"></i></a></li>
+              <li class="page-item"><a class="page-link active" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">...</li>
+              <li class="page-item"><a class="page-link" href="#">60</a></li>
+              <li class="page-item"><a class="page-link" href="#"><i class="fas fa-long-arrow-alt-right"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('./partials/__user-features.ejs') %>
+  <%- include('./partials/__user-footer.ejs') %>
+
+  <script src="/vendor/bootstrap/jquery-1.12.4.min.js"></script>
+  <script src="/vendor/bootstrap/popper.min.js"></script>
+  <script src="/vendor/bootstrap/bootstrap.min.js"></script>
+  <script src="/vendor/countdown/countdown.min.js"></script>
+  <script src="/vendor/niceselect/nice-select.min.js"></script>
+  <script src="/vendor/slickslider/slick.min.js"></script>
+  <script src="/vendor/venobox/venobox.min.js"></script>
+  <script src="/js/nice-select.js"></script>
+  <script src="/js/countdown.js"></script>
+  <script src="/js/accordion.js"></script>
+  <script src="/js/venobox.js"></script>
+  <script src="/js/slick.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+
+</html>

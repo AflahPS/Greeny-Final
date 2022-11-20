@@ -1,0 +1,212 @@
+<%- include('./partials/__user-head.ejs') %>
+<% let wishlist = locals.wishlist || null %>
+<% let order = locals.order || null %>
+<% let moment = locals.moment || null %>
+
+<title>Greeny - Invoice</title>
+<link rel="stylesheet" href="/css/invoice.css">
+</head>
+
+<body>
+
+  <%- include('./partials/__user-nav.ejs') %>
+  <%- include('./partials/__user-side-cat.ejs') %>
+  <%- include('./partials/__user-cart.ejs') %>
+  <%- include('./partials/__user-sidenav.ejs') %>
+  <%- include('./partials/__user-mobile.ejs') %>
+
+  <section class="inner-section single-banner" style="background: url(images/single-banner.jpg) no-repeat center;">
+    <div class="container">
+      <h2>Order invoice</h2>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/home">Home</a></li>
+        <li class="breadcrumb-item"><a href="/shop">shop grid</a></li>
+        <li class="breadcrumb-item"><a href="/checkout">checkout</a></li>
+        <li class="breadcrumb-item active" aria-current="page">invoice</li>
+      </ol>
+    </div>
+  </section>
+  <section class="inner-section invoice-part">
+    <div class="container">
+      <div class="row" id="invoice-div">
+        <div class="col-lg-12">
+          <div class="alert-info">
+            <p>Thank you! We have recieved your order.</p>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="account-card">
+            <div class="account-title">
+              <h4>order recieved</h4>
+            </div>
+            <div class="account-content">
+              <div class="invoice-recieved">
+                <h6>order ID <span><%= order.oid %></span></h6>
+                <h6>order date <span><%= moment(order.createdAt).format('LL') %></span></h6>
+                <h6>total amount <span>₹<%= order.totalAmount %></span></h6>
+                <h6>payment method <span><%= order.paymentMode == 'pay-cod' ? 'Cash on delivery' : 'Online Payment' ; %></span></h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="account-card">
+            <div class="account-title">
+              <h4>Order Details</h4>
+            </div>
+            <div class="account-content">
+              <ul class="invoice-details">
+                <li>
+                  <h6>Total Item</h6>
+                  <p><%= order.products.length %> Items</p>
+                </li>
+                <li>
+                  <h6>Order Time</h6>
+                  <p><%= moment(order.createdAt).format('LLL') %></p>
+                </li>
+                <li>
+                  <h6>Delivery Time</h6>
+                  <p><%= moment(order.deliveryExpected).format('LL') %></p>
+                </li>
+                <li>
+                  <h6>Delivery Address</h6>
+                  <p><%= order.address.content %></p>
+                </li>
+                <li>
+                  <h6>Delivery Location</h6>
+                  <p><%= order.address.state %></p>
+                </li>
+                <li>
+                  <h6>Coupon Used</h6>
+                  <p><%= order.couponUsed ? order.couponUsed.name : 'None' ; %></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="account-card">
+            <div class="account-title">
+              <h4>Amount Details</h4>
+            </div>
+            <div class="account-content">
+              <ul class="invoice-details">
+                <li>
+                  <h6>Sub Total</h6>
+                  <p>₹<%= order.subTotal %></p>
+                </li>
+                <li>
+                  <h6>Product's Discount</h6>
+                  <p>-₹<%= order.discount %></p>
+                </li>
+                <li>
+                  <h6>Coupon Discount</h6>
+                  <p>-₹<%= order.couponDiscount %></p>
+                </li>
+                <li>
+                  <h6>Delivery Charge</h6>
+                  <p>+₹10</p>
+                </li>
+                <li>
+                  <h6>Total<small>(Incl. VAT)</small></h6>
+                  <p>₹<%= order.totalAmount %></p>
+                </li>
+                <li>
+                  <h6>Payment Method</h6>
+                  <p><%= order.paymentMode == 'pay-cod' ? 'Cash on delivery' : 'Online Payment' ; %></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="table-scroll">
+            <table class="table-list">
+              <thead>
+                <tr>
+                  <th scope="col">Serial</th>
+                  <th scope="col">Product</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">brand</th>
+                  <th scope="col">quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <% order.products.forEach((prodObj,index) => { %>
+
+                <tr>
+                  <td class="table-serial">
+                    <h6><%= index+1 %></h6>
+                  </td>
+                  <td class="table-image"><img src="/images/product/<%= prodObj.product.thumbnail %>" alt="product"></td>
+                  <td class="table-name">
+                    <h6><%= prodObj.product.name %></h6>
+                  </td>
+                  <td class="table-price">
+                    <h6>₹<%= prodObj.product.price %><small>/<%= prodObj.product.unitIn %></small></h6>
+                  </td>
+                  <td class="table-brand">
+                    <h6><%= prodObj.product.brand %></h6>
+                  </td>
+                  <td class="table-quantity">
+                    <h6><%= prodObj.quantity %></h6>
+                  </td>
+                </tr>
+
+                <% }) %>
+
+
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 text-center mt-5"><a class="btn btn-inline" id="invoice-pdf" href="#"><i class="icofont-download"></i><span>download invoice</span></a>
+          <div class="back-home"><a href="/home">Back to Home</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="news-part" style="background: url(images/newsletter.jpg) no-repeat center;">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-5 col-lg-6 col-xl-7">
+          <div class="news-text">
+            <h2>Get 20% Discount for Subscriber</h2>
+            <p>Lorem ipsum dolor consectetur adipisicing accusantium</p>
+          </div>
+        </div>
+        <div class="col-md-7 col-lg-6 col-xl-5">
+          <form class="news-form"><input type="text" placeholder="Enter Your Email Address"><button><span><i class="icofont-ui-email"></i>Subscribe</span></button></form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <%- include('./partials/__user-features.ejs') %>
+  <%- include('./partials/__user-footer.ejs') %>
+
+  <script src="/vendor/bootstrap/jquery-1.12.4.min.js"></script>
+  <script src="/vendor/bootstrap/popper.min.js"></script>
+  <script src="/vendor/bootstrap/bootstrap.min.js"></script>
+  <script src="/vendor/countdown/countdown.min.js"></script>
+  <script src="/vendor/niceselect/nice-select.min.js"></script>
+  <script src="/vendor/slickslider/slick.min.js"></script>
+  <script src="/vendor/venobox/venobox.min.js"></script>
+  <script src="/vendor/print-this/printThis.js"></script>
+  <script src="/js/nice-select.js"></script>
+  <script src="/js/countdown.js"></script>
+  <script src="/js/accordion.js"></script>
+  <script src="/js/venobox.js"></script>
+  <script src="/js/slick.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/additional.js"> </script>
+
+</body>
+
+</html>

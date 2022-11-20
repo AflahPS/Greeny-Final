@@ -1,0 +1,318 @@
+<%- include('./partials/__admin-head.ejs') %>
+<title>Greeny | Edit Product</title>
+<!-- PLUGINS CSS STYLE -->
+<link href="assets/plugins/simplebar/simplebar.css" rel="stylesheet" />
+</head>
+
+<body class="ec-header-fixed ec-sidebar-fixed ec-sidebar-dark ec-header-light" id="body">
+
+  <!-- WRAPPER -->
+  <div class="wrapper">
+
+    <!-- LEFT MAIN SIDEBAR -->
+    <div class="ec-left-sidebar ec-bg-sidebar">
+      <div id="sidebar" class="sidebar ec-sidebar-footer">
+
+        <div class="ec-brand">
+          <a href="/admin" title="Greeny">
+            <img class="ec-brand-icon" src="/assets/img/logo/ec-site-logo.png" alt="" />
+            <!-- <span class="ec-brand-name text-truncate"></span> -->
+          </a>
+        </div>
+
+        <!-- begin sidebar scrollbar -->
+        <div class="ec-navigation" data-simplebar>
+          <!-- sidebar menu -->
+          <ul class="nav sidebar-inner" id="sidebar-menu">
+
+            <!-- Dashboard -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin">
+                <i class="mdi mdi-view-dashboard-outline"></i>
+                <span class="nav-text">Dashboard</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Vendors -->
+
+
+            <!-- Users -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/user-list">
+                <i class="mdi mdi-account-group"></i>
+                <span class="nav-text">Users</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Products -->
+            <li class="nav-lis active">
+              <a class="sidenav-item-link" href="/admin/product-list">
+                <i class="mdi mdi-palette-advanced"></i>
+                <span class="nav-text">Products</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Category -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/category-list">
+                <i class="mdi mdi-dns-outline"></i>
+                <span class="nav-text">Categories</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Orders -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/order-list">
+                <i class="mdi mdi-cart"></i>
+                <span class="nav-text">Orders</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Coupons -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/coupon-list">
+                <i class="mdi mdi-tag-faces"></i>
+                <span class="nav-text">Coupons</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Banners -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/banner-list">
+                <i class="mdi mdi-image-area"></i>
+                <span class="nav-text">Banners</span>
+              </a>
+            </li>
+            <hr>
+
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/home">
+                <i class="mdi mdi-home-outline"></i>
+                <span class="nav-text">User -Home Page</span>
+              </a>
+            </li>
+            <hr>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PAGE WRAPPER -->
+    <div class="ec-page-wrapper">
+
+      <!-- Header -->
+      <%- include('./partials/__admin-header.ejs') %>
+
+
+      <!-- CONTENT WRAPPER -->
+      <div class="ec-content-wrapper">
+        <div class="content">
+          <div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+            <div>
+              <h1>Edit Product</h1>
+              <p class="breadcrumbs">
+                <span><a href="/admin">Home</a></span>
+                <span><i class="mdi mdi-chevron-right"></i></span>
+                <span><a href="/admin/product-list">Products</a></span>
+                <span><i class="mdi mdi-chevron-right"></i></span>
+                Edit Product
+              </p>
+            </div>
+            <div>
+              <a href="/admin/product-list" class="btn btn-primary"> View All
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="card card-default">
+                <div class="card-header card-header-border-bottom">
+                  <h2>Edit Product</h2>
+                </div>
+
+                <div class="card-body">
+                  <div class="row ec-vendor-uploads">
+
+                    <form class="row g-3" action="/admin/product-update?id=<%= product._id %>" method="post" enctype="multipart/form-data">
+
+                      <div class="col-lg-4">
+                        <div class="ec-vendor-img-upload">
+                          <div class="ec-vendor-main-img">
+                            <!-- Thumbnail -->
+
+                            <div class="avatar-upload">
+                              <div class="avatar-edit">
+                                <input type='file' id="imageUpload" class="ec-image-upload" name="thumbnail" value="<%= product.thumbnail %>" accept="image/*" />
+                                <label for="imageUpload"><img src="/assets/img/icons/edit.svg" class="svg_img header_svg" alt="edit" /></label>
+                              </div>
+                              <div class="avatar-preview ec-preview">
+                                <div class="imagePreview ec-div-preview">
+                                  <img class="ec-image-preview" src="/images/product/<%= product.thumbnail %>" alt="edit" />
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- images -->
+
+                            <div class="thumb-upload-set colo-md-12">
+                              <% for( let i = 0; i < product.images.length; i++ ) { %>
+
+                              <div class="thumb-upload">
+                                <div class="thumb-edit">
+                                  <input type='file' id="thumbUpload01" class="ec-image-upload" name="images" accept="image/*" />
+                                  <label for="imageUpload"><img src="/assets/img/icons/edit.svg" class="svg_img header_svg" alt="edit" /></label>
+                                </div>
+                                <div class="thumb-preview ec-preview">
+                                  <div class="image-thumb-preview">
+                                    <img class="image-thumb-preview ec-image-preview" src="/images/product/<%= product.images[i] %>" alt="edit" />
+                                  </div>
+                                </div>
+                              </div>
+
+                              <% } %>
+
+                              <% for( let i = 0; i < (6 - product.images.length); i++ ) { %>
+
+                              <div class="thumb-upload">
+                                <div class="thumb-edit">
+                                  <input type='file' id="thumbUpload01" class="ec-image-upload" name="images" accept="image/*" />
+                                  <label for="imageUpload"><img src="/assets/img/icons/edit.svg" class="svg_img header_svg" alt="edit" /></label>
+                                </div>
+                                <div class="thumb-preview ec-preview">
+                                  <div class="image-thumb-preview">
+                                    <img class="image-thumb-preview ec-image-preview" src="/assets/img/products/vender-upload-thumb-preview.jpg" alt="edit" />
+                                  </div>
+                                </div>
+                              </div>
+
+                              <% } %>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-8">
+                        <div class="ec-vendor-upload-detail">
+                          <!-- <form class="row g-3" action="/admin/product-update?id=<%= product._id %> " method="post"> -->
+                          <div class="col-md-6">
+                            <label for="name" class="form-label">Product Name</label>
+                            <input type="text" name="name" value="<%= product.name %> " class="form-control slug-title" id="name">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">Select Categories</label>
+                            <select name="category" id="Category" class="form-select">
+
+                              <option value="<%= product.category._id %>" selected><%= product.category.name %></option>
+                              <% categories.forEach(cat => { %>
+                              <option value="<%= cat._id %>"><%= cat.name %></option>
+                              <% }) %>
+
+                            </select>
+                          </div>
+                          <div class="col-md-12">
+                            <label for="brand" class="col-12 col-form-label">Brand</label>
+                            <div class="col-12">
+                              <input id="brand" name="brand" value="<%= product.brand %> " class="form-control here" type="text">
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <label class="form-label">Short Description</label>
+                            <textarea class="form-control" name="description" rows="2"><%= product.description %> </textarea>
+                          </div>
+                          <div class="col-md-4 mb-25">
+                            <label class="form-label" for="expiresIn" id="expiresIn" class="form-select">Expiry Date</label>
+
+                            <% function formatDate(date) {
+                              date = date.toISOString();
+                              return date.split('T')[0];
+                            } %>
+
+                            <input type="date" class="form-control" id="" name="expiresIn" value="<%=  formatDate(product.expiresIn) %>">
+
+                          </div>
+                          <div class="col-md-8 mb-25">
+                            <label class="form-label">Unit In</label>
+                            <div class="form-checkbox-box">
+
+                              <div class="form-check form-check-inline">
+                                <input type="radio" name="unitIn" value="kilogram" <%= product.unitIn == 'kilogram' ? checked="checked" : null ;%>>
+                                <label>KiloGram</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input type="radio" name="unitIn" value="litre" <%= product.unitIn == 'litre' ? checked="checked" : null ;%>>
+                                <label>Litre</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input type="radio" name="unitIn" value="piece" <%= product.unitIn == 'piece' ? checked="checked" : null ;%>>
+                                <label>Piece</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input type="radio" name="unitIn" value="bundle" <%= product.unitIn == 'bundle' ? checked="checked" : null ;%>>
+                                <label>Bundle</label>
+                              </div>
+
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <label class="form-label">Price <span>( In INR
+                                )</span></label>
+                            <input type="number" name="price" class="form-control" value="<%= product.price %>" id="price1">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">Current Stock</label>
+                            <input type="number" name="stock" class="form-control" value="<%= product.stock %>" id="quantity1">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">Discount<span>( Minimum = '0', Maximum = '95' )</span></label>
+                            <input type="number" name="discount" class="form-control" minValue="0" maxValue="95" value="<%= product.discount %>" id="quantity1">
+                          </div>
+                          <div class="col-md-12">
+                            <label class="form-label">Product Tags<span>( Type and
+                                make comma to separate tags )</span></label>
+                            <input type="text" class="form-control" id="group_tag" name="tags" value="<%= product.tags.join(', ') %>" placeholder="" data-role="tagsinput" />
+                          </div>
+                          <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> <!-- End Content -->
+      </div> <!-- End Content Wrapper -->
+
+      <!-- Footer -->
+      <%- include('./partials/__admin-footer.ejs') %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+  <!-- Common Javascript -->
+  <script src="/assets/plugins/jquery/jquery-3.5.1.min.js"></script>
+  <script src="/assets/plugins/jquery/jquery.notify.min.js"></script>
+  <script src="/assets/plugins/jquery/jquery.bundle.notify.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/plugins/tags-input/bootstrap-tagsinput.js"></script>
+  <script src="/assets/plugins/simplebar/simplebar.min.js"></script>
+  <script src="/assets/plugins/jquery-zoom/jquery.zoom.min.js"></script>
+  <script src="/assets/plugins/slick/slick.min.js"></script>
+
+  <!-- Option Switcher -->
+  <script src="/assets/plugins/options-sidebar/optionswitcher.js"></script>
+
+  <!-- Ekka Custom -->
+  <script src="/assets/js/ekka.js"></script>
+</body>
+
+</html>

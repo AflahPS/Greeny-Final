@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="template" content="greeny">
+  <meta name="title" content="greeny - Ecommerce Food Store HTML Template">
+  <meta name="keywords" content="organic, food, shop, ecommerce, store, html, bootstrap, template, agriculture, vegetables, products, farm, grocery, natural, online">
+  <title>Greeny - Register</title>
+  <link rel="icon" href="/images/favicon.png">
+  <link rel="stylesheet" href="/fonts/flaticon/flaticon.css">
+  <link rel="stylesheet" href="/fonts/icofont/icofont.min.css">
+  <link rel="stylesheet" href="/fonts/fontawesome/fontawesome.min.css">
+  <link rel="stylesheet" href="/vendor/venobox/venobox.min.css">
+  <link rel="stylesheet" href="/vendor/slickslider/slick.min.css">
+  <link rel="stylesheet" href="/vendor/niceselect/nice-select.min.css">
+  <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/user-auth.css">
+</head>
+
+<body>
+  <section class="user-form-part">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-12 col-lg-12 col-xl-10">
+          <div class="user-form-logo"><a href="/home"><img src="/images/logo.png" alt="logo"></a></div>
+          <div class="user-form-card">
+            <div class="user-form-title">
+              <h2>Join Now!</h2>
+              <p>Setup A New Account In A Minute</p>
+            </div>
+            <div class="user-form-group">
+              <ul class="user-form-social">
+                <li><a href="#" class="facebook"><i class="fab fa-facebook-f"></i>Join with facebook</a>
+                </li>
+                <li><a href="#" class="google"><i class="fab fa-google"></i>Join with google</a></li>
+                <!-- <li><a href="#" class="twitter"><i class="fab fa-twitter"></i>Join with twitter</a></li>
+                                <li><a href="#" class="instagram"><i class="fab fa-instagram"></i>Join with
+                                        instagram</a></li> -->
+              </ul>
+              <div class="user-form-divider">
+                <p>or</p>
+              </div>
+
+              <form class="user-form" action="/register" method="post">
+                <div class="form-group">
+                  <input type="text" name="name" id="reg-name" class="form-control" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                  <input type="email" name="email" id="reg-email" class="form-control" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                  <input type="password" name="password" id="reg-password" class="form-control" placeholder="Enter your password">
+                </div>
+                <div class="form-group">
+                  <input type="password" name="repeatPassword" id="reg-repeat-password" class="form-control" placeholder="Enter repeat password">
+                </div>
+                <p class="text-danger text-center mt-2" id="err-msg"><%= message %></p>
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" value="" id="check">
+                  <label class="form-check-label" for="check">Accept all the <a href="#">Terms & Conditions</a></label>
+                </div>
+                <div class="form-button">
+                  <button type="submit">register</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="user-form-remind">
+            <p>Already Have An Account?<a href="/login">login here</a></p>
+          </div>
+          <div class="user-form-footer">
+            <p>Greeny | &COPY; Copyright by <a href="#">Mironcoder</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="/vendor/bootstrap/jquery-1.12.4.min.js"></script>
+  <script src="/vendor/bootstrap/popper.min.js"></script>
+  <script src="/vendor/bootstrap/bootstrap.min.js"></script>
+  <script src="/vendor/countdown/countdown.min.js"></script>
+  <script src="/vendor/niceselect/nice-select.min.js"></script>
+  <script src="/vendor/slickslider/slick.min.js"></script>
+  <script src="/vendor/venobox/venobox.min.js"></script>
+  <script src="/js/nice-select.js"></script>
+  <script src="/js/countdown.js"></script>
+  <script src="/js/accordion.js"></script>
+  <script src="/js/venobox.js"></script>
+  <script src="/js/slick.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/form-register.js"></script>
+
+</body>
+
+</html>

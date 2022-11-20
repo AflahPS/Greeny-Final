@@ -1,0 +1,409 @@
+<%- include('./partials/__admin-head.ejs') %>
+
+<link href="/assets/img/favicon.png" rel="shortcut icon" />
+<link href="/assets/plugins/simplebar/simplebar.css" rel="stylesheet" />
+<title>Greeny | Order</title>
+</head>
+
+<body class="ec-header-fixed ec-sidebar-fixed ec-sidebar-dark ec-header-light" id="body">
+
+  <!-- WRAPPER -->
+  <div class="wrapper">
+
+    <!-- LEFT MAIN SIDEBAR -->
+    <div class="ec-left-sidebar ec-bg-sidebar">
+      <div id="sidebar" class="sidebar ec-sidebar-footer">
+
+        <div class="ec-brand">
+          <a href="/admin" title="Greeny">
+            <img class="ec-brand-icon" src="/assets/img/logo/ec-site-logo.png" alt="" />
+            <!-- <span class="ec-brand-name text-truncate"></span> -->
+          </a>
+        </div>
+
+        <!-- begin sidebar scrollbar -->
+        <div class="ec-navigation" data-simplebar>
+          <!-- sidebar menu -->
+          <ul class="nav sidebar-inner" id="sidebar-menu">
+
+            <!-- Dashboard -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin">
+                <i class="mdi mdi-view-dashboard-outline"></i>
+                <span class="nav-text">Dashboard</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Vendors -->
+
+
+            <!-- Users -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/user-list">
+                <i class="mdi mdi-account-group"></i>
+                <span class="nav-text">Users</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Products -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/product-list">
+                <i class="mdi mdi-palette-advanced"></i>
+                <span class="nav-text">Products</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Category -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/category-list">
+                <i class="mdi mdi-dns-outline"></i>
+                <span class="nav-text">Categories</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Orders -->
+            <li class="nav-lis active">
+              <a class="sidenav-item-link" href="/admin/order-list">
+                <i class="mdi mdi-cart"></i>
+                <span class="nav-text">Orders</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Coupons -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/coupon-list">
+                <i class="mdi mdi-tag-faces"></i>
+                <span class="nav-text">Coupons</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Banners -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/banner-list">
+                <i class="mdi mdi-image-area"></i>
+                <span class="nav-text">Banners</span>
+              </a>
+            </li>
+            <hr>
+
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/home">
+                <i class="mdi mdi-home-outline"></i>
+                <span class="nav-text">User -Home Page</span>
+              </a>
+            </li>
+            <hr>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE WRAPPER -->
+    <div class="ec-page-wrapper">
+
+      <!-- Header -->
+      <%- include('./partials/__admin-header.ejs') %>
+
+      <!-- CONTENT WRAPPER -->
+      <div class="ec-content-wrapper">
+        <div class="content">
+          <div class="breadcrumb-wrapper breadcrumb-wrapper-2">
+            <h1>Order Detail</h1>
+            <p class="breadcrumbs">
+              <span><a href="/admin">Home</a></span>
+              <span><i class="mdi mdi-chevron-right"></i></span>
+              <span><a href="/admin/order-list">Orders</a></span>
+              <span><i class="mdi mdi-chevron-right"></i></span>
+              Order Details
+            </p>
+          </div>
+
+          <% if (order) { %>
+
+          <div class="row">
+            <div class="col-12">
+
+              <!-- Tracking Detail -->
+              <div class="card trk-order mb-5">
+                <div class="p-4 text-center text-white text-lg bg-dark rounded-top">
+                  <span class="text-uppercase">Tracking Order No - </span>
+                  <span class="text-medium"><%= order._id %></span>
+                </div>
+                <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+                  <div class="w-100 text-center py-1 px-2"><span class="text-medium">Shipped
+                      Via:</span>Greeny Inc</div>
+                  <div class="w-100 text-center py-1 px-2" style="text-transform: uppercase; <%= order.status == 'cancelled' ? 'color: red' : '' ; %>"><span class="text-medium">Status:</span>
+                    <%= order.status %>
+                  </div>
+                  <div class="w-100 text-center py-1 px-2"><span class="text-medium">Expected
+                      Date:</span><%= moment(order.deliveryExpected).format("MMM Do YY") %></div>
+                </div>
+                <div class="card-body">
+                  <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                    <div class="<%= ['confirmed','processing','dispatched','out-for-delivery','delivered'].includes(order.status) ? 'step completed' : 'step'; %>">
+                      <div class="step-icon-wrap">
+                        <div class="step-icon"><i class="mdi mdi-cart"></i></div>
+                      </div>
+                      <h4 class="step-title">Confirmed Order</h4>
+                    </div>
+                    <div class="<%= ['processing','dispatched','out-for-delivery','delivered'].includes(order.status) ? 'step completed' : 'step'; %>">
+                      <div class="step-icon-wrap">
+                        <div class="step-icon"><i class="mdi mdi-tumblr-reblog"></i></div>
+                      </div>
+                      <h4 class="step-title">Processing Order</h4>
+                    </div>
+                    <div class="<%= ['dispatched','out-for-delivery','delivered'].includes(order.status) ? 'step completed' : 'step'; %>">
+                      <div class="step-icon-wrap">
+                        <div class="step-icon"><i class="mdi mdi-gift"></i></div>
+                      </div>
+                      <h4 class="step-title">Product Dispatched</h4>
+                    </div>
+                    <div class="<%= ['out-for-delivery','delivered'].includes(order.status) ? 'step completed' : 'step'; %>">
+                      <div class="step-icon-wrap">
+                        <div class="step-icon"><i class="mdi mdi-truck-delivery"></i></div>
+                      </div>
+                      <h4 class="step-title">On Delivery</h4>
+                    </div>
+                    <div class="<%= ['delivered'].includes(order.status) ? 'step completed' : 'step'; %>">
+                      <div class="step-icon-wrap">
+                        <div class="step-icon"><i class="mdi mdi-hail"></i></div>
+                      </div>
+                      <h4 class="step-title">Product Delivered</h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="ec-odr-dtl card card-default">
+              <div class="card-header card-header-border-bottom d-flex justify-content-between">
+                <h2 class="ec-odr">Order Detail<br>
+                  <form action="">
+                    <div class="form-floating">
+                      <select class="form-select" id="order-status-updater" data-oid="<%= order._id %>" aria-label="Floating label select example">
+                        <option value="confirmed" <%= order.status === 'confirmed' ? 'selected' : '' ; %>>Confirmed</option>
+                        <option value="processing" <%= order.status === 'processing' ? 'selected' : '' ; %>>Processing</option>
+                        <option value="dispatched" <%= order.status === 'dispatched' ? 'selected' : '' ; %>>Dispatched</option>
+                        <option value="out-for-delivery" <%= order.status === 'out-for-delivery' ? 'selected' : '' ; %>>Out-for-delivery</option>
+                        <option value="delivered" <%= order.status === 'delivered' ? 'selected' : '' ; %>>Delivered</option>
+                        <option value="cancelled" <%= order.status === 'cancelled' ? 'selected' : '' ; %>>Cancelled</option>
+                      </select>
+                      <label for="floatingSelect">Order Status</label>
+                    </div>
+                  </form>
+                  <span class="small">Order ID: <%= order.oid %></span>
+                </h2>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-xl-3 col-lg-6">
+                    <address class="info-grid">
+                      <div class="info-title"><strong>Customer:</strong></div><br>
+                      <div class="info-content">
+                        <%= order.user.name %><br>
+                        <%= order.user.address[0].title %><br>
+                        <%= order.user.address[0].content %><br>
+                        <%= order.user.address[0].state %><br>
+                        <abbr title="Phone">P:</abbr> <%= order.user.address[0].phone %>
+                      </div>
+                    </address>
+                  </div>
+                  <div class="col-xl-3 col-lg-6">
+                    <address class="info-grid">
+                      <div class="info-title"><strong>Shipped To:</strong></div><br>
+                      <div class="info-content">
+                        <%= order.user.name %><br>
+                        <%= order.address.title %><br>
+                        <%= order.address.content %><br>
+                        <%= order.address.state %><br>
+                        <abbr title="Phone">P:</abbr> <%= order.address.phone %>
+                      </div>
+                    </address>
+                  </div>
+                  <div class="col-xl-3 col-lg-6">
+                    <address class="info-grid">
+                      <div class="info-title"><strong>Payment Method:</strong></div><br>
+                      <div class="info-content">
+                        <%= order.paymentMode %><br>
+                        <span> Order ID: </span><br>
+                        <%= order.oid %><br>
+
+                        <% if (order.paymentMode == 'pay-online' && order.paymentDetails ) { %>
+                        <span> Payment ID: </span><br>
+                        <%= order.paymentDetails.payment_id %><br>
+
+                        <% } %>
+                      </div>
+                    </address>
+                  </div>
+                  <div class="col-xl-3 col-lg-6">
+                    <address class="info-grid">
+                      <div class="info-title"><strong>Order Date:</strong></div><br>
+                      <div class="info-content">
+                        <%= moment(order.createdAt).format('LTS') %><br>
+                        <%= moment(order.createdAt).format("MMM Do YY") %>
+                      </div>
+                    </address>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <h3 class="tbl-title">PRODUCT SUMMARY</h3>
+                    <div class="table-responsive">
+                      <table class="table table-striped o-tbl">
+                        <thead>
+                          <tr class="line">
+                            <td><strong>#</strong></td>
+                            <td class="text-center"><strong>IMAGE</strong></td>
+                            <td class="text-center"><strong>PRODUCT</strong></td>
+                            <td class="text-center"><strong>PRICE/UNIT</strong></td>
+                            <td class="text-right"><strong>QUANTITY</strong></td>
+                            <td class="text-right"><strong>SUBTOTAL</strong></td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% order.products.forEach((prodObj,index) => { %>
+
+                          <tr>
+                            <td><%= index+1 %></td>
+                            <td><img class="product-img" src="/images/product/<%= prodObj.product.thumbnail %>" alt="" /></td>
+                            <td><strong><%= prodObj.product.name %></strong><br><%= prodObj.product.description.slice(0,25) %>...</td>
+                            <td class="text-center">₹<%= prodObj.product.price %></td>
+                            <td class="text-center"><%= prodObj.quantity %></td>
+                            <td class="text-right">₹<%= prodObj.quantity*prodObj.product.price %></td>
+                          </tr>
+
+                          <% }) %>
+
+                          <tr>
+                            <td colspan="4"></td>
+                            <td class="text-right"><strong>Sub Total</strong></td>
+                            <td class="text-right"><strong>₹<%= order.subTotal %></strong></td>
+                          </tr>
+                          <tr>
+                            <td colspan="4"></td>
+                            <td class="text-right"><strong>Delivery Charge</strong></td>
+                            <td class="text-right"><strong>+₹<%= order.deliveryCharge || '0' %></strong></td>
+                          </tr>
+                          <tr>
+                            <td colspan="4"></td>
+                            <td class="text-right"><strong>Discount</strong></td>
+                            <td class="text-right"><strong>-₹<%= order.discount %></strong></td>
+                          </tr>
+                          <tr>
+                            <td colspan="4">
+                            </td>
+                            <td class="text-right"><strong>Coupon Discount</strong></td>
+                            <td class="text-right"><strong>-₹<%= order.couponDiscount %></strong></td>
+                          </tr>
+                          <tr>
+                            <td colspan="4">
+                            </td>
+                            <td class="text-right"><strong>Total</strong></td>
+                            <td class="text-right"><strong>₹<%= order.totalAmount %></strong></td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="4">
+                            </td>
+                            <td class="text-right"><strong>Payment Status</strong></td>
+                            <td class="text-right"><strong>PAID</strong></td>
+                          </tr>
+
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Tracking Detail
+              <div class="card mt-4 trk-order">
+                <div class="p-4 text-center text-white text-lg bg-dark rounded-top">
+                  <span class="text-uppercase">Tracking Order No - </span>
+                  <span class="text-medium"><%= order._id %></span>
+                </div>
+                <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2 bg-secondary">
+                  <div class="w-100 text-center py-1 px-2"><span class="text-medium">Shipped
+                      Via:</span>Greeny Inc</div>
+                  <div class="w-100 text-center py-1 px-2" style="text-transform: uppercase; <%= order.status == 'cancelled' ? 'color: red' : '' ; %>"><span class="text-medium">Status:</span>
+                    <%= order.status %>
+                  </div>
+                  <div class="w-100 text-center py-1 px-2"><span class="text-medium">Expected
+                      Date:</span><%= moment(order.deliveryExpected).format("MMM Do YY") %></div>
+                </div>
+                <div class="card-body">
+                  <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                    <div class="<%= ['confirmed','processing','dispatched','out-for-delivery','delivered'].includes(order.status) ? 'step completed' : 'step'; %>">
+                      <div class="step-icon-wrap">
+                        <div class="step-icon"><i class="mdi mdi-cart"></i></div>
+                      </div>
+                      <h4 class="step-title">Confirmed Order</h4>
+                    </div>
+                    <div class="<%= ['processing','dispatched','out-for-delivery','delivered'].includes(order.status) ? 'step completed' : 'step'; %>">
+                      <div class="step-icon-wrap">
+                        <div class="step-icon"><i class="mdi mdi-tumblr-reblog"></i></div>
+                      </div>
+                      <h4 class="step-title">Processing Order</h4>
+                    </div>
+                    <div class="<%= ['dispatched','out-for-delivery','delivered'].includes(order.status) ? 'step completed' : 'step'; %>">
+                      <div class="step-icon-wrap">
+                        <div class="step-icon"><i class="mdi mdi-gift"></i></div>
+                      </div>
+                      <h4 class="step-title">Product Dispatched</h4>
+                    </div>
+                    <div class="<%= ['out-for-delivery','delivered'].includes(order.status) ? 'step completed' : 'step'; %>">
+                      <div class="step-icon-wrap">
+                        <div class="step-icon"><i class="mdi mdi-truck-delivery"></i></div>
+                      </div>
+                      <h4 class="step-title">On Delivery</h4>
+                    </div>
+                    <div class="<%= ['delivered'].includes(order.status) ? 'step completed' : 'step'; %>">
+                      <div class="step-icon-wrap">
+                        <div class="step-icon"><i class="mdi mdi-hail"></i></div>
+                      </div>
+                      <h4 class="step-title">Product Delivered</h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+          </div>
+
+          <% } %>
+
+        </div> <!-- End Content -->
+      </div> <!-- End Content Wrapper -->
+
+      <!-- Footer -->
+      <%- include('./partials/__admin-footer.ejs') %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+  <!-- Common Javascript -->
+  <script src="/assets/plugins/jquery/jquery-3.5.1.min.js"></script>
+  <script src="/assets/plugins/jquery/jquery.notify.min.js"></script>
+  <script src="/assets/plugins/jquery/jquery.bundle.notify.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/plugins/simplebar/simplebar.min.js"></script>
+  <script src="/assets/plugins/jquery-zoom/jquery.zoom.min.js"></script>
+  <script src="/assets/plugins/slick/slick.min.js"></script>
+
+  <!-- Option Switcher -->
+  <script src="/assets/plugins/options-sidebar/optionswitcher.js"></script>
+
+  <!-- Ekka Custom -->
+  <script src="/assets/js/ekka.js"></script>
+</body>
+
+</html>

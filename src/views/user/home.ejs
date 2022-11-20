@@ -1,0 +1,1330 @@
+<% let wishlist = locals.wishlist || null %>
+
+<%- include('./partials/__user-head.ejs') %>
+<link rel="stylesheet" href="/css/index.css">
+<title>Home - Greeny</title>
+</head>
+
+<body>
+
+  <%- include('./partials/__user-nav.ejs') %>
+  <%- include('./partials/__user-side-cat.ejs') %>
+  <%- include('./partials/__user-cart.ejs') %>
+  <%- include('./partials/__user-sidenav.ejs') %>
+  <%- include('./partials/__user-mobile.ejs') %>
+
+
+
+
+  <!-- Hero -->
+  <section class="home-index-slider slider-arrow slider-dots">
+
+    <% if (banners && banners.length > 0) { %>
+
+    <% banners.forEach((banner,index) => { %>
+
+    <!-- left -->
+    <div class="banner-part banner-<%= index %>">
+      <div class="container">
+        <div class="row align-items-center">
+
+          <% if (banner.textPosition === 'right') { %>
+
+          <div class="col-md-6 col-lg-6">
+            <div class="banner-img"><img src="/images/banner/<%= banner.image %>" alt="index"></div>
+          </div>
+
+          <% } %>
+
+          <div class="col-md-6 col-lg-6">
+            <div class="banner-content">
+              <h1><%= banner.textHeader %></h1>
+              <p><%= banner.textContent %> </p>
+              <div class="banner-btn"><a class="btn btn-inline" href="/shop"><i class="fas fa-shopping-basket"></i><span>shop now</span></a><a class="btn btn-outline" href="/shop"><i class="icofont-sale-discount"></i><span>get offer</span></a></div>
+            </div>
+          </div>
+
+          <% if (banner.textPosition === 'left') { %>
+
+          <div class="col-md-6 col-lg-6">
+            <div class="banner-img"><img src="/images/banner/<%= banner.image %>" alt="index"></div>
+          </div>
+
+          <% } %>
+
+
+        </div>
+      </div>
+    </div>
+
+    <% }) %>
+    <% } else { %>
+
+    <!-- left -->
+    <div class="banner-part banner-1">
+      <div class="container">
+        <div class="row align-items-center">
+
+          <div class="col-md-6 col-lg-6">
+            <div class="banner-content">
+              <h1>free home delivery within 24 hours now.</h1>
+              <p>Lorem ipsum dolor consectetur adipisicing elit modi consequatur eaque expedita
+                porro
+                necessitatibus eveniet voluptatum quis pariatur Laboriosam molestiae architecto
+                excepturi</p>
+              <div class="banner-btn"><a class="btn btn-inline" href="/shop"><i class="fas fa-shopping-basket"></i><span>shop now</span></a><a class="btn btn-outline" href="/shop"><i class="icofont-sale-discount"></i><span>get offer</span></a></div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-6">
+            <div class="banner-img"><img src="/images/home/index/01.png" alt="index"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- right -->
+    <div class="banner-part banner-2">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6 col-lg-6">
+            <div class="banner-img"><img src="/images/home/index/02.png" alt="index"></div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div class="banner-content">
+              <h1>free home delivery within 24 hours now.</h1>
+              <p>Lorem ipsum dolor consectetur adipisicing elit modi consequatur eaque expedita
+                porro
+                necessitatibus eveniet voluptatum quis pariatur Laboriosam molestiae architecto
+                excepturi</p>
+              <div class="banner-btn"><a class="btn btn-inline" href="/shop"><i class="fas fa-shopping-basket"></i><span>shop now</span></a><a class="btn btn-outline" href="/shop"><i class="icofont-sale-discount"></i><span>get offer</span></a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }  %>
+
+  </section>
+
+  <!------------ Category Slider -------------->
+  <section class="section suggest-part">
+    <div class="container">
+      <ul class="suggest-slider slider-arrow">
+
+        <!-- Iterate Categories -->
+        <% categories.forEach(cat => { %>
+
+        <li><a class="suggest-card" href="/shop?category=<%= cat._id %>"><img src="/images/category/<%= cat.thumbnail %>" alt="suggest">
+            <h5><%= cat.name %><span><%= cat.totalProducts %> items</span></h5>
+          </a></li>
+
+        <% }) %>
+
+      </ul>
+    </div>
+  </section>
+  <!---------------- Recently sold products ------------- -->
+  <section class="section recent-part">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading">
+            <h2>recently sold items</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+
+        <!-- Iterate top 10 recently sold -->
+
+        <% recentSoldProducts.forEach(prod => { %>
+
+        <div class="col">
+          <div class="product-card <%= prod.stock <= 0 ? 'product-disable' : '' ; %>">
+            <div class="product-media">
+
+              <% if (prod.stock <= 0) { %>
+              <div class="product-label">
+                <label class="label-text stock-out">Sold Out</label>
+              </div>
+              <%} else if (prod.stock <= 50) { %>
+              <div class="product-label">
+                <label class="label-text rate">Only few left</label>
+              </div>
+              <% } else if (prod.discount > 0) { %>
+              <div class="product-label">
+                <label class="label-text off">-<%= prod.discount %>%</label>
+              </div>
+              <% } else { %>
+              <div class="product-label">
+                <label class="label-text sale">sale</label>
+              </div>
+              <% } %>
+
+              <button class="product-wish wish <%= (wishlist && wishlist.products.some((el) => el.product._id.toString() == prod._id.toString())) ? 'active': '' ; %>" data-pid="<%= prod._id %>">
+                <i class="fas fa-heart"></i>
+              </button>
+              <a class="product-image" href="/product?id=<%= prod._id %>">
+                <img src="/images/product/<%= prod.thumbnail %>" alt="product">
+              </a>
+              <div class="product-widget">
+                <a title="Product Compare" href="compare.html" class="fas fa-random"></a>
+                <a title="Product View" href="#" class="fas fa-eye" data-bs-toggle="modal" data-bs-target="#rsp-id-<%= prod._id %>"></a>
+              </div>
+            </div>
+            <div class="product-content">
+              <div class="product-rating">
+
+                <% for( let i = 0; i < (Math.round(prod.ratingsAverage)); i++ ) { %>
+                <i class="active icofont-star"></i>
+                <% } %>
+                <% for( let i = 0; i < (5-Math.round(prod.ratingsAverage)); i++ ) { %>
+                <i class="icofont-star"></i>
+                <% } %>
+
+
+                <a href="href=/product?id=<%= prod._id %>">(<%= prod.ratingsTotal || 1 %>)</a>
+              </div>
+              <h6 class="product-name"><a href="/product?id=<%= prod._id %>"><%= prod.name %></a></h6>
+
+              <% if (prod.discount==0) { %>
+              <h6 class="product-price"><span>₹<%= prod.price %><small>/<%= prod.unitIn %></small></span></h6>
+              <% } else { %>
+              <h6 class="product-price">
+                <del>₹<%= prod.price %></del>
+                <span>₹<%=  prod.price*(1- (prod.discount* 0.01)) %><small>/<%= prod.unitIn %></small></span>
+              </h6>
+              <% } %>
+
+
+              <% if (prod.stock <= 0) { %>
+              <button class="product-add" title="Add to Cart">
+                <i class="fas fa-shopping-basket"></i><span>Sold Out</span>
+              </button>
+              <% } else if (user) { %>
+              <button class="product-add" data-pid="<%= prod._id %>" data-action="add" title="Add to Cart">
+                <i class="fas fa-shopping-basket"></i><span>add</span>
+              </button>
+              <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                <input class="action-input" data-pid="<%= prod._id %>" title="Quantity Number" type="text" name="quantity" value="Added to cart" disabled>
+              </div>
+
+              <% } else { %>
+              <button class="product-add" title="Add to Cart">
+                <i class="fas fa-shopping-basket"></i><span>Login to Add</span>
+              </button>
+              <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                <p class="text-danger">Please login to use the cart</p>
+              </div>
+              <% } %>
+
+
+            </div>
+          </div>
+        </div>
+
+        <% }) %>
+
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-btn-25">
+            <a href="/shop" class="btn btn-outline"><i class="fas fa-eye"></i><span>show more</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!----------------- Newly Added products ----------------->
+  <section class="section newitem-part">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="section-heading">
+            <h2>collected new items</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <ul class="new-slider slider-arrow">
+
+            <% newlyAddedProducts.forEach(prod => { %>
+
+            <li>
+              <div class="product-card <%= prod.stock <= 0 ? 'product-disable' : '' ; %>">
+                <div class="product-media">
+
+                  <% if (prod.stock <= 0) { %>
+                  <div class="product-label">
+                    <label class="label-text stock-out">Sold Out</label>
+                  </div>
+                  <%} else if (prod.stock <= 50) { %>
+                  <div class="product-label">
+                    <label class="label-text rate">Only few left</label>
+                  </div>
+                  <% } else if (prod.discount > 0) { %>
+                  <div class="product-label">
+                    <label class="label-text off">-<%= prod.discount %>%</label>
+                  </div>
+                  <% } else {  %>
+                  <div class="product-label">
+                    <label class="label-text new">new</label>
+                  </div>
+                  <% } %>
+                  <button class="product-wish wish <%= (wishlist && wishlist.products.length && wishlist.products.some((el) => el.product._id.toString() == prod._id.toString())) ? 'active': '' ; %>" data-pid="<%= prod._id %>">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <a class="product-image" href="/product?id=<%= prod._id %>">
+                    <img src="/images/product/<%= prod.thumbnail %>" alt="product">
+                  </a>
+                  <div class="product-widget">
+                    <a title="Product Compare" href="compare.html" class="fas fa-random"></a>
+                    <a title="Product View" href="#" class="fas fa-eye" data-bs-toggle="modal" data-bs-target="#nap-id-<%= prod._id %>"></a>
+                  </div>
+                </div>
+                <div class="product-content">
+                  <div class="product-rating">
+
+                    <% for( let i = 0; i < (Math.round(prod.ratingsAverage)); i++ ) { %>
+                    <i class="active icofont-star"></i>
+                    <% } %>
+                    <% for( let i = 0; i < (5-Math.round(prod.ratingsAverage)); i++ ) { %>
+                    <i class="icofont-star"></i>
+                    <% } %>
+
+                    <a href="href=/product?id=<%= prod._id %>">(<%= prod.ratingsTotal || 1 %>)</a>
+                  </div>
+                  <h6 class="product-name"><a href="/product?id=<%= prod._id %>"><%= prod.name %></a></h6>
+
+                  <% if (prod.discount==0) { %>
+                  <h6 class="product-price"><span>₹<%= prod.price %><small>/<%= prod.unitIn %></small></span></h6>
+                  <% } else { %>
+                  <h6 class="product-price">
+                    <del>₹<%= prod.price %></del>
+                    <span>₹<%=  prod.price*(1- (prod.discount* 0.01)) %><small>/<%= prod.unitIn %></small></span>
+                  </h6>
+                  <% } %>
+
+
+                  <% if (prod.stock <= 0) { %>
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Sold Out</span>
+                  </button>
+                  <% } else if (user) { %>
+                  <button class="product-add" data-pid="<%= prod._id %>" data-action="add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <input class="action-input" data-pid="<%= prod._id %>" title="Quantity Number" type="text" name="quantity" value="Added to cart" disabled>
+                  </div>
+
+                  <% } else { %>
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Login to Add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <p class="text-danger">Please login to use the cart</p>
+                  </div>
+                  <% } %>
+
+
+                </div>
+              </div>
+            </li>
+
+            <% }) %>
+
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="section-btn-25"><a href="/shop" class="btn btn-outline"><i class="fas fa-eye"></i><span>show more</span></a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!---------- Promotion Ad Banner ----------------->
+  <div class="section promo-part">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6 px-xl-3">
+          <div class="promo-img"><a href="/shop"><img src="/images/promo/home/01.jpg" alt="promo"></a></div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 px-xl-3">
+          <div class="promo-img"><a href="/shop"><img src="/images/promo/home/02.jpg" alt="promo"></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!------------------ TOP 10 Products  ------------------->
+
+  <section class="section niche-part">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading">
+            <h2>Browse by Top 10</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="nav nav-tabs">
+            <li><a href="#top-order" class="tab-link active" data-bs-toggle="tab"><i class="icofont-price"></i><span>top order</span></a></li>
+            <li><a href="#top-rate" class="tab-link" data-bs-toggle="tab"><i class="icofont-star"></i><span>top rating</span></a></li>
+            <li><a href="#top-disc" class="tab-link" data-bs-toggle="tab"><i class="icofont-sale-discount"></i><span>top discount</span></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!------------------ First tab: Top 10 most sold per period (10 cards) ----------------->
+      <div class="tab-pane fade show active" id="top-order">
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+
+          <% mostSoldProducts.forEach(prod => { %>
+
+          <div class="col">
+            <div class="product-card <%= prod.stock <= 0 ? 'product-disable' : '' ; %>">
+              <div class="product-media">
+
+                <% if (prod.stock <= 0) { %>
+                <div class="product-label">
+                  <label class="label-text stock-out">Sold Out</label>
+                </div>
+                <%} else if (prod.stock <= 50) { %>
+                <div class="product-label">
+                  <label class="label-text rate">Only few left</label>
+                </div>
+                <% } else if (prod.discount > 0) { %>
+                <div class="product-label">
+                  <label class="label-text off">-<%= prod.discount %>%</label>
+                </div>
+                <% } else { %>
+                <div class="product-label">
+                  <label class="label-text order">Trending</label>
+                </div>
+                <% } %>
+
+                <button class="product-wish wish <%= (wishlist && wishlist.products.some((el) => el.product._id.toString() == prod._id.toString())) ? 'active': '' ; %>" data-pid="<%= prod._id %>">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <a class="product-image" href="/product?id=<%= prod._id %>">
+                  <img src="/images/product/<%= prod.thumbnail %>" alt="product">
+                </a>
+                <div class="product-widget">
+                  <a title="Product Compare" href="compare.html" class="fas fa-random"></a>
+                  <a title="Product View" href="#" class="fas fa-eye" data-bs-toggle="modal" data-bs-target="#msp-id-<%= prod._id %>"></a>
+                </div>
+              </div>
+              <div class="product-content">
+                <div class="product-rating">
+                  <% for( let i = 0; i < (Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="active icofont-star"></i>
+                  <% } %>
+                  <% for( let i = 0; i < (5-Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="icofont-star"></i>
+                  <% } %>
+                  <a href="href=/product?id=<%= prod._id %>">(<%= prod.ratingsTotal || 1 %>)</a>
+                </div>
+                <h6 class="product-name"><a href="/product?id=<%= prod._id %>"><%= prod.name %></a></h6>
+
+                <% if (prod.discount==0) { %>
+                <h6 class="product-price"><span>₹<%= prod.price %><small>/<%= prod.unitIn %></small></span></h6>
+                <% } else { %>
+                <h6 class="product-price">
+                  <del>₹<%= prod.price %></del>
+                  <span>₹<%=  prod.price*(1- (prod.discount* 0.01)) %><small>/<%= prod.unitIn %></small></span>
+                </h6>
+                <% } %>
+
+
+                <% if (prod.stock <= 0) { %>
+                <button class="product-add" title="Add to Cart">
+                  <i class="fas fa-shopping-basket"></i><span>Sold Out</span>
+                </button>
+                <% } else if (user) { %>
+                <button class="product-add" data-pid="<%= prod._id %>" data-action="add" title="Add to Cart">
+                  <i class="fas fa-shopping-basket"></i><span>add</span>
+                </button>
+                <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                  <input class="action-input" data-pid="<%= prod._id %>" title="Quantity Number" type="text" name="quantity" value="Added to cart" disabled>
+                </div>
+
+                <% } else { %>
+                <button class="product-add" title="Add to Cart">
+                  <i class="fas fa-shopping-basket"></i><span>Login to Add</span>
+                </button>
+                <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                  <p class="text-danger">Please login to use the cart</p>
+                </div>
+                <% } %>
+
+              </div>
+            </div>
+          </div>
+
+          <% }) %>
+        </div>
+      </div>
+
+      <!------------------ Second tab: Top 10 most rated (10 cards) ----------------->
+
+      <div class="tab-pane fade" id="top-rate">
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+
+          <% mostRatedProducts.forEach(prod => { %>
+
+          <div class="col">
+            <div class="product-card <%= prod.stock <= 0 ? 'product-disable' : '' ; %>">
+              <div class="product-media">
+
+                <% if (prod.stock <= 0) { %>
+                <div class="product-label">
+                  <label class="label-text stock-out">Sold Out</label>
+                </div>
+                <%} else if (prod.stock <= 50) { %>
+                <div class="product-label">
+                  <label class="label-text rate">Only few left</label>
+                </div>
+                <% } else if (prod.discount > 0) { %>
+                <div class="product-label">
+                  <label class="label-text off">-<%= prod.discount %>%</label>
+                </div>
+                <% } else { %>
+                <div class="product-label">
+                  <label class="label-text rate">Popular</label>
+                </div>
+                <% } %>
+
+                <button class="product-wish wish <%= (wishlist && wishlist.products.some((el) => el.product._id.toString() == prod._id.toString())) ? 'active': '' ; %>" data-pid="<%= prod._id %>">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <a class="product-image" href="/product?id=<%= prod._id %>">
+                  <img src="/images/product/<%= prod.thumbnail %>" alt="product">
+                </a>
+                <div class="product-widget">
+                  <a title="Product Compare" href="compare.html" class="fas fa-random"></a>
+                  <a title="Product View" href="#" class="fas fa-eye" data-bs-toggle="modal" data-bs-target="#mrp-id-<%= prod._id %>"></a>
+                </div>
+              </div>
+              <div class="product-content">
+                <div class="product-rating">
+                  <% for( let i = 0; i < (Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="active icofont-star"></i>
+                  <% } %>
+                  <% for( let i = 0; i < (5-Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="icofont-star"></i>
+                  <% } %>
+                  <a href="href=/product?id=<%= prod._id %>">(<%= prod.ratingsTotal || 1 %>)</a>
+                </div>
+                <h6 class="product-name"><a href="/product?id=<%= prod._id %>"><%= prod.name %></a></h6>
+
+                <% if (prod.discount==0) { %>
+                <h6 class="product-price"><span>₹<%= prod.price %><small>/<%= prod.unitIn %></small></span></h6>
+                <% } else { %>
+                <h6 class="product-price">
+                  <del>₹<%= prod.price %></del>
+                  <span>₹<%=  prod.price*(1- (prod.discount* 0.01)) %><small>/<%= prod.unitIn %></small></span>
+                </h6>
+                <% } %>
+
+
+                <% if (prod.stock <= 0) { %>
+                <button class="product-add" title="Add to Cart">
+                  <i class="fas fa-shopping-basket"></i><span>Sold Out</span>
+                </button>
+                <% } else if (user) { %>
+                <button class="product-add" data-pid="<%= prod._id %>" data-action="add" title="Add to Cart">
+                  <i class="fas fa-shopping-basket"></i><span>add</span>
+                </button>
+                <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                  <input class="action-input" data-pid="<%= prod._id %>" title="Quantity Number" type="text" name="quantity" value="Added to cart" disabled>
+                </div>
+
+                <% } else { %>
+                <button class="product-add" title="Add to Cart">
+                  <i class="fas fa-shopping-basket"></i><span>Login to Add</span>
+                </button>
+                <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                  <p class="text-danger">Please login to use the cart</p>
+                </div>
+                <% } %>
+
+              </div>
+            </div>
+          </div>
+
+          <% }) %>
+
+        </div>
+      </div>
+
+      <!------------------ Second tab: Top 10 most discounted (10 cards) ----------------->
+
+      <div class="tab-pane fade" id="top-disc">
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+
+          <% mostDiscountProducts.forEach(prod => { %>
+
+          <div class="col">
+            <div class="product-card <%= prod.stock <= 0 ? 'product-disable' : '' ; %>">
+              <div class="product-media">
+
+                <% if (prod.stock <= 0) { %>
+                <div class="product-label">
+                  <label class="label-text stock-out">Sold Out</label>
+                </div>
+                <%} else if (prod.stock <= 50) { %>
+                <div class="product-label">
+                  <label class="label-text rate">Only few left</label>
+                </div>
+                <% } else if (prod.discount > 0) { %>
+                <div class="product-label">
+                  <label class="label-text off">-<%= prod.discount %>%</label>
+                </div>
+                <% } else { %>
+                <div class="product-label">
+                  <label class="label-text off">-<%= prod.discount %>%</label>
+                </div>
+                <% } %>
+                <button class="product-wish wish <%= (wishlist && wishlist.products.some((el) => el.product._id.toString() == prod._id.toString())) ? 'active': '' ; %>" data-pid="<%= prod._id %>">
+                  <i class="fas fa-heart"></i>
+                </button>
+                <a class="product-image" href="/product?id=<%= prod._id %>">
+                  <img src="/images/product/<%= prod.thumbnail %>" alt="product">
+                </a>
+                <div class="product-widget">
+                  <a title="Product Compare" href="compare.html" class="fas fa-random"></a>
+                  <a title="Product View" href="#" class="fas fa-eye" data-bs-toggle="modal" data-bs-target="#mdp-id-<%= prod._id %>"></a>
+                </div>
+              </div>
+              <div class="product-content">
+                <div class="product-rating">
+                  <% for( let i = 0; i < (Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="active icofont-star"></i>
+                  <% } %>
+                  <% for( let i = 0; i < (5-Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="icofont-star"></i>
+                  <% } %>
+                  <a href="href=/product?id=<%= prod._id %>">(<%= prod.ratingsTotal || 1 %>)</a>
+                </div>
+                <h6 class="product-name"><a href="/product?id=<%= prod._id %>"><%= prod.name %></a></h6>
+
+                <% if (prod.discount==0) { %>
+                <h6 class="product-price"><span>₹<%= prod.price %><small>/<%= prod.unitIn %></small></span></h6>
+                <% } else { %>
+                <h6 class="product-price">
+                  <del>₹<%= prod.price %></del>
+                  <span>₹<%=  prod.price*(1- (prod.discount* 0.01)) %><small>/<%= prod.unitIn %></small></span>
+                </h6>
+                <% } %>
+
+
+
+                <% if (prod.stock <= 0) { %>
+                <button class="product-add" title="Add to Cart">
+                  <i class="fas fa-shopping-basket"></i><span>Sold Out</span>
+                </button>
+                <% } else if (user) { %>
+                <button class="product-add" data-pid="<%= prod._id %>" data-action="add" title="Add to Cart">
+                  <i class="fas fa-shopping-basket"></i><span>add</span>
+                </button>
+                <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                  <input class="action-input" data-pid="<%= prod._id %>" title="Quantity Number" type="text" name="quantity" value="Added to cart" disabled>
+                </div>
+
+                <% } else { %>
+                <button class="product-add" title="Add to Cart">
+                  <i class="fas fa-shopping-basket"></i><span>Login to Add</span>
+                </button>
+                <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                  <p class="text-danger">Please login to use the cart</p>
+                </div>
+                <% } %>
+
+
+              </div>
+            </div>
+          </div>
+
+          <% }) %>
+
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-btn-25"><a href="/shop" class="btn btn-outline"><i class="fas fa-eye"></i><span>show more</span></a></div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!--------------------MODALS-------------------------------------------------->
+
+  <!----------------- Recent sold Product view modal ----------------->
+  <% recentSoldProducts.forEach(prod => { %>
+
+  <div class="modal fade" id="rsp-id-<%= prod._id %>">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <button class="modal-close icofont-close" data-bs-dismiss="modal"></button>
+        <div class="product-view">
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="view-gallery">
+
+                <div class="view-label-group">
+                  <% if (prod.stock <= 0) { %>
+                  <label class="view-label stock-out">Sold Out</label>
+                  <%} else if (prod.stock <= 50) { %>
+                  <label class="view-label rate">Only few left</label>
+                  <% } else { %>
+                  <label class="view-label new">new</label><label class="view-label off">-<%= prod.discount %>%</label>
+                  <% }  %>
+                </div>
+
+                <ul class="preview-slider slider-arrow">
+
+                  <% prod.images.forEach(element => { %>
+
+                  <li><img src="/images/product/<%= element %>" alt="product"></li>
+                  <% }) %>
+
+                </ul>
+                <ul class="thumb-slider">
+
+                  <% prod.images.forEach(element => { %>
+
+                  <li><img src="/images/product/<%= element %>" alt="product"></li>
+                  <% }) %>
+
+
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="view-details">
+                <h3 class="view-name">
+                  <a href="/product?id=<%= prod._id %>"><%= prod.name %></a>
+                </h3>
+                <div class="view-meta">
+                  <!-- <p>SKU:<span>1234567</span></p> -->
+                  <p>BRAND:<a href="#"><%= prod.brand %></a></p>
+                </div>
+                <div class="view-rating">
+                  <% for( let i = 0; i < (Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="active icofont-star"></i>
+                  <% } %>
+                  <% for( let i = 0; i < (5-Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="icofont-star"></i>
+                  <% } %>
+                  <a href="href=/product?id=<%= prod._id %>">(<%= prod.ratingsTotal || 1 %>)</a>
+                </div>
+                <h3 class="view-price">
+                  <% if (prod.discount==0) { %>
+                  <span>₹<%= prod.price %><small>/<%= prod.unitIn %></small></span></h6>
+                  <% } else { %>
+                </h3>
+                <h3 class="view-price">
+                  <del>₹<%= prod.price %></del>
+                  <span>₹<%=  prod.price*(1- (prod.discount* 0.01)) %><small>/<%= prod.unitIn %></small></span>
+                  <% } %>
+                </h3>
+
+                <!-- <del>$38.00</del><span>$24.00<small>/per kilo</small></span> -->
+                <p class="view-desc">
+                  <%= prod.description %>
+                </p>
+                <div class="view-list-group">
+                  <label class="view-list-title">tags:</label>
+                  <ul class="view-tag-list">
+                    <% prod.tags.forEach(el => { %>
+                    <li><a href="#"><%= el %></a></li>
+                    <% }) %>
+                  </ul>
+                </div>
+
+                <div class="view-add-group">
+
+                  <% if (prod.stock <= 0) { %>
+
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Sold Out</span>
+                  </button>
+
+                  <% } else if (user) { %>
+                  <button class="product-add" data-pid="<%= prod._id %>" data-action="add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <input class="action-input" data-pid="<%= prod._id %>" title="Quantity Number" type="text" name="quantity" value="Added to cart" disabled>
+                  </div>
+
+                  <% } else { %>
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Login to Add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <p class="text-danger">Please login to use the cart</p>
+                  </div>
+                  <% } %>
+
+                </div>
+                <div class="view-action-group">
+                  <a class="view-wish wish <%= (wishlist && wishlist.products.some((el) => el.product._id.toString() == prod._id.toString())) ? 'active': '' ; %>" href="#" title="Add Your Wishlist" data-pid="<%= prod._id %>">
+                    <i class="icofont-heart"></i>
+                    <span>add to wish</span>
+                  </a>
+                  <a class="view-compare" href="compare.html" title="Compare This Item">
+                    <i class="fas fa-random"></i>
+                    <span>Compare This</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% }) %>
+
+  <!----------------- Newly Added Product view modal ----------------->
+  <% newlyAddedProducts.forEach(prod => { %>
+
+  <div class="modal fade" id="nap-id-<%= prod._id %>">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <button class="modal-close icofont-close" data-bs-dismiss="modal"></button>
+        <div class="product-view">
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="view-gallery">
+                <div class="view-label-group">
+                  <% if (prod.stock <= 0) { %>
+                  <label class="view-label stock-out">Sold Out</label>
+                  <%} else if (prod.stock <= 50) { %>
+                  <label class="view-label rate">Only few left</label>
+                  <% } else { %>
+                  <label class="view-label new">new</label><label class="view-label off">-<%= prod.discount %>%</label>
+                  <% }  %>
+                </div>
+                <ul class="preview-slider slider-arrow">
+
+                  <% prod.images.forEach(element => { %>
+
+                  <li><img src="/images/product/<%= element %>" alt="product"></li>
+                  <% }) %>
+
+                </ul>
+                <ul class="thumb-slider">
+
+                  <% prod.images.forEach(element => { %>
+
+                  <li><img src="/images/product/<%= element %>" alt="product"></li>
+                  <% }) %>
+
+
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="view-details">
+                <h3 class="view-name">
+                  <a href="/product?id=<%= prod._id %>"><%= prod.name %></a>
+                </h3>
+                <div class="view-meta">
+                  <!-- <p>SKU:<span>1234567</span></p> -->
+                  <p>BRAND:<a href="#"><%= prod.brand %></a></p>
+                </div>
+                <div class="view-rating">
+                  <% for( let i = 0; i < (Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="active icofont-star"></i>
+                  <% } %>
+                  <% for( let i = 0; i < (5-Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="icofont-star"></i>
+                  <% } %>
+                  <a href="href=/product?id=<%= prod._id %>">(<%= prod.ratingsTotal || 1 %>)</a>
+                </div>
+                <h3 class="view-price">
+                  <% if (prod.discount==0) { %>
+                  <span>₹<%= prod.price %><small>/<%= prod.unitIn %></small></span></h6>
+                  <% } else { %>
+                </h3>
+                <h3 class="view-price">
+                  <del>₹<%= prod.price %></del>
+                  <span>₹<%=  prod.price*(1- (prod.discount* 0.01)) %><small>/<%= prod.unitIn %></small></span>
+                  <% } %>
+                </h3>
+
+                <!-- <del>$38.00</del><span>$24.00<small>/per kilo</small></span> -->
+                <p class="view-desc">
+                  <%= prod.description %>
+                </p>
+                <div class="view-list-group">
+                  <label class="view-list-title">tags:</label>
+                  <ul class="view-tag-list">
+                    <% prod.tags.forEach(el => { %>
+                    <li><a href="#"><%= el %></a></li>
+                    <% }) %>
+                  </ul>
+                </div>
+
+                <div class="view-add-group">
+
+                  <% if (prod.stock <= 0) { %>
+
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Sold Out</span>
+                  </button>
+
+                  <% } else if (user) { %>
+                  <button class="product-add" data-pid="<%= prod._id %>" data-action="add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <input class="action-input" data-pid="<%= prod._id %>" title="Quantity Number" type="text" name="quantity" value="Added to cart" disabled>
+                  </div>
+
+                  <% } else { %>
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Login to Add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <p class="text-danger">Please login to use the cart</p>
+                  </div>
+                  <% } %>
+
+                </div>
+                <div class="view-action-group">
+                  <a class="view-wish wish <%= (wishlist && wishlist.products.some((el) => el.product._id.toString() == prod._id.toString())) ? 'active': '' ; %>" href="#" title="Add Your Wishlist" data-pid="<%= prod._id %>">
+                    <i class="icofont-heart"></i>
+                    <span>add to wish</span>
+                  </a>
+                  <a class="view-compare" href="compare.html" title="Compare This Item">
+                    <i class="fas fa-random"></i>
+                    <span>Compare This</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% }) %>
+
+  <!----------------- Most Sold Product view modal ----------------->
+  <% mostSoldProducts.forEach(prod => { %>
+
+  <div class="modal fade" id="msp-id-<%= prod._id %>">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <button class="modal-close icofont-close" data-bs-dismiss="modal"></button>
+        <div class="product-view">
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="view-gallery">
+                <div class="view-label-group">
+                  <% if (prod.stock <= 0) { %>
+                  <label class="view-label stock-out">Sold Out</label>
+                  <%} else if (prod.stock <= 50) { %>
+                  <label class="view-label rate">Only few left</label>
+                  <% } else { %>
+                  <label class="view-label new">new</label><label class="view-label off">-<%= prod.discount %>%</label>
+                  <% }  %>
+                </div>
+                <ul class="preview-slider slider-arrow">
+
+                  <% prod.images.forEach(element => { %>
+
+                  <li><img src="/images/product/<%= element %>" alt="product"></li>
+                  <% }) %>
+
+                </ul>
+                <ul class="thumb-slider">
+
+                  <% prod.images.forEach(element => { %>
+
+                  <li><img src="/images/product/<%= element %>" alt="product"></li>
+                  <% }) %>
+
+
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="view-details">
+                <h3 class="view-name">
+                  <a href="/product?id=<%= prod._id %>"><%= prod.name %></a>
+                </h3>
+                <div class="view-meta">
+                  <!-- <p>SKU:<span>1234567</span></p> -->
+                  <p>BRAND:<a href="#"><%= prod.brand %></a></p>
+                </div>
+                <div class="view-rating">
+                  <% for( let i = 0; i < (Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="active icofont-star"></i>
+                  <% } %>
+                  <% for( let i = 0; i < (5-Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="icofont-star"></i>
+                  <% } %>
+                  <a href="href=/product?id=<%= prod._id %>">(<%= prod.ratingsTotal || 1 %>)</a>
+                </div>
+                <h3 class="view-price">
+                  <% if (prod.discount==0) { %>
+                  <span>₹<%= prod.price %><small>/<%= prod.unitIn %></small></span></h6>
+                  <% } else { %>
+                </h3>
+                <h3 class="view-price">
+                  <del>₹<%= prod.price %></del>
+                  <span>₹<%=  prod.price*(1- (prod.discount* 0.01)) %><small>/<%= prod.unitIn %></small></span>
+                  <% } %>
+                </h3>
+
+                <!-- <del>$38.00</del><span>$24.00<small>/per kilo</small></span> -->
+                <p class="view-desc">
+                  <%= prod.description %>
+                </p>
+                <div class="view-list-group">
+                  <label class="view-list-title">tags:</label>
+                  <ul class="view-tag-list">
+                    <% prod.tags.forEach(el => { %>
+                    <li><a href="#"><%= el %></a></li>
+                    <% }) %>
+                  </ul>
+                </div>
+
+                <div class="view-add-group">
+
+                  <% if (prod.stock <= 0) { %>
+
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Sold Out</span>
+                  </button>
+
+                  <% } else if (user) { %>
+                  <button class="product-add" data-pid="<%= prod._id %>" data-action="add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <input class="action-input" data-pid="<%= prod._id %>" title="Quantity Number" type="text" name="quantity" value="Added to cart" disabled>
+                  </div>
+
+                  <% } else { %>
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Login to Add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <p class="text-danger">Please login to use the cart</p>
+                  </div>
+                  <% } %>
+
+                </div>
+                <div class="view-action-group">
+                  <a class="view-wish wish <%= (wishlist && wishlist.products.some((el) => el.product._id.toString() == prod._id.toString())) ? 'active': '' ; %>" href="#" title="Add Your Wishlist" data-pid="<%= prod._id %>">
+                    <i class="icofont-heart"></i>
+                    <span>add to wish</span>
+                  </a>
+                  <a class="view-compare" href="compare.html" title="Compare This Item">
+                    <i class="fas fa-random"></i>
+                    <span>Compare This</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% }) %>
+
+  <!----------------- Most Rated Product view modal ----------------->
+
+  <% mostRatedProducts.forEach(prod => { %>
+
+  <div class="modal fade" id="mrp-id-<%= prod._id %>">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <button class="modal-close icofont-close" data-bs-dismiss="modal"></button>
+        <div class="product-view">
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="view-gallery">
+                <div class="view-label-group">
+                  <% if (prod.stock <= 0) { %>
+                  <label class="view-label stock-out">Sold Out</label>
+                  <%} else if (prod.stock <= 50) { %>
+                  <label class="view-label rate">Only few left</label>
+                  <% } else { %>
+                  <label class="view-label new">new</label><label class="view-label off">-<%= prod.discount %>%</label>
+                  <% }  %>
+                </div>
+                <ul class="preview-slider slider-arrow">
+
+                  <% prod.images.forEach(element => { %>
+
+                  <li><img src="/images/product/<%= element %>" alt="product"></li>
+                  <% }) %>
+
+                </ul>
+                <ul class="thumb-slider">
+
+                  <% prod.images.forEach(element => { %>
+
+                  <li><img src="/images/product/<%= element %>" alt="product"></li>
+                  <% }) %>
+
+
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="view-details">
+                <h3 class="view-name">
+                  <a href="/product?id=<%= prod._id %>"><%= prod.name %></a>
+                </h3>
+                <div class="view-meta">
+                  <!-- <p>SKU:<span>1234567</span></p> -->
+                  <p>BRAND:<a href="#"><%= prod.brand %></a></p>
+                </div>
+                <div class="view-rating">
+                  <% for( let i = 0; i < (Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="active icofont-star"></i>
+                  <% } %>
+                  <% for( let i = 0; i < (5-Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="icofont-star"></i>
+                  <% } %>
+                  <a href="href=/product?id=<%= prod._id %>">(<%= prod.ratingsTotal || 1 %>)</a>
+                </div>
+                <h3 class="view-price">
+                  <% if (prod.discount==0) { %>
+                  <span>₹<%= prod.price %><small>/<%= prod.unitIn %></small></span></h6>
+                  <% } else { %>
+                </h3>
+                <h3 class="view-price">
+                  <del>₹<%= prod.price %></del>
+                  <span>₹<%=  prod.price*(1- (prod.discount* 0.01)) %><small>/<%= prod.unitIn %></small></span>
+                  <% } %>
+                </h3>
+
+                <!-- <del>$38.00</del><span>$24.00<small>/per kilo</small></span> -->
+                <p class="view-desc">
+                  <%= prod.description %>
+                </p>
+                <div class="view-list-group">
+                  <label class="view-list-title">tags:</label>
+                  <ul class="view-tag-list">
+                    <% prod.tags.forEach(el => { %>
+                    <li><a href="#"><%= el %></a></li>
+                    <% }) %>
+                  </ul>
+                </div>
+
+                <div class="view-add-group">
+
+                  <% if (prod.stock <= 0) { %>
+
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Sold Out</span>
+                  </button>
+
+                  <% } else if (user) { %>
+                  <button class="product-add" data-pid="<%= prod._id %>" data-action="add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <input class="action-input" data-pid="<%= prod._id %>" title="Quantity Number" type="text" name="quantity" value="Added to cart" disabled>
+                  </div>
+
+                  <% } else { %>
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Login to Add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <p class="text-danger">Please login to use the cart</p>
+                  </div>
+                  <% } %>
+
+                </div>
+                <div class="view-action-group">
+                  <a class="view-wish wish <%= (wishlist && wishlist.products.some((el) => el.product._id.toString() == prod._id.toString())) ? 'active': '' ; %>" href="#" title="Add Your Wishlist" data-pid="<%= prod._id %>">
+                    <i class="icofont-heart"></i>
+                    <span>add to wish</span>
+                  </a>
+                  <a class="view-compare" href="compare.html" title="Compare This Item">
+                    <i class="fas fa-random"></i>
+                    <span>Compare This</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% }) %>
+
+  <!----------------- Most Discounted Product view modal ----------------->
+
+  <% mostDiscountProducts.forEach(prod => { %>
+
+  <div class="modal fade" id="mdp-id-<%= prod._id %>">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <button class="modal-close icofont-close" data-bs-dismiss="modal"></button>
+        <div class="product-view">
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="view-gallery">
+                <div class="view-label-group">
+                  <% if (prod.stock <= 0) { %>
+                  <label class="view-label stock-out">Sold Out</label>
+                  <%} else if (prod.stock <= 50) { %>
+                  <label class="view-label rate">Only few left</label>
+                  <% } else { %>
+                  <label class="view-label new">new</label><label class="view-label off">-<%= prod.discount %>%</label>
+                  <% }  %>
+                </div>
+                <ul class="preview-slider slider-arrow">
+
+                  <% prod.images.forEach(element => { %>
+
+                  <li><img src="/images/product/<%= element %>" alt="product"></li>
+                  <% }) %>
+
+                </ul>
+                <ul class="thumb-slider">
+
+                  <% prod.images.forEach(element => { %>
+
+                  <li><img src="/images/product/<%= element %>" alt="product"></li>
+                  <% }) %>
+
+
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="view-details">
+                <h3 class="view-name">
+                  <a href="/product?id=<%= prod._id %>"><%= prod.name %></a>
+                </h3>
+                <div class="view-meta">
+                  <!-- <p>SKU:<span>1234567</span></p> -->
+                  <p>BRAND:<a href="#"><%= prod.brand %></a></p>
+                </div>
+                <div class="view-rating">
+                  <% for( let i = 0; i < (Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="active icofont-star"></i>
+                  <% } %>
+                  <% for( let i = 0; i < (5-Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="icofont-star"></i>
+                  <% } %>
+                  <a href="href=/product?id=<%= prod._id %>">(<%= prod.ratingsTotal || 1 %>)</a>
+                </div>
+                <h3 class="view-price">
+                  <% if (prod.discount==0) { %>
+                  <span>₹<%= prod.price %><small>/<%= prod.unitIn %></small></span></h6>
+                  <% } else { %>
+                </h3>
+                <h3 class="view-price">
+                  <del>₹<%= prod.price %></del>
+                  <span>₹<%=  prod.price*(1- (prod.discount* 0.01)) %><small>/<%= prod.unitIn %></small></span>
+                  <% } %>
+                </h3>
+
+                <!-- <del>$38.00</del><span>$24.00<small>/per kilo</small></span> -->
+                <p class="view-desc">
+                  <%= prod.description %>
+                </p>
+                <div class="view-list-group">
+                  <label class="view-list-title">tags:</label>
+                  <ul class="view-tag-list">
+                    <% prod.tags.forEach(el => { %>
+                    <li><a href="#"><%= el %></a></li>
+                    <% }) %>
+                  </ul>
+                </div>
+
+                <div class="view-add-group">
+                  <% if (prod.stock <= 0) { %>
+
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Sold Out</span>
+                  </button>
+
+                  <% } else if (user) { %>
+                  <button class="product-add" data-pid="<%= prod._id %>" data-action="add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <input class="action-input" data-pid="<%= prod._id %>" title="Quantity Number" type="text" name="quantity" value="Added to cart" disabled>
+                  </div>
+
+                  <% } else { %>
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Login to Add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <p class="text-danger">Please login to use the cart</p>
+                  </div>
+                  <% } %>
+
+                </div>
+                <div class="view-action-group">
+                  <a class="view-wish wish <%= (wishlist && wishlist.products.some((el) => el.product._id.toString() == prod._id.toString())) ? 'active': '' ; %>" href="#" title="Add Your Wishlist" data-pid="<%= prod._id %>">
+                    <i class="icofont-heart"></i>
+                    <span>add to wish</span>
+                  </a>
+                  <a class="view-compare" href="compare.html" title="Compare This Item">
+                    <i class="fas fa-random"></i>
+                    <span>Compare This</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% }) %>
+
+  <!-------------------- End of contents ------------------->
+
+  <%- include('./partials/__user-features.ejs') %>
+  <%- include('./partials/__user-footer.ejs') %>
+  <script src="/vendor/bootstrap/jquery-1.12.4.min.js"></script>
+  <script src="/vendor/bootstrap/popper.min.js"></script>
+  <script src="/vendor/bootstrap/bootstrap.min.js"></script>
+  <script src="/vendor/countdown/countdown.min.js"></script>
+  <script src="/vendor/niceselect/nice-select.min.js"></script>
+  <script src="/vendor/slickslider/slick.min.js"></script>
+  <script src="/vendor/venobox/venobox.min.js"></script>
+  <script src="/js/nice-select.js"></script>
+  <script src="/js/countdown.js"></script>
+  <script src="/js/accordion.js"></script>
+  <script src="/js/venobox.js"></script>
+  <script src="/js/slick.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+
+</html>

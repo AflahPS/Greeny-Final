@@ -1,0 +1,149 @@
+<%
+let user = locals.user || null;
+let cart = locals.cart || null;
+let wishlist = locals.wishlist || null;
+let role;
+if (user) {
+role = user.role || null
+} else {
+role = null;
+ } 
+ %>
+<div class="backdrop"></div><a class="backtop fas fa-arrow-up" href="#"></a>
+<div class="header-top">
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col-md-12 col-lg-5">
+        <div class="header-top-welcome">
+          <p>Welcome to Ecomart in Your Dream Online Store!</p>
+        </div>
+      </div>
+      <div class="col-md-7 col-lg-4">
+        <ul class="header-top-list">
+          <% if(user) { %>
+          <li><a href="/orders">My Orders</a></li>
+          <% } %>
+
+          <li><a href="#">contact us</a></li>
+
+          <% if(user) { %>
+          <li><a href="/logout">Logout</a></li>
+          <% } %>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<header class="header-part">
+  <div class="container">
+    <div class="header-content">
+      <div class="header-media-group">
+        <button class="header-user">
+
+          <%  if(user) { %>
+          <img src="/images/users/<%= user.image %>" alt="user">
+          <% } else { %>
+          <img src="/images/users/user.png" alt="user">
+          <% } %>
+
+
+        </button>
+        <a href="/home">
+          <img src="/images/logo.png" alt="logo">
+        </a>
+        <button class="header-src"><i class="fas fa-search"></i></button>
+      </div>
+      <a href="/home" class="header-logo"><img src="/images/logo.png" alt="logo"></a>
+
+      <% if (user) { %>
+      <a href="/profile" class="header-widget" title="My Account">
+        <img src="/images/users/<%= user.image %>" alt="user">
+        <button class="text-success ms-3 font-weight-bold text-uppercase"><%= user.name %></button>
+      </a>
+      <% } else { %>
+      <a href="/login" class="header-widget" title="My Account">
+        <img src="/images/users/user.png" alt="user">
+        <button class="btn-success rounded p-1 ms-3">Login</button>
+      </a>
+      <% } %>
+
+      <form class="header-form" id="user-search-form">
+        <input type="text" placeholder="Search anything..." onkeyup="sendData(this)">
+        <button type="submit"><i class="fas fa-search"></i></button>
+        <section class="search-result" id="search-result">
+          <ol id="search-result" class="list-group list-group-numbered">
+
+            <!-- <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">Subheading</div>
+                Cras justo odio
+              </div>
+              <span class="badge bg-primary rounded-pill">14</span>
+            </li> -->
+
+          </ol>
+
+        </section>
+      </form>
+      <div class="header-widget-group">
+        <a href="#" class="header-widget" title="Compare List">
+          <i class="fas fa-random"></i>
+          <sup class="compare-count">0</sup>
+        </a>
+        <a href="/wishlist" class="header-widget" title="Wishlist">
+          <i class="fas fa-heart" id="wish-round"></i>
+          <sup class="wishlist-count"><%= (wishlist != "undefined" && wishlist) ? wishlist.products.length : 0 ; %></sup>
+        </a>
+        <button class="header-widget header-cart" title="Cartlist">
+          <i class="fas fa-shopping-basket" id="cart-round"></i>
+          <sup><%= (cart != "undefined" && cart) ? cart.products.length : 0 ; %></sup>
+          <span>total price<small>₹ <%= (cart != "undefined" && cart) ? cart.totalAmount : 0.00 ; %></small></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+<nav class="navbar-part">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="navbar-content">
+          <ul class="navbar-list">
+            <li class="navbar-item"><a class="navbar-link" href="/home">home</a>
+            </li>
+            <li class="navbar-item"><a class="navbar-link" href="/shop">shop</a>
+            </li>
+            <li class="navbar-item dropdown">
+              <a class="navbar-link dropdown-arrow" href="/category">category</a>
+
+              <ul class="dropdown-position-list">
+                <% if( typeof(categories) != "undefined" && categories ) {%>
+                <% categories.forEach(cat => { %>
+                <li><a href="/shop?category=<%= cat._id %>"><%= cat.name %></a></li>
+                <% }) %>
+                <% } %>
+              </ul>
+
+            </li>
+
+            <% if (role && role == "admin") { %>
+
+            <li class="navbar-item"><a class="navbar-link" href="/admin">Admin Dashboard</a>
+            </li>
+
+            <% } %>
+          </ul>
+          <div class="navbar-info-group">
+            <div class="navbar-info"><i class="icofont-ui-touch-phone"></i>
+              <p><small>call us</small><span>(+91) 9999999999</span></p>
+            </div>
+            <div class="navbar-info"><i class="icofont-ui-email"></i>
+              <p><small>email us</small><span>support@greeny.com</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

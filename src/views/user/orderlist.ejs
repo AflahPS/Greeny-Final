@@ -1,0 +1,217 @@
+<% let wishlist = locals.wishlist || null %>
+<% let orders = locals.orders || null %>
+
+<%- include('./partials/__user-head.ejs') %>
+<title>Greeny - Order History</title>
+<link rel="stylesheet" href="/css/orderlist.css">
+</head>
+
+<body>
+  <%- include('./partials/__user-nav.ejs') %>
+  <%- include('./partials/__user-side-cat.ejs') %>
+  <%- include('./partials/__user-cart.ejs') %>
+  <%- include('./partials/__user-sidenav.ejs') %>
+  <%- include('./partials/__user-mobile.ejs') %>
+
+  <section class="inner-section single-banner" style="background: url(images/single-banner.jpg) no-repeat center;">
+    <div class="container">
+      <h2>Order History</h2>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/home">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Orderlist</li>
+      </ol>
+    </div>
+  </section>
+  <section class="inner-section orderlist-part">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="orderlist-filter">
+            <h5>total order <span>- (<%= orders.length %>)</span></h5>
+            <div class="filter-short"><label class="form-label">short by:</label><select class="form-select">
+                <option value="all" selected>all order</option>
+                <option value="recieved">recieved order</option>
+                <option value="processed">processed order</option>
+                <option value="shipped">shipped order</option>
+                <option value="delivered">delivered order</option>
+              </select></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+
+          <% orders.forEach((order,index) => { %>
+
+          <div class="orderlist">
+            <div class="orderlist-head">
+              <h5>order#<%= index+1 %></h5>
+              <h5>STATUS : order <%= order.status %></h5>
+            </div>
+            <div class="orderlist-body">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="order-track">
+                    <ul class="order-track-list">
+                      <li class="order-track-item <%= ['confirmed','processing','dispatched','out-for-delivery','delivered'].includes(order.status) ? 'active' : ''; %>">
+                        <i class="<%= ['confirmed','processing','dispatched','out-for-delivery','delivered'].includes(order.status) ? 'icofont-check' : 'icofont-close'; %>"></i>
+                        <span>order recieved</span>
+                      </li>
+
+                      <li class="order-track-item <%= ['processing','dispatched','out-for-delivery','delivered'].includes(order.status) ? 'active' : ''; %>">
+                        <i class="<%= ['processing','dispatched','out-for-delivery','delivered'].includes(order.status) ? ' icofont-check' : 'icofont-close'; %>"></i>
+                        <span>order processed</span>
+                      </li>
+
+                      <li class="order-track-item <%= ['out-for-delivery','delivered'].includes(order.status) ? 'active' : ''; %>">
+                        <i class="<%= ['out-for-delivery','delivered'].includes(order.status) ? ' icofont-check' : 'icofont-close'; %>"></i>
+                        <span>order shipped</span>
+                      </li>
+                      <li class="order-track-item <%= (order.status == 'delivered') ? 'active' : ''; %>">
+                        <i class="<%= (order.status == 'delivered') ? ' icofont-check' : 'icofont-close'; %>"></i>
+                        <span>order delivered</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-lg-5">
+                  <ul class="orderlist-details">
+                    <li>
+                      <h6>order id</h6>
+                      <p><%= order.oid %></p>
+                    </li>
+                    <li>
+                      <h6>Total Item</h6>
+                      <p><%= order.products.length %> Items</p>
+                    </li>
+                    <li>
+                      <h6>Order Time</h6>
+                      <p><%= moment(order.createdAt).format('LLL') %></p>
+                    </li>
+                    <li>
+                      <h6>Delivery Time</h6>
+                      <p><%= moment(order.deliveryExpected).format('LL') %></p>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-4">
+                  <ul class="orderlist-details">
+                    <li>
+                      <h6>Sub Total</h6>
+                      <p>₹<%= order.subTotal %></p>
+                    </li>
+                    <li>
+                      <h6>discount</h6>
+                      <p>₹<%= order.discount %></p>
+                    </li>
+                    <li>
+                      <h6>delivery fee</h6>
+                      <p>₹<%= order.deliveryCharge %></p>
+                    </li>
+                    <li>
+                      <h6>Total<small>(Incl. VAT)</small></h6>
+                      <p>₹<%= order.totalAmount %></p>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-3">
+                  <div class="orderlist-deliver">
+                    <h6>Delivery location</h6>
+                    <p><%= order.address.content %></p>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="table-scroll">
+                    <table class="table-list">
+                      <thead>
+                        <tr>
+                          <th scope="col">Serial</th>
+                          <th scope="col">Product</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Price</th>
+                          <th scope="col">brand</th>
+                          <th scope="col">quantity</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Products in order -->
+                        <% order.products.forEach((prodObj,index) => { %>
+
+                        <tr>
+                          <td class="table-serial">
+                            <h6><%= index+1 %></h6>
+                          </td>
+                          <td class="table-image"><img src="/images/product/<%= prodObj.product.thumbnail %>" alt="product"></td>
+                          <td class="table-name">
+                            <h6><%= prodObj.product.name %></h6>
+                          </td>
+                          <td class="table-price">
+                            <h6>₹<%= prodObj.product.price %><small>/<%= prodObj.product.unitIn %></small></h6>
+                          </td>
+                          <td class="table-brand">
+                            <h6><%= prodObj.product.brand %></h6>
+                          </td>
+                          <td class="table-quantity">
+                            <h6><%= prodObj.quantity %></h6>
+                          </td>
+                        </tr>
+
+                        <% }) %>
+                        <!-- Products in order -end -->
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <% if (order.status != 'cancelled' && order.status != 'delivered') { %>
+              <div class="text-center">
+                <a href="/order-cancel?id=<%= order._id %>" data-oid="<%= order._id %>" class="btn btn-dark order-cancel-button">Cancel this order</a>
+              </div>
+
+              <% } %>
+            </div>
+          </div>
+
+          <% }) %>
+
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#"><i class="icofont-arrow-left"></i></a></li>
+            <li class="page-item"><a class="page-link active" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">...</li>
+            <li class="page-item"><a class="page-link" href="#">65</a></li>
+            <li class="page-item"><a class="page-link" href="#"><i class="icofont-arrow-right"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('./partials/__user-features.ejs') %>
+  <%- include('./partials/__user-footer.ejs') %>
+
+  <script src="/vendor/bootstrap/jquery-1.12.4.min.js"></script>
+  <script src="/vendor/bootstrap/popper.min.js"></script>
+  <script src="/vendor/bootstrap/bootstrap.min.js"></script>
+  <script src="/vendor/countdown/countdown.min.js"></script>
+  <script src="/vendor/niceselect/nice-select.min.js"></script>
+  <script src="/vendor/slickslider/slick.min.js"></script>
+  <script src="/vendor/venobox/venobox.min.js"></script>
+  <script src="/js/nice-select.js"></script>
+  <script src="/js/countdown.js"></script>
+  <script src="/js/accordion.js"></script>
+  <script src="/js/venobox.js"></script>
+  <script src="/js/slick.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/additional.js"></script>
+</body>
+
+</html>

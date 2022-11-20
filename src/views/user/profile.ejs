@@ -1,0 +1,281 @@
+<% let wishlist = locals.wishlist || null %>
+<%- include('./partials/__user-head.ejs') %>
+<title>Greeny - Profile</title>
+<link rel="stylesheet" href="/css/profile.css">
+</head>
+
+<body>
+
+  <%- include('./partials/__user-nav.ejs') %>
+  <%- include('./partials/__user-side-cat.ejs') %>
+  <%- include('./partials/__user-cart.ejs') %>
+  <%- include('./partials/__user-sidenav.ejs') %>
+  <%- include('./partials/__user-mobile.ejs') %>
+
+  <section class="inner-section single-banner" style="background: url(images/single-banner.jpg) no-repeat center;">
+    <div class="container">
+      <h2>my profile</h2>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/home">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">profile</li>
+      </ol>
+    </div>
+  </section>
+  <section class="inner-section profile-part">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="account-card">
+            <div class="account-title">
+              <h4>Your Profile</h4><button data-bs-toggle="modal" data-bs-target="#profile-edit">edit profile</button>
+            </div>
+            <div class="account-content">
+              <div class="row">
+                <div class="col-lg-2">
+                  <div class="profile-image"><a href="#">
+
+                      <%  if(user) { %>
+                      <img src="/images/users/<%= user.image %>" alt="user">
+                      <% } else { %>
+                      <img src="/images/users/user.png" alt="user">
+                      <% } %>
+
+                    </a></div>
+                </div>
+                <div class="col-md-6 col-lg-5">
+                  <div class="form-group">
+                    <label class="form-label">name</label>
+                    <input class="form-control" type="text" readonly value="<%= user.name %>">
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-5">
+                  <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input class="form-control" type="email" readonly value="<%= user.email %>">
+                  </div>
+                </div>
+
+                <div class="col-lg-2">
+                  <div class="profile-btn"><a href="/change-password">change password</a></div>
+                </div>
+
+                <div class="col-md-6 col-lg-5">
+                  <div class="form-group">
+                    <label class="form-label">Contact Number</label>
+                    <input class="form-control" type="text" readonly value="<%= user.contactNumber %>">
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-5">
+                  <div class="form-group">
+                    <label class="form-label">Age</label>
+                    <input class="form-control" type="number" readonly value="<%= user.age %>">
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-12">
+          <div class="account-card">
+            <div class="account-title">
+              <h4>delivery address</h4><button data-bs-toggle="modal" data-bs-target="#address-add">add address</button>
+            </div>
+            <div class="account-content">
+              <div class="row">
+
+                <% if (typeof( user.address ) != "undefined" && user.address ) { %>
+                <% user.address.forEach((ad, index )=> { %>
+                <div class="col-md-6 col-lg-4 alert fade show">
+                  <div class="profile-card address <%= ad.isPrimary ? "active" : ""; %>  active">
+                    <h6><%= ad.title %></h6>
+                    <p>Phone : <%= ad.phone %></p>
+                    <p><%= ad.content %></p>
+                    <p>State : <%= ad.state %></p>
+                    <ul class="user-action">
+                      <li><button class="edit icofont-edit" title="Edit This" data-bs-toggle="modal" data-bs-target="#address-edit-<%= index %>"></button></li>
+                      <li><button class="trash icofont-ui-delete" title="Remove This" onclick="remAddressProfile(<%= index %>)" data-bs-dismiss="alert"></button></li>
+                    </ul>
+                  </div>
+                </div>
+
+                <% }) %>
+                <% } else { %>
+                <h6>Delivery address not added yet</h6>
+                <% } %>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!------------- MODALS  ------------->
+
+  <!-- add address modal -->
+  <div class="modal fade" id="address-add">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content"><button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+        <form class="modal-form" action="/profile-add-address" method="POST">
+          <div class="form-title">
+            <h3>add new address</h3>
+          </div>
+          <div class="form-group"><label class="form-label">title</label>
+            <select name="title" class="form-select" required>
+              <option value="home" selected>home</option>
+              <option value="office">office</option>
+              <option value="bussiness">Bussiness</option>
+              <option value="academy">academy</option>
+              <option value="others">others</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">phone</label>
+            <input class="form-control" type="text" name="phone" placeholder="Enter your phone number" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">address</label>
+            <textarea class="form-control" name="content" placeholder="Enter your address" required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">State</label>
+            <select name="state" class="form-select" required>
+
+              <% states.forEach(state => { %>
+              <option value="<%= state %>"><%= state %></option>
+              <% }) %>
+
+            </select>
+          </div>
+
+          <button class="form-btn" type="submit">save address info</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- add payment modal
+  <div class="modal fade" id="payment-add">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content"><button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+        <form class="modal-form" action="/profile-add-payment" method="POST">
+          <div class="form-title">
+            <h3>add new payment</h3>
+          </div>
+          <div class="form-group">
+            <label class="form-label">card number</label>
+            <input class="form-control" type="text" name="cardNumber" minlength="16" maxlength="16" placeholder="Enter your card number" required>
+          </div>
+          <button class="form-btn" type="submit">save card info</button>
+        </form>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- edit profile modal -->
+  <div class="modal fade" id="profile-edit">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content"><button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+        <form class="modal-form" action="/profile-edit-details" method="POST" enctype="multipart/form-data">
+          <div class="form-title">
+            <h3>edit profile info</h3>
+          </div>
+          <div class="form-group">
+            <label class="form-label">profile image</label>
+            <input class="form-control" name="image" type="file" accept="image/*" value="<%= user.image %>">
+          </div>
+          <div class="form-group">
+            <label class="form-label">name</label>
+            <input class="form-control" name="name" type="text" value="<%= user.name %>" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">email</label>
+            <input class="form-control" type="text" name="email" value="<%= user.email %>" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">phone</label>
+            <input class="form-control" type="text" name="contactNumber" value="<%= user.contactNumber %>" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">age</label>
+            <input class="form-control" type="number" name="age" value="<%= user.age %>" required>
+          </div>
+          <button class="form-btn" type="submit">save profile info</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <% user.address.forEach((ad, index )=> { %>
+
+  <!-- edit address modal -->
+  <div class="modal fade" id="address-edit-<%= index %>">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content"><button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
+        <form class="modal-form" id="edit-address-form" action="/profile-edit-address?index=<%= index %>" method="POST">
+          <div class="form-title">
+            <h3>edit address info</h3>
+          </div>
+          <div class="form-group">
+            <label class="form-label">title</label>
+            <select name="title" class="form-select">
+              <option value="home" <%= (ad.title == "home") ? "selected" : "" %>>home</option>
+              <option value="office" <%= (ad.title == "office") ? "selected" : "" %>>office</option>
+              <option value="bussiness" <%= (ad.title == "bussiness") ? "selected" : "" %>>Bussiness</option>
+              <option value="academy" <%= (ad.title == "academy") ? "selected" : "" %>>academy</option>
+              <option value="others" <%= (ad.title == "others") ? "selected" : "" %>>others</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">phone</label>
+            <input class="form-control" type="text" name="phone" value="<%= ad.phone %>" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">address</label>
+            <textarea class="form-control" name="content" required><%= ad.content %></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">State</label>
+            <select name="state" class="form-select" required>
+
+              <% states.forEach(state => { %>
+              <option value="<%= state %>" <%= (ad.state == state) ? "selected" : "" %>><%= state %></option>
+              <% }) %>
+
+            </select>
+          </div>
+          <button class="form-btn" type="submit">save address info</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <% }) %>
+
+
+  <%- include('./partials/__user-features.ejs') %>
+  <%- include('./partials/__user-footer.ejs') %>
+
+  <script src="/vendor/bootstrap/jquery-1.12.4.min.js"></script>
+  <script src="/vendor/bootstrap/popper.min.js"></script>
+  <script src="/vendor/bootstrap/bootstrap.min.js"></script>
+  <script src="/vendor/countdown/countdown.min.js"></script>
+  <script src="/vendor/niceselect/nice-select.min.js"></script>
+  <script src="/vendor/slickslider/slick.min.js"></script>
+  <script src="/vendor/venobox/venobox.min.js"></script>
+  <script src="/js/nice-select.js"></script>
+  <script src="/js/countdown.js"></script>
+  <script src="/js/accordion.js"></script>
+  <script src="/js/venobox.js"></script>
+  <script src="/js/slick.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/additional.js"> </script>
+  </>
+
+  </html>

@@ -1,0 +1,26 @@
+<aside class="category-sidebar">
+  <div class="category-header">
+    <h4 class="category-title"><i class="fas fa-align-left"></i><span>categories</span></h4><button class="category-close"><i class="icofont-close"></i></button>
+  </div>
+  <ul class="category-list">
+
+
+    <% if( typeof(categories) != "undefined" && categories ) {%>
+    <% categories.forEach(cat => { %>
+
+    <li class="category-item">
+      <a class="category-link" href="/shop?category=<%= cat._id %>">
+        <span><%= cat.name %></span>
+      </a>
+
+    </li>
+
+    <% }) %>
+    <% } %>
+
+
+  </ul>
+  <div class="category-footer">
+    <p>All Rights Reserved by <a href="#">Greeny</a></p>
+  </div>
+</aside>

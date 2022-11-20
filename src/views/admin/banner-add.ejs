@@ -1,0 +1,227 @@
+<%- include('./partials/__admin-head.ejs') %>
+<title>Greeny | Add Category</title>
+<!-- PLUGINS CSS STYLE -->
+<link href="/assets/plugins/simplebar/simplebar.css" rel="stylesheet" />
+
+<!-- Data Tables -->
+<link href='/assets/plugins/data-tables/datatables.bootstrap5.min.css' rel='stylesheet'>
+<link href='/assets/plugins/data-tables/responsive.datatables.min.css' rel='stylesheet'>
+</head>
+
+<body class="ec-header-fixed ec-sidebar-fixed ec-sidebar-dark ec-header-light" id="body">
+  <!-- WRAPPER -->
+  <div class="wrapper">
+
+    <!-- LEFT MAIN SIDEBAR -->
+    <!-- LEFT MAIN SIDEBAR -->
+    <div class="ec-left-sidebar ec-bg-sidebar">
+      <div id="sidebar" class="sidebar ec-sidebar-footer">
+
+        <div class="ec-brand">
+          <a href="/admin" title="Greeny">
+            <img class="ec-brand-icon" src="/assets/img/logo/ec-site-logo.png" alt="" />
+            <!-- <span class="ec-brand-name text-truncate"></span> -->
+          </a>
+        </div>
+
+        <!-- begin sidebar scrollbar -->
+        <div class="ec-navigation" data-simplebar>
+          <!-- sidebar menu -->
+          <ul class="nav sidebar-inner" id="sidebar-menu">
+
+            <!-- Dashboard -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin">
+                <i class="mdi mdi-view-dashboard-outline"></i>
+                <span class="nav-text">Dashboard</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Vendors -->
+
+
+            <!-- Users -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/user-list">
+                <i class="mdi mdi-account-group"></i>
+                <span class="nav-text">Users</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Products -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/product-list">
+                <i class="mdi mdi-palette-advanced"></i>
+                <span class="nav-text">Products</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Category -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/category-list">
+                <i class="mdi mdi-dns-outline"></i>
+                <span class="nav-text">Categories</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Orders -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/order-list">
+                <i class="mdi mdi-cart"></i>
+                <span class="nav-text">Orders</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Coupons -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/coupon-list">
+                <i class="mdi mdi-tag-faces"></i>
+                <span class="nav-text">Coupons</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Banners -->
+            <li class="nav-lis active">
+              <a class="sidenav-item-link" href="/admin/banner-list">
+                <i class="mdi mdi-image-area"></i>
+                <span class="nav-text">Banners</span>
+              </a>
+            </li>
+            <hr>
+
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/home">
+                <i class="mdi mdi-home-outline"></i>
+                <span class="nav-text">User -Home Page</span>
+              </a>
+            </li>
+            <hr>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PAGE WRAPPER -->
+    <div class="ec-page-wrapper">
+
+      <!-- Header -->
+      <%- include('./partials/__admin-header.ejs') %>
+
+      <!-- CONTENT WRAPPER -->
+      <div class="ec-content-wrapper">
+        <div class="content">
+          <div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+            <div>
+              <h1>Add Banner</h1>
+              <p class="breadcrumbs">
+                <span><a href="/admin">Home</a></span>
+                <span><i class="mdi mdi-chevron-right"></i></span>
+                <span><a href="/admin/banner-list">Banners</a></span>
+                <span><i class="mdi mdi-chevron-right"></i></span>
+                Add Banner
+              </p>
+            </div>
+            <div>
+              <a href="/admin/banner-list" class="btn btn-primary"> View All
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="card card-default">
+
+                <div class="card-body">
+                  <div class="row ec-vendor-uploads">
+                    <form class="row g-3" action="/admin/banner" method="post" enctype="multipart/form-data">
+                      <div class="col-lg-4">
+                        <div class="ec-vendor-img-upload my-5">
+                          <div class="ec-vendor-main-img">
+                            <div class="avatar-upload">
+                              <div class="avatar-edit">
+                                <input type='file' id="imageUpload" name="image" class="ec-image-upload" accept="image/*" />
+                                <label for="imageUpload"><img src="/assets/img/icons/edit.svg" class="svg_img header_svg" alt="edit" /></label>
+                              </div>
+                              <div class="avatar-preview ec-preview">
+                                <div class="imagePreview ec-div-preview">
+                                  <img class="ec-image-preview" src="/assets/img/products/vender-upload-preview.jpg" alt="edit" />
+                                </div>
+                              </div>
+                            </div>
+                            <div class="thumb-upload-set colo-md-12">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-8">
+                        <div class="ec-vendor-upload-detail">
+                          <div class="col-lg-6 col-xl-10 my-5">
+                            <label for="name" class="form-label">Banner name</label>
+                            <input type="text" name="name" class="form-control" id="name">
+                          </div>
+                          <div class="col-lg-6 col-xl-10 my-5">
+                            <label for="textPosition" class="form-label">Text Position</label>
+                            <div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="textPosition" id="textPosition2" value="left" checked>
+                                <label class="form-check-label" for="textPosition2">Left</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="textPosition" id="textPosition1" value="right">
+                                <label class="form-check-label" for="textPosition1">Right</label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-6 col-xl-10 my-5">
+                            <label for="textHeader" class="form-label">Text Header</label>
+                            <textarea class="form-control" name="textHeader" rows="4">free home delivery within 24 hours now.</textarea>
+                          </div>
+                          <div class="col-lg-6 col-xl-10 my-5">
+                            <label for="textContent" class="form-label">Text Content</label>
+                            <textarea class="form-control" name="textContent" rows="4">Did you ever imagine that the freshest of fruits and vegetables, top quality pulses and food grains, dairy products and hundreds of branded items could be handpicked and delivered to your home, all at the click of a button? India’s first comprehensive online megastore, greeny.com, brings a whopping 20000+ products with more than 1000 brands, to over 4 million happy customers.</textarea>
+                          </div>
+
+                          <div class="col-lg-12 my-5">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                          </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- End Content -->
+  </div> <!-- End Content Wrapper -->
+
+  <!-- Footer -->
+  <%- include('./partials/__admin-footer.ejs') %>
+
+  </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+  <!-- Common Javascript -->
+  <script src="/assets/plugins/jquery/jquery-3.5.1.min.js"></script>
+  <script src="/assets/plugins/jquery/jquery.notify.min.js"></script>
+  <script src="/assets/plugins/jquery/jquery.bundle.notify.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/plugins/tags-input/bootstrap-tagsinput.js"></script>
+  <script src="/assets/plugins/simplebar/simplebar.min.js"></script>
+  <script src="/assets/plugins/jquery-zoom/jquery.zoom.min.js"></script>
+  <script src="/assets/plugins/slick/slick.min.js"></script>
+
+  <!-- Option Switcher -->
+  <script src="/assets/plugins/options-sidebar/optionswitcher.js"></script>
+
+  <!-- Ekka Custom -->
+  <script src="/assets/js/ekka.js"></script>
+</body>
+
+</html>

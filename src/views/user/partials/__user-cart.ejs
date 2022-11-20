@@ -1,0 +1,75 @@
+<aside class="cart-sidebar">
+  <% if (typeof(user) != "undefined" && user) { %>
+  <% if (typeof(cart) != "undefined" && cart) { %>
+  <% if ( cart.products.length > 0 ) { %>
+  <div class="cart-header">
+    <div class="cart-total">
+      <i class="fas fa-shopping-basket"></i>
+      <span id="cart-toatal-item">total item (<%= cart.products.length %>)</span>
+    </div>
+    <button class="cart-close"><i class="icofont-close"></i></button>
+  </div>
+  <!-- Loop through user.cart -->
+
+  <ul class="cart-list">
+    <% cart.products.forEach(item =>{ %>
+    <li class="cart-item" data-pid="<%= item.product._id %>">
+      <div class="cart-media" data-pid="<%= item.product._id %>">
+        <a href="/product?id=<%= item.product._id %>">
+          <img src="/images/product/<%= item.product.thumbnail %>" alt="product">
+        </a>
+        <button class="cart-delete">
+          <i class="far fa-trash-alt"></i>
+        </button>
+      </div>
+      <div class="cart-info-group">
+        <div class="cart-info">
+          <h6><a href="/product?id=<%= item.product._id %>"><%= item.product.name %></a></h6>
+          <p class="unit-price">Unit Price - ₹<%= item.product.price %></p>
+        </div>
+        <div class="cart-action-group">
+          <div class="cart-incr">
+            <button class="action-minus" data-pid="<%= item.product._id %>" title="Quantity Minus"><i class="icofont-minus"></i></button>
+            <input class="action-input" title="Quantity Number" type="text" name="quantity" value="<%= item.quantity %>" disabled>
+            <button class="action-plus" data-pid="<%= item.product._id %>" title="Quantity Plus"><i class="icofont-plus"></i></button>
+          </div>
+          <h6 id="cart-product-subtotal">₹<%= item.quantity*item.product.price %></h6>
+        </div>
+      </div>
+    </li>
+
+    <% }) %>
+
+  </ul>
+  <div class="cart-footer">
+    <!-- <button class="coupon-btn">Do you have a coupon code?</button> -->
+    <!-- <form class="coupon-form">
+      <input type="text" placeholder="Enter your coupon code">
+      <button type="submit"><span>apply</span></button>
+    </form> -->
+    <a class="cart-checkout-btn" href="/checkout?cart=<%= cart._id %>">
+      <span class="checkout-label">Proceed to Checkout</span>
+      <span id="checkout-price" class="checkout-price">₹<%= cart.totalAmount %></span>
+    </a>
+  </div>
+
+
+  <% } %>
+  <% } else { %>
+  <div class="cart-header">
+    <div class="cart-total"><i class="fas fa-shopping-basket"></i><span>total item (0)</span></div>
+    <button class="cart-close"><i class="icofont-close"></i></button>
+  </div>
+  <% } %>
+  <% } else { %>
+  <div class="cart-header">
+    <div class="cart-total"><span>Please login/register to use the cart !!</span></div>
+    <div class="nav-content">
+      <div class="nav-btn"><a href="/login" class="btn btn-inline"><i class="fa fa-unlock-alt"></i>
+          <span>join here</span></a>
+      </div>
+    </div>
+    <button class="cart-close"><i class="icofont-close"></i></button>
+  </div>
+  <% } %>
+</aside>

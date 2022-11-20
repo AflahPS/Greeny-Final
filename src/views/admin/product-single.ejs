@@ -1,0 +1,359 @@
+<%- include('./partials/__admin-head.ejs') %>
+<!-- PLUGINS CSS STYLE -->
+<link href="/assets/plugins/simplebar/simplebar.css" rel="stylesheet" />
+<link href='/assets/plugins/slick/slick.min.css' rel='stylesheet'>
+<link href='/assets/plugins/swiper/swiper-bundle.min.css' rel='stylesheet'>
+<title>Greeny | Product</title>
+</head>
+
+<body class="ec-header-fixed ec-sidebar-fixed ec-sidebar-dark ec-header-light" id="body">
+  <!-- WRAPPER -->
+  <div class="wrapper">
+
+    <!-- LEFT MAIN SIDEBAR -->
+    <div class="ec-left-sidebar ec-bg-sidebar">
+      <div id="sidebar" class="sidebar ec-sidebar-footer">
+
+        <div class="ec-brand">
+          <a href="/admin" title="Greeny">
+            <img class="ec-brand-icon" src="/assets/img/logo/ec-site-logo.png" alt="" />
+            <!-- <span class="ec-brand-name text-truncate"></span> -->
+          </a>
+        </div>
+
+        <!-- begin sidebar scrollbar -->
+        <div class="ec-navigation" data-simplebar>
+          <!-- sidebar menu -->
+          <ul class="nav sidebar-inner" id="sidebar-menu">
+
+            <!-- Dashboard -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin">
+                <i class="mdi mdi-view-dashboard-outline"></i>
+                <span class="nav-text">Dashboard</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Vendors -->
+
+
+            <!-- Users -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/user-list">
+                <i class="mdi mdi-account-group"></i>
+                <span class="nav-text">Users</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Products -->
+            <li class="nav-lis active">
+              <a class="sidenav-item-link" href="/admin/product-list">
+                <i class="mdi mdi-palette-advanced"></i>
+                <span class="nav-text">Products</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Category -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/category-list">
+                <i class="mdi mdi-dns-outline"></i>
+                <span class="nav-text">Categories</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Orders -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/order-list">
+                <i class="mdi mdi-cart"></i>
+                <span class="nav-text">Orders</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Coupons -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/coupon-list">
+                <i class="mdi mdi-tag-faces"></i>
+                <span class="nav-text">Coupons</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Banners -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/banner-list">
+                <i class="mdi mdi-image-area"></i>
+                <span class="nav-text">Banners</span>
+              </a>
+            </li>
+            <hr>
+
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/home">
+                <i class="mdi mdi-home-outline"></i>
+                <span class="nav-text">User -Home Page</span>
+              </a>
+            </li>
+            <hr>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PAGE WRAPPER -->
+    <div class="ec-page-wrapper">
+
+      <!-- Header -->
+      <%- include('./partials/__admin-header.ejs') %>
+
+      <!-- CONTENT WRAPPER -->
+      <div class="ec-content-wrapper">
+        <div class="content">
+          <div class="breadcrumb-wrapper d-flex align-items-center justify-content-between">
+            <div>
+              <h1>Product Details</h1>
+              <p class="breadcrumbs">
+                <span><a href="/admin">Home</a></span>
+                <span><i class="mdi mdi-chevron-right"></i></span>
+                <span><a href="/admin/product-list">Products</a></span>
+                <span><i class="mdi mdi-chevron-right"></i></span>
+                Product Details
+              </p>
+            </div>
+            <div>
+              <a href="/admin/product-update?id=<%= product._id %>" class="btn btn-primary"> Edit
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="card card-default">
+                <div class="card-header card-header-border-bottom">
+                  <h2>Product Details</h2>
+                </div>
+
+                <div class="card-body product-detail">
+                  <div class="row">
+                    <div class="col-xl-4 col-lg-6">
+                      <div class="row">
+                        <div class="single-pro-img">
+                          <div class="single-product-scroll">
+                            <div class="single-product-cover">
+
+                              <div class="single-slide zoom-image-hover">
+                                <img class="img-responsive" src="/images/product/<%= product.thumbnail %>" alt="">
+                              </div>
+                              <% product.images.forEach(el => { %>
+                              <div class="single-slide zoom-image-hover">
+                                <img class="img-responsive" src="/images/product/<%= el %>" alt="">
+                              </div>
+                              <% }) %>
+
+
+                              <!--/ Iterate product.images -->
+
+                            </div>
+                            <div class="single-nav-thumb">
+
+                              <div class="single-slide">
+                                <img class="img-responsive" src="/images/product/<%= product.thumbnail %>" alt="">
+                              </div>
+
+                              <% product.images.forEach(el => { %>
+                              <div class="single-slide">
+                                <img class="img-responsive" src="/images/product/<%= el %>" alt="">
+                              </div>
+                              <% }) %>
+
+                              <!--/ Iterate product.images -->
+
+                            </div>
+
+                            <div class="text-center mt-5">
+                              <% if (product.isActive) { %>
+                              <a class="btn btn-danger" onclick="return confirm('Are you sure you want to deActivate this product?');" href="/admin/ban-product?id=<%= product._id %>">DeActivate</a>
+                              <% } else { %>
+                              <a class="btn btn-primary" onclick="return confirm('Are you sure you want to activate this product?');" href="/admin/ban-product?id=<%= product._id %>">Activate</a>
+                              <% } %>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-5 col-lg-6">
+                      <div class="row product-overview">
+                        <div class="col-12">
+                          <h5 class="product-title"><%= product.name %></h5>
+                          <p class="product-rate">
+
+                            <% for( let i = 0; i < (Math.round(product.ratingsAverage)); i++ ) { %>
+                            <i class="mdi mdi-star is-rated"></i>
+                            <% } %>
+                            <% for( let i = 0; i < (5-Math.round(product.ratingsAverage)); i++ ) { %>
+                            <i class="mdi mdi-star"></i>
+                            <% } %>
+
+                          </p>
+                          <p class="product-desc"><%= product.description %>
+                          </p>
+                          <div class="ec-ofr">
+                            <h6>Available offers</h6>
+                            <ul>
+
+                              <li><b>Special Discount :</b><%= product.discount %>% <a href="#">T&C</a></li>
+
+                            </ul>
+                          </div>
+                          <p class="product-price">Price: ₹<%= product.price %> </p>
+                          <p class="product-sku">SKU#: <%= product._id %> </p>
+
+                          <div class="product-stock">
+                            <div class="stock">
+                              <p class="title">Available</p>
+                              <p class="text"><%= product.stock %> </p>
+                            </div>
+                            <div class="stock">
+                              <p class="title">Pending</p>
+                              <p class="text"><%= product.stock %>-Sold</p>
+                            </div>
+                            <div class="stock">
+                              <p class="title">InOrder</p>
+                              <p class="text">20</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-12 u-card">
+                      <div class="card card-default seller-card">
+                        <div class="card-body text-center">
+                          <!-- <a href="javascript:0" class="text-secondary d-inline-block"> -->
+                          <div class="image mb-3">
+                            <img src="/images/category/<%= product.category.thumbnail %>" class="img-fluid rounded-circle" alt="Avatar Image">
+                          </div>
+                          <h5 class="text-dark mb-3">CATEGORY: <%= product.category.name %></h5>
+
+                          <div class="text-center">
+
+                            <i class="mdi mdi-map mr-1"></i>
+                            <span>Total Products: <%= product.category.totalProducts %></span>
+
+                          </div>
+                          <!-- </a> -->
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="row review-rating mt-4">
+                    <div class="col-12">
+                      <ul class="nav nav-tabs" id="myRatingTab" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="product-detail-tab" data-bs-toggle="tab" data-bs-target="#productdetail" href="#productdetail" role="tab" aria-selected="true">
+                            <i class="mdi mdi-library-books mr-1"></i> Detail</a>
+                        </li>
+
+                        <li class="nav-item">
+                          <a class="nav-link" id="product-information-tab" data-bs-toggle="tab" data-bs-target="#productinformation" href="#productinformation" role="tab" aria-selected="false">
+                            <i class="mdi mdi-information mr-1"></i>Info</a>
+                        </li>
+
+                        <li class="nav-item">
+                          <a class="nav-link" id="product-reviews-tab" data-bs-toggle="tab" data-bs-target="#productreviews" href="#productreviews" role="tab" aria-selected="false">
+                            <i class="mdi mdi-star-half mr-1"></i> Reviews</a>
+                        </li>
+                      </ul>
+                      <div class="tab-content" id="myTabContent2">
+                        <div class="tab-pane pt-3 fade show active" id="productdetail" role="tabpanel">
+                          <p><%= product.description %>
+                          </p>
+                          <ul class="features">
+                            <li>Free home delivery.</li>
+                            <li>Instant Return Policy.</li>
+                            <li>Quick Support System.</li>
+                            <li>Secure Payment Way.</li>
+                          </ul>
+                        </div>
+
+                        <div class="tab-pane pt-3 fade" id="productinformation" role="tabpanel">
+                          <ul>
+                            <li><span>Sold in</span> <%= product.unitIn %> </li>
+                            <li><span>Tags</span>: <%= product.tags.join(',  ') %> </li>
+                            <li><span>Expired in</span> <%= moment(product.expiresIn).format("MMM Do YY")%></li>
+                          </ul>
+                        </div>
+
+                        <div class="tab-pane pt-3 fade" id="productreviews" role="tabpanel">
+                          <div class="ec-t-review-wrapper">
+
+                            <!-- Iterate reviews -->
+
+                            <div class="ec-t-review-item">
+                              <div class="ec-t-review-avtar">
+                                <img src="/assets/img/review-image/1.jpg" alt="">
+                              </div>
+                              <div class="ec-t-review-content">
+                                <div class="ec-t-review-top">
+                                  <p class="ec-t-review-name">Jeny Doe</p>
+                                  <div class="ec-t-rate">
+                                    <i class="mdi mdi-star is-rated"></i>
+                                    <i class="mdi mdi-star is-rated"></i>
+                                    <i class="mdi mdi-star is-rated"></i>
+                                    <i class="mdi mdi-star is-rated"></i>
+                                    <i class="mdi mdi-star"></i>
+                                  </div>
+                                </div>
+                                <div class="ec-t-review-bottom">
+                                  <p>Lorem Ipsum is simply dummy text of the printing
+                                    and
+                                    typesetting industry.
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!--/ Iterate reviews -->
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> <!-- End Content -->
+      </div> <!-- End Content Wrapper -->
+
+      <!-- Footer -->
+      <%- include('./partials/__admin-footer.ejs') %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+  <!-- Common Javascript -->
+  <script src="/assets/plugins/jquery/jquery-3.5.1.min.js"></script>
+  <script src="/assets/plugins/jquery/jquery.notify.min.js"></script>
+  <script src="/assets/plugins/jquery/jquery.bundle.notify.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/plugins/simplebar/simplebar.min.js"></script>
+  <script src="/assets/plugins/jquery-zoom/jquery.zoom.min.js"></script>
+  <script src="/assets/plugins/slick/slick.min.js"></script>
+  <script src="/assets/plugins/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Option Switcher -->
+  <script src="/assets/plugins/options-sidebar/optionswitcher.js"></script>
+
+  <!-- Ekka Custom -->
+  <script src="/assets/js/ekka.js"></script>
+</body>
+
+</html>

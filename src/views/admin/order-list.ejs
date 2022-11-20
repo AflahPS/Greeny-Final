@@ -1,0 +1,237 @@
+<%- include('./partials/__admin-head.ejs') %>
+<title>Greeny | Orders</title>
+<!-- PLUGINS CSS STYLE -->
+<link href="/assets/plugins/simplebar/simplebar.css" rel="stylesheet" />
+
+<!-- Data-Tables -->
+<link href='/assets/plugins/data-tables/datatables.bootstrap5.min.css' rel='stylesheet'>
+<link href='/assets/plugins/data-tables/responsive.datatables.min.css' rel='stylesheet'>
+</head>
+
+<body class="ec-header-fixed ec-sidebar-fixed ec-sidebar-dark ec-header-light" id="body">
+  <!-- WRAPPER -->
+  <div class="wrapper">
+
+    <!-- LEFT MAIN SIDEBAR -->
+    <div class="ec-left-sidebar ec-bg-sidebar">
+      <div id="sidebar" class="sidebar ec-sidebar-footer">
+
+        <div class="ec-brand">
+          <a href="/admin" title="Greeny">
+            <img class="ec-brand-icon" src="/assets/img/logo/ec-site-logo.png" alt="" />
+            <!-- <span class="ec-brand-name text-truncate"></span> -->
+          </a>
+        </div>
+
+        <!-- begin sidebar scrollbar -->
+        <div class="ec-navigation" data-simplebar>
+          <!-- sidebar menu -->
+          <ul class="nav sidebar-inner" id="sidebar-menu">
+
+            <!-- Dashboard -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin">
+                <i class="mdi mdi-view-dashboard-outline"></i>
+                <span class="nav-text">Dashboard</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Vendors -->
+
+
+            <!-- Users -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/user-list">
+                <i class="mdi mdi-account-group"></i>
+                <span class="nav-text">Users</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Products -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/product-list">
+                <i class="mdi mdi-palette-advanced"></i>
+                <span class="nav-text">Products</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Category -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/category-list">
+                <i class="mdi mdi-dns-outline"></i>
+                <span class="nav-text">Categories</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Orders -->
+            <li class="nav-lis active">
+              <a class="sidenav-item-link" href="/admin/order-list">
+                <i class="mdi mdi-cart"></i>
+                <span class="nav-text">Orders</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Coupons -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/coupon-list">
+                <i class="mdi mdi-tag-faces"></i>
+                <span class="nav-text">Coupons</span>
+              </a>
+            </li>
+            <hr>
+
+            <!-- Banners -->
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/admin/banner-list">
+                <i class="mdi mdi-image-area"></i>
+                <span class="nav-text">Banners</span>
+              </a>
+            </li>
+            <hr>
+
+            <li class="nav-lis">
+              <a class="sidenav-item-link" href="/home">
+                <i class="mdi mdi-home-outline"></i>
+                <span class="nav-text">User -Home Page</span>
+              </a>
+            </li>
+            <hr>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PAGE WRAPPER -->
+    <div class="ec-page-wrapper">
+
+      <!-- Header -->
+      <%- include('./partials/__admin-header.ejs') %>
+
+      <!-- CONTENT WRAPPER -->
+      <div class="ec-content-wrapper">
+        <div class="content">
+          <div class="breadcrumb-wrapper breadcrumb-wrapper-2">
+            <div>
+              <h1>Orders History</h1>
+              <p class="breadcrumbs"><span><a href="/dashboard">Dashboard</a></span>
+                <span><i class="mdi mdi-chevron-right"></i></span>Orders
+              </p>
+            </div>
+
+
+            <% if(typeof(message) != "undefined" && message ) { %>
+            <div>
+              <span id="errMessage" style="max-width: 50%; color: green;">
+                <span><strong>Last Action: </strong></span><%= message %>
+              </span>
+            </div>
+            <% } %>
+            <div></div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-12">
+              <div class="card card-default">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table id="responsive-data-table" class="table" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>Order ID</th>
+                          <th>Customer</th>
+                          <th>Email</th>
+                          <th>Items</th>
+                          <th>Price</th>
+                          <th>Payment</th>
+                          <th>Status</th>
+                          <th>Date</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+
+                        <!----- Iterate through recent orders --------->
+                        <% if (orders) { %>
+                        <% orders.forEach(order => { %>
+
+                        <tr>
+                          <td><%= order.oid %></td>
+                          <td><%= order.user.name %></td>
+                          <td><%= order.user.email %></td>
+                          <td><%= order.products.length %></td>
+                          <td>₹<%= order.totalAmount %></td>
+                          <td><%= order.paymentMode %></td>
+                          <td><span class="mb-2 mr-2 badge <%= order.status == 'cancelled' ? 'badge-secondary' : 'badge-primary' ; %> <%= order.status == 'delivered' ? 'badge-success' : '' ; %>"><%= order.status %></span></td>
+                          <td><%= moment(order.createdAt).format("MMM Do YY") %></td>
+                          <td>
+                            <div class="btn-group mb-1">
+                              <button type="button" class="btn btn-outline-success">Info</button>
+                              <button type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <span class="sr-only">Info</span>
+                              </button>
+
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/admin/order-single?id=<%= order._id %>">Detail</a>
+                                <% if (order.status != 'cancelled' && order.status != 'delivered') { %>
+
+                                <a class="dropdown-item" onclick="return confirm('Are you sure you want to cancel this order ?');" href="/admin/order-cancel?id=<%= order._id %>">Cancel</a>
+                                <% } %>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <% }) %>
+                        <% } %>
+
+
+                        <!-----/ Iterate through recent orders --------->
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> <!-- End Content -->
+      </div> <!-- End Content Wrapper -->
+
+
+      <!-- Footer -->
+      <%- include('./partials/__admin-footer.ejs') %>
+
+    </div> <!-- End Page Wrapper -->
+  </div> <!-- End Wrapper -->
+
+
+  <!-- Common Javascript -->
+  <script src="/assets/plugins/jquery/jquery-3.5.1.min.js"></script>
+  <script src="/assets/plugins/jquery/jquery.notify.min.js"></script>
+  <script src="/assets/plugins/jquery/jquery.bundle.notify.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/plugins/simplebar/simplebar.min.js"></script>
+  <script src="/assets/plugins/jquery-zoom/jquery.zoom.min.js"></script>
+  <script src="/assets/plugins/slick/slick.min.js"></script>
+
+  <!-- Data-Tables -->
+  <script src='/assets/plugins/data-tables/jquery.datatables.min.js'></script>
+  <script src='/assets/plugins/data-tables/datatables.bootstrap5.min.js'></script>
+  <script src='/assets/plugins/data-tables/datatables.responsive.min.js'></script>
+
+  <!-- Option Switcher -->
+  <script src="/assets/plugins/options-sidebar/optionswitcher.js"></script>
+
+  <!-- Ekka Custom -->
+  <script src="/assets/js/ekka.js"></script>
+</body>
+
+</html>

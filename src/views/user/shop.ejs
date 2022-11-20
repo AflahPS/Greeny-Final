@@ -1,0 +1,463 @@
+<% let wishlist = locals.wishlist || null %>
+<% 
+  let shopPrice = locals.shopPrice || null;
+  let shopCategory = locals.shopCategory || null;
+  let shopRating = locals.shopRating || null;
+  let shopSort = locals.shopSort || null;
+  let shopLimit = locals.shopLimit || null;
+  let shopPage = locals.shopPage || null;
+%>
+<%- include('./partials/__user-head.ejs') %>
+<title>Shop - Greeny</title>
+</head>
+
+<body>
+
+  <%- include('./partials/__user-nav.ejs') %>
+  <%- include('./partials/__user-side-cat.ejs') %>
+  <%- include('./partials/__user-cart.ejs') %>
+  <%- include('./partials/__user-sidenav.ejs') %>
+  <%- include('./partials/__user-mobile.ejs') %>
+
+  <!-------------------------------------------- Here Starts the Body ----------------------------------------->
+
+
+  <section class="inner-section single-banner" style="background: url(images/single-banner.jpg) no-repeat center">
+    <div class="container">
+      <h2>Shop</h2>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/home">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">
+          shop
+        </li>
+      </ol>
+    </div>
+  </section>
+  <section class="inner-section shop-part">
+    <div class="container">
+
+      <div class="row content-reverse">
+        <!---- SideBar open ---->
+        <div class="col-lg-3">
+
+          <div class="shop-widget">
+            <h6 class="shop-widget-title text-center">Clear all filters</h6>
+            <!-- <form action="/shop?filter=clear" method="GET"> -->
+            <a class="shop-widget-btn" href="/shop">
+              <i class="far fa-trash-alt"></i><span>clear filter</span>
+            </a>
+            <!-- </form> -->
+          </div>
+
+          <!-- Filter by price -->
+
+          <div class="shop-widget">
+            <h6 class="shop-widget-title">Filter by Price</h6>
+            <form action="/shop?filter=price" method="GET">
+              <div class="shop-widget-group">
+                <label for="price">Minimum</label>
+                <label for="price">Maximum</label>
+                <input type="text" name="price" value="<%= shopPrice ? shopPrice[0] : '0' ; %>" placeholder="Min - 00" />
+                <input type="text" name="price" value="<%= shopPrice ? shopPrice[1] : '5000' ; %>" placeholder="Max - 10k" />
+              </div>
+              <button class="shop-widget-btn" type="submit">
+                <i class="fas fa-search"></i><span>search</span>
+              </button>
+            </form>
+          </div>
+          <div class="shop-widget">
+
+            <!-- Filter by category -->
+
+            <div class="shop-widget">
+              <h6 class="shop-widget-title">Filter by Category</h6>
+              <form action="/shop?filter=category" method="GET">
+                <ul class="shop-widget-list shop-widget-scroll">
+
+                  <!-- Iterate through category -->
+
+                  <% categories.forEach(cat => { %>
+                  <li>
+                    <div class="shop-widget-content">
+                      <input type="checkbox" name="category" value="<%= cat._id %>" id="<%= cat.name %>" <%= shopCategory && shopCategory.includes(cat._id.toString()) ? "checked" : "" ; %> />
+
+                      <label for="<%= cat.name %>"><%= cat.name %></label>
+                    </div>
+                    <span class="shop-widget-number"><%= cat.count %></span>
+                  </li>
+                  <% }) %>
+
+                </ul>
+                <button class="shop-widget-btn" type="submit">
+                  <i class="fas fa-search"></i><span>search</span>
+                </button>
+              </form>
+            </div>
+
+            <!-- by rating -->
+
+            <h6 class="shop-widget-title">Filter by Rating</h6>
+            <form action="/shop?filter=ratingsAverage" method="GET">
+              <ul class="shop-widget-list">
+                <li>
+                  <div class="shop-widget-content">
+                    <input type="checkbox" id="feat1" name="ratingsAverage" value="5" <%= shopRating && shopRating.includes('5') || shopRating == '5' ? "checked" : "" ; %> /><label for="feat1"><i class="fas fa-star active"></i><i class="fas fa-star active"></i><i class="fas fa-star active"></i><i class="fas fa-star active"></i><i class="fas fa-star active"></i></label>
+                  </div>
+                  <span class="shop-widget-number"></span>
+                </li>
+                <li>
+                  <div class="shop-widget-content">
+                    <input type="checkbox" id="feat2" name="ratingsAverage" value="4" <%= shopRating && shopRating.includes('4') || shopRating == '4' ?  "checked" : "" ; %> /><label for="feat2"><i class="fas fa-star active"></i><i class="fas fa-star active"></i><i class="fas fa-star active"></i><i class="fas fa-star active"></i><i class="fas fa-star"></i></label>
+                  </div>
+                  <span class="shop-widget-number"></span>
+                </li>
+                <li>
+                  <div class="shop-widget-content">
+                    <input type="checkbox" id="feat3" name="ratingsAverage" value="3" <%= shopRating && shopRating.includes('3')  || shopRating == '3' ? "checked" : "" ; %> /><label for="feat3"><i class="fas fa-star active"></i><i class="fas fa-star active"></i><i class="fas fa-star active"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></label>
+                  </div>
+                  <span class="shop-widget-number"></span>
+                </li>
+                <li>
+                  <div class="shop-widget-content">
+                    <input type="checkbox" id="feat4" name="ratingsAverage" value="2" <%= shopRating && shopRating.includes('2')  || shopRating == '2' ? "checked" : "" ; %> /><label for="feat4"><i class="fas fa-star active"></i><i class="fas fa-star active"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></label>
+                  </div>
+                  <span class="shop-widget-number"></span>
+                </li>
+                <li>
+                  <div class="shop-widget-content">
+                    <input type="checkbox" id="feat5" name="ratingsAverage" value="1" <%= shopRating && shopRating.includes('1') || shopRating == '1' ?  "checked" : "" ; %> /><label for="feat5"><i class="fas fa-star active"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></label>
+                  </div>
+                  <span class="shop-widget-number"></span>
+                </li>
+              </ul>
+              <button class="shop-widget-btn" type="submit">
+                <i class="fas fa-search"></i><span>search</span>
+              </button>
+
+            </form>
+          </div>
+        </div>
+        <!---- SideBar Close ---->
+
+
+        <!------------ Content Top  ------------>
+        <div class="col-lg-9">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="top-filter">
+                <div class="filter-show">
+
+                  <label class="filter-label">Show :</label>
+                  <select name="page" onchange="location = this.value;" class="form-select filter-select">
+                    <option value="/shop?limit=12" <%= shopLimit == '12' ? "selected" : "" ; %>>12</option>
+                    <option value="/shop?limit=24" <%= shopLimit == '24' ? "selected" : "" ; %>>24</option>
+                    <option value="/shop?limit=36" <%= shopLimit == '36' ? "selected" : "" ; %>>36</option>
+                  </select>
+
+                </div>
+                <div class="filter-short">
+
+                  <label class="filter-label">Sort by :</label>
+                  <select name="sort" onchange="location = this.value;" class="form-select filter-select">
+                    <option value="/shop?sort=default" selected>default</option>
+                    <option value="/shop?sort=price-ascending" <%= shopSort == 'price-ascending' ? "selected" : "" ; %>>price (low-high)</option>
+                    <option value="/shop?sort=price-descending" <%= shopSort == 'price-descending' ? "selected" : "" ; %>>price (high-low)</option>
+                    <option value="/shop?sort=newly-added" <%= shopSort == 'newly-added' ? "selected" : "" ; %>>newly added</option>
+                    <option value="/shop?sort=popular" <%= shopSort == 'newly-added' ? "selected" : "" ; %>>popular</option>
+                  </select>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row row-cols-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4">
+
+            <!-- Iterate through products -->
+            <!-- EJS Loop -->
+            <% products.forEach(prod => { %>
+
+            <div class="col">
+              <div class="product-card <%= prod.stock <= 0 ? 'product-disable' : '' ; %>">
+
+                <div class="product-media">
+
+                  <% if (prod.stock <= 0) { %>
+                  <div class="product-label">
+                    <label class="label-text stock-out">Sold Out</label>
+                  </div>
+                  <%} else if (prod.stock <= 50) { %>
+                  <div class="product-label">
+                    <label class="label-text rate">Only few left</label>
+                  </div>
+                  <% } else if (prod.discount > 0) { %>
+                  <div class="product-label">
+                    <label class="label-text off">-<%= prod.discount %>%</label>
+                  </div>
+                  <% }  %>
+
+
+                  <button class="product-wish wish <%= (wishlist && wishlist.products.some((el) => el.product._id.toString() == prod._id.toString())) ? 'active': '' ; %>" data-pid="<%= prod._id %>">
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <a class="product-image" href="/product?id=<%= prod._id %>">
+                    <img src="images/product/<%= prod.thumbnail %>" alt="product">
+                  </a>
+                  <div class="product-widget">
+                    <a title="Product Compare" href="compare.html" class="fas fa-random"></a>
+                    <a title="Product View" href="#" class="fas fa-eye" data-bs-toggle="modal" data-bs-target="#id-<%= prod._id %>"></a>
+                  </div>
+                </div>
+                <div class="product-content">
+                  <div class="product-rating">
+
+                    <% for ( let i = 0; i < Math.round(prod.ratingsAverage); i++ ) { %>
+                    <i class="active icofont-star"></i>
+                    <% } %>
+                    <% for( let i = 0; i < 5-Math.round(prod.ratingsAverage); i++ ) { %>
+                    <i class="icofont-star"></i>
+                    <% } %>
+
+                    <a href="/product?id=<%= prod._id %>">(<%= prod.ratingsTotal || 1 %>)</a>
+                  </div>
+                  <h6 class="product-name"><a href="/product?id=<%= prod._id %>"><%= prod.name %></a></h6>
+                  <!-- EJS Loop -->
+                  <% if (prod.discount==0) { %>
+                  <h6 class="product-price"><span>₹<%= prod.price %><small>/<%= prod.unitIn %></small></span></h6>
+                  <% } else { %>
+                  <h6 class="product-price">
+                    <del>₹<%= prod.price %></del>
+                    <span>₹<%=  prod.price*(1- (prod.discount* 0.01)) %><small>/<%= prod.unitIn %></small></span>
+                  </h6>
+                  <% } %>
+                  <!-- EJS Loop -->
+
+                  <% if (prod.stock <= 0) { %>
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Sold Out</span>
+                  </button>
+                  <% } else if (user) { %>
+
+                  <button class="product-add" data-pid="<%= prod._id %>" data-action="add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>add</span>
+                  </button>
+                  <div class="product-action">
+                    <button class="action-minus" title="Quantity Minus">
+                      <i class="icofont-minus"></i></button><input class="action-input" title="Quantity Number" type="text" name="quantity" value="1" /><button class="action-plus" title="Quantity Plus">
+                      <i class="icofont-plus"></i>
+                    </button>
+                  </div>
+                  <!-- <button class="product-add" data-pid="<%= prod._id %>" data-action="add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <input class="action-input" data-pid="<%= prod._id %>" title="Quantity Number" type="text" name="quantity" value="Added to cart" disabled>
+                  </div> -->
+
+                  <% } else if (!user) { %>
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Login to Add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <p class="text-danger">Please login to use the cart</p>
+                  </div>
+                  <% } %>
+
+                </div>
+              </div>
+            </div>
+
+            <% }) %>
+            <!-- EJS Loop -->
+            <!-- /Iterate through products -->
+
+          </div>
+
+          <!-- Pagination -->
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="bottom-paginate">
+                <p class="page-info">Showing <%= shopCurrentTotal %> of <%= shopTotal %> Results</p>
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link" href="/shop?page=<%= (parseInt(shopPage,10)-1 <= 0) ? 1 : parseInt(shopPage,10)-1 ; %>"><i class="fas fa-long-arrow-alt-left"></i></a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link active" href="/shop?page=<%= parseInt(shopPage,10) %>"><%= parseInt(shopPage,10) %></a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="/shop?page=<%= parseInt(shopPage,10)+1 %>"><%= parseInt(shopPage,10)+1 %></a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="/shop?page=<%= parseInt(shopPage,10)+2 %>"><%= parseInt(shopPage,10)+2 %></a>
+                  </li>
+                  <li class="page-item">...</li>
+                  <li class="page-item">
+                    <a class="page-link" href="/shop?page=<%= Math.round(shopTotal/shopLimit) %>"><%= Math.round(shopTotal/shopLimit)  %></a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="/shop?page=<%= parseInt(shopPage,10)+1 %>"><i class="fas fa-long-arrow-alt-right"></i></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- EJS Loop -->
+  <% products.forEach(prod => { %>
+
+  <!------------------- Product view modal --------------------->
+  <div class="modal fade" id="id-<%= prod._id %>">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <button class="modal-close icofont-close" data-bs-dismiss="modal"></button>
+        <div class="product-view">
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="view-gallery">
+
+                <div class="view-label-group">
+                  <% if (prod.stock <= 0) { %>
+                  <label class="view-label stock-out">Sold Out</label>
+                  <%} else if (prod.stock <= 50) { %>
+                  <label class="view-label rate">Only few left</label>
+                  <% } else { %>
+                  <label class="view-label new">new</label><label class="view-label off">-<%= prod.discount %>%</label>
+                  <% }  %>
+                </div>
+
+                <ul class="preview-slider slider-arrow">
+                  <!-- EJS Loop -->
+                  <% prod.images.forEach(element => { %>
+                  <li><img src="/images/product/<%= element %>" alt="product"></li>
+                  <% }) %>
+                  <!-- EJS Loop -->
+                </ul>
+                <ul class="thumb-slider">
+                  <!-- EJS Loop -->
+                  <% prod.images.forEach(element => { %>
+                  <li><img src="/images/product/<%= element %>" alt="product"></li>
+                  <% }) %>
+                  <!-- EJS Loop -->
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="view-details">
+                <h3 class="view-name">
+                  <a href="/product?id=<%= prod._id %>"><%= prod.name %></a>
+                </h3>
+                <div class="view-meta">
+                  <!-- <p>SKU:<span>1234567</span></p> -->
+                  <p>BRAND:<a href="#"><%= prod.brand %></a></p>
+                </div>
+                <div class="view-rating">
+                  <% for( let i = 0; i < (Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="active icofont-star"></i>
+                  <% } %>
+                  <% for( let i = 0; i < (5-Math.round(prod.ratingsAverage)); i++ ) { %>
+                  <i class="icofont-star"></i>
+                  <% } %>
+                  <a href="href=/product?id=<%= prod._id %>">(<%= prod.ratingsTotal || 1 %>)</a>
+                </div>
+                <h3 class="view-price">
+
+                  <% if (prod.discount==0) { %>
+                  <span>₹<%= prod.price %><small>/<%= prod.unitIn %></small></span></h6>
+                  <% } else { %>
+                </h3>
+                <h3 class="view-price">
+                  <del>₹<%= prod.price %></del>
+                  <span>₹<%=  prod.price*(1- (prod.discount* 0.01)) %><small>/<%= prod.unitIn %></small></span>
+                  <% } %>
+
+                </h3>
+
+                <!-- <del>$38.00</del><span>$24.00<small>/per kilo</small></span> -->
+                <p class="view-desc">
+                  <%= prod.description %>
+                </p>
+                <div class="view-list-group">
+                  <label class="view-list-title">tags:</label>
+                  <ul class="view-tag-list">
+                    <!-- EJS Loop -->
+                    <% prod.tags.forEach(tag => { %>
+                    <li><a href="/shop?filter=tags&tag=<%= tag %>"><%= tag %></a></li>
+                    <% }) %>
+                    <!-- EJS Loop -->
+                  </ul>
+                </div>
+                <div class="view-add-group">
+
+                  <% if (prod.stock <= 0) { %>
+
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Sold Out</span>
+                  </button>
+
+                  <% } else if (user) { %>
+
+                  <button class="product-add" data-pid="<%= prod._id %>" data-action="add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <input class="action-input" data-pid="<%= prod._id %>" title="Quantity Number" type="text" name="quantity" value="Added to cart" disabled>
+                  </div>
+
+                  <% } else { %>
+                  <button class="product-add" title="Add to Cart">
+                    <i class="fas fa-shopping-basket"></i><span>Login to Add</span>
+                  </button>
+                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
+                    <p class="text-danger">Please login to use the cart</p>
+                  </div>
+                  <% } %>
+
+
+                </div>
+                <div class="view-action-group">
+                  <a class="view-wish wish <%= (wishlist && wishlist.products.some((el) => el.product._id.toString() == prod._id.toString())) ? 'active': '' ; %>" data-pid="<%= prod._id %>" href="#" title="Add Your Wishlist">
+                    <i class="icofont-heart"></i>
+                    <span>add to wish</span>
+                  </a>
+                  <a class="view-compare" href="#" title="Compare This Item">
+                    <i class="fas fa-random"></i>
+                    <span>Compare This</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% }) %>
+
+
+  <%- include('./partials/__user-features.ejs') %>
+  <%- include('./partials/__user-footer.ejs') %>
+
+  <script src="/vendor/bootstrap/jquery-1.12.4.min.js"></script>
+  <script src="/vendor/bootstrap/popper.min.js"></script>
+  <script src="/vendor/bootstrap/bootstrap.min.js"></script>
+  <script src="/vendor/countdown/countdown.min.js"></script>
+  <script src="/vendor/niceselect/nice-select.min.js"></script>
+  <script src="/vendor/slickslider/slick.min.js"></script>
+  <script src="/vendor/venobox/venobox.min.js"></script>
+  <script src="/js/nice-select.js"></script>
+  <script src="/js/countdown.js"></script>
+  <script src="/js/accordion.js"></script>
+  <script src="/js/venobox.js"></script>
+  <script src="/js/slick.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+
+</html>
