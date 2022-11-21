@@ -320,14 +320,6 @@ exports.cancelOrderUser = catchAsync.user(async (req, res, next) => {
 exports.changeOrderStatus = catchAsync.other(async (req, res, next) => {
   // Validation
   const { status, oid } = req.body;
-  console.log(
-    '🚀 ~ file: orderController.js ~ line 328 ~ exports.changeOrderStatus=catchAsync.admin ~ oid',
-    oid
-  );
-  console.log(
-    '🚀 ~ file: orderController.js ~ line 328 ~ exports.changeOrderStatus=catchAsync.admin ~ status',
-    status
-  );
   if (
     !status ||
     !oid ||

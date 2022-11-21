@@ -25,8 +25,6 @@ exports.renderProductList = catchAsync.admin(async (req, res, next) => {
     .limit(limit)
     .populate('category');
 
-  console.log(products);
-
   res.locals.message = message;
   res.render('admin/product-list', {
     products,
@@ -234,8 +232,6 @@ exports.deleteProduct = catchAsync.admin(async (req, res, next) => {
   const category = await Category.findById(product.category);
   category.totalProducts -= 1;
   category.save();
-
-  console.log(id);
 
   // Deletion
   await Product.findByIdAndDelete(id);

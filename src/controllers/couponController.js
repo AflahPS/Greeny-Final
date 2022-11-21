@@ -45,10 +45,6 @@ exports.renderCouponList = catchAsync.admin(async (req, res, next) => {
   const coupons = await Coupon.find().sort('-createdAt').select('-__v');
   // .skip(skip)
   // .limit(limit);
-  console.log(
-    '🚀 ~ file: couponController.js ~ line 51 ~ exports.renderCouponList=catchAsync.admin ~ coupons',
-    coupons
-  );
 
   res.locals.message = message;
   res.render('admin/coupon-list', {
@@ -227,7 +223,6 @@ exports.verifyCoupon = catchAsync.other(async (req, res, next) => {
   }
 
   if (!coupon) {
-    console.log('Cannot find coupon');
     return res.json({
       status: 'failed',
       message: 'Cannot find coupon!',
@@ -273,7 +268,6 @@ exports.verifyCoupon = catchAsync.other(async (req, res, next) => {
       cart,
     });
   }
-  console.log('failed to apply coupon discount !');
   return res.json({
     status: 'failed',
     message: 'failed to apply coupon discount !',

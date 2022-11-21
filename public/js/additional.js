@@ -9,7 +9,6 @@ const remPayProfile = async (i) => {
         index: i,
       },
     });
-    console.log(res.status);
   } catch (err) {
     console.log(err.message);
   }
@@ -24,7 +23,7 @@ const remAddressCheckout = async (i) => {
         index: i,
       },
     });
-    console.log(res.status);
+    // console.log(res.status);
   } catch (err) {
     console.log(err.message);
   }
@@ -38,7 +37,7 @@ const remPayCheckout = async (i) => {
         index: i,
       },
     });
-    console.log(res.status);
+    // console.log(res.status);
   } catch (err) {
     console.log(err.message);
   }
@@ -53,7 +52,7 @@ const remAddressProfile = async (i) => {
         index: i,
       },
     });
-    console.log(res.status);
+    // console.log(res.status);
   } catch (err) {
     console.log(err.message);
   }

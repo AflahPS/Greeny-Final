@@ -107,10 +107,6 @@ exports.logout = catchAsync.user(async (req, res, next) => {
 ////////////////////////////////////////////////////////////////////////////////
 exports.changePassword = catchAsync.user(async (req, res, next) => {
   const { oldPassword, newPassword, repeatPassword } = req.body;
-  console.log(
-    '🚀 ~ file: authController.js ~ line 109 ~ exports.changePassword=catchAsync.user ~ req.body',
-    req.body
-  );
   if (!oldPassword || !newPassword || !repeatPassword) {
     return res.render('auth/change-password', {
       message: 'Fill in the fields !!',

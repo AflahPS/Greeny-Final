@@ -91,7 +91,6 @@ const addToCart = async (cart, product, uid) => {
 ///////////////////////////////////////////////////////////////////////////////////////////
 const removeFromCart = async (uid, pid) => {
   const product = await Product.findById(pid);
-  console.log(product);
   const cart = await Cart.findOne({ user: uid, cartType: 'cart' }).populate(
     'products.product'
   );

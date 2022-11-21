@@ -3,7 +3,6 @@ const sharp = require('sharp');
 const multer = require('multer');
 const moment = require('moment');
 const User = require('../models/user');
-const Coupon = require('../models/coupon');
 const Cart = require('../models/cart');
 const catchAsync = require('../utils/catchAsync');
 
@@ -219,7 +218,6 @@ exports.removePaymentProfile = catchAsync.user(async (req, res, next) => {
 exports.removeAddressCheckout = catchAsync.user(async (req, res, next) => {
   const { index } = req.body;
   const user = await User.findById(req.session.user._id);
-  console.log(user.address);
   user.address.splice(index, 1);
   await User.findByIdAndUpdate(user._id, user);
 
@@ -254,30 +252,6 @@ exports.userPopulator = catchAsync.user(async (req, res, next) => {
     }).populate('products.product');
 
     if (cart) {
-      // && cart.products.length && cart.products[0].product.name) {
-
-      // if (cart.couponUsed && cart.couponUsed.couponCode) {
-      //   const coupon = cart.couponUsed;
-
-      //   const totalNoDiscount = cart.products.reduce(
-      //     (acc, cur) => acc + cur.product.price * cur.quantity,
-      //     0
-      //   );
-      //   const cartActualDiscount = cart.products.reduce(
-      //     (acc, cur) =>
-      //       acc +
-      //       (cur.quantity * cur.product.price * cur.product.discount) / 100,
-      //     0
-      //   );
-
-      //   let couponDiscount;
-      //   if (coupon.couponType === 'flat') {
-      //     couponDiscount = coupon.discount;
-      //   } else if (coupon.couponType === 'percentage') {
-      //     couponDiscount = (totalNoDiscount * coupon.discount) / 100;
-      //   }
-      // }
-
       req.session.cart = cart;
       res.locals.cart = cart;
     } else {
