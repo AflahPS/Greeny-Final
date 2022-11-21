@@ -83,5 +83,7 @@ app.all('*', (req, res, next) => {
   res.render('user/error', { user: null });
 });
 
-const port = process.env.PORT, || '3000';
-app.listen(port,'127.0.0.1' , () => console.log(`Server running on port: ${port}`));
+const port = process.env.PORT || '3000';
+app.listen(port, '127.0.0.1', () =>
+  console.log(`Server running on port: ${port}`)
+);
