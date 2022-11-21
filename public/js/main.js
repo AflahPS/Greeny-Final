@@ -94,9 +94,6 @@ $(window).on('scroll', function () {
     } else {
       alert(res.data.message);
     }
-
-    console.log(res.data);
-    console.log(res.data.message);
   }),
   $('.review-widget-btn').on('click', function () {
     $(this).next('.review-widget-list').toggle();
@@ -238,7 +235,6 @@ $(window).on('scroll', function () {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, Proceed !',
     });
-    console.log(result);
     if (result.isConfirmed) {
       res = await axios({
         method: 'post',
@@ -521,8 +517,6 @@ function setEventListenersCart() {
       .children('.action-input')
       .get(0).value;
     const pid = $(this).data('pid');
-    console.log(pid);
-
     value == 1 && $(this).attr('disabled', 'disabled');
 
     if (value == 1) {

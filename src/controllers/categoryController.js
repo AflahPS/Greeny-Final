@@ -113,8 +113,6 @@ exports.addCategory = catchAsync.admin(async (req, res, next) => {
   }
   body.lastUpdatedBy = req.session.user._id;
 
-  console.log(body);
-
   // Create Category
   await Category.create(body);
   message = 'Category created successfully !';

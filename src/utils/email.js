@@ -1,8 +1,6 @@
 const nodemailer = require('nodemailer');
 
 const sendEmail = async (options) => {
-  console.log(process.env.SENDGRID_USER);
-  console.log(process.env.SENDGRID_PASS);
   //1) Create a transporter
   const transporter = nodemailer.createTransport({
     service: 'SendGrid',

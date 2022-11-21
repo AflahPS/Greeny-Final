@@ -272,7 +272,6 @@ if (orderSelect) {
       },
     });
 
-    console.log(res.data);
     if (res.data.status === 'success') {
       window.location.href = `/admin/order-single?id=${oid}`;
     }
