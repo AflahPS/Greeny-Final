@@ -68,7 +68,7 @@ app.use((req, res, next) => {
 app.use('/', commonRouter);
 app.use(
   '/admin',
-  // authController.redirectLogin,
+  authController.redirectLogin,
   authController.restrictTo('admin'),
   userController.adminPopulator,
   adminRouter

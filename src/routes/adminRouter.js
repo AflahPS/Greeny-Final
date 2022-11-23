@@ -34,17 +34,14 @@ router
     categoryController.uploadCategoryThumb,
     categoryController.resizeCategoryThumb,
     categoryController.addCategory
-  );
-
-router
-  .route('/category-update')
-  .post(
+  )
+  .patch(
     categoryController.uploadCategoryThumb,
     categoryController.resizeCategoryThumb,
     categoryController.updateCategory
-  );
+  )
+  .delete(categoryController.deleteCategory);
 
-router.route('/delete-category').get(categoryController.deleteCategory);
 router.route('/ban-category').get(categoryController.banCategory);
 
 //////////////////////////////// Product //////////////////////////////
@@ -63,7 +60,7 @@ router
     productController.resizeProductPic,
     productController.addProduct
   );
-
+//TODO: PATCH method
 router
   .route('/product-update')
   .post(
@@ -71,7 +68,7 @@ router
     productController.resizeProductPic,
     productController.updateProduct
   );
-
+//TODO: DELETE method
 router.route('/delete-product').get(productController.deleteProduct);
 router.route('/ban-product').get(productController.banProduct);
 
@@ -83,6 +80,7 @@ router.route('/user-single').get(userController.renderUserSingle);
 
 // CRUD Ops
 router.route('/user').post(userController.addUser);
+//TODO: DELETE method
 router.route('/delete-user').get(userController.deleteUser);
 router.route('/ban-user').get(userController.banUser);
 
@@ -90,7 +88,9 @@ router.route('/ban-user').get(userController.banUser);
 
 router.route('/order-list').get(orderController.renderOrderListAdmin);
 router.route('/order-single').get(orderController.renderOrderSingle);
+//TODO: PATCH method
 router.route('/order-cancel').get(orderController.cancelOrderAdmin);
+//TODO: PATCH method
 router.route('/order-status').patch(orderController.changeOrderStatus);
 
 //////////////////////////////// Coupon ////////////////////////////////
@@ -108,7 +108,7 @@ router
     couponController.resizeCouponThumb,
     couponController.addCoupon
   );
-
+//TODO: PATCH method
 router
   .route('/coupon-update')
   .post(
@@ -116,7 +116,7 @@ router
     couponController.resizeCouponThumb,
     couponController.editCoupon
   );
-
+//TODO: DELETE method
 router.route('/delete-coupon').get(couponController.deleteCoupon);
 
 router.route('/ban-coupon').get(couponController.banCoupon);
@@ -134,7 +134,7 @@ router
     bannerController.resizeBannerImage,
     bannerController.addBanner
   );
-
+//TODO: PATCH method
 router
   .route('/banner-update')
   .get(bannerController.renderEditBanner)
@@ -143,7 +143,7 @@ router
     bannerController.resizeBannerImage,
     bannerController.editBanner
   );
-
+//TODO: DELETE method
 router.route('/delete-banner').get(bannerController.deleteBanner);
 router.route('/ban-banner').get(bannerController.applyBanner);
 

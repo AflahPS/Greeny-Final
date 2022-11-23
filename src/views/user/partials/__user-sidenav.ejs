@@ -1,7 +1,7 @@
 <aside class="nav-sidebar">
   <div class="nav-header"><a href="#"><img src="/images/logo.png" alt="logo"></a><button class="nav-close"><i class="icofont-close"></i></button></div>
   <div class="nav-content">
-    <div class="nav-btn"><a href="login.html" class="btn btn-inline"><i class="fa fa-unlock-alt"></i><span>join
+    <div class="nav-btn"><a href="/login" class="btn btn-inline"><i class="fa fa-unlock-alt"></i><span>join
           here</span></a></div>
 
     <ul class="nav-list">
@@ -9,6 +9,8 @@
       </li>
       <li><a class="nav-link dropdown-link" href="#"><i class="icofont-food-cart"></i>shop</a>
       </li>
+      <% if (user != 'undefined' && user) { %>
+
       <li><a class="nav-link dropdown-link" href="#"><i class="icofont-bag-alt"></i>my account</a>
         <ul class="dropdown-list">
           <li><a href="/profile">profile</a></li>
@@ -17,6 +19,8 @@
           <li><a href="/orders">order history</a></li>
         </ul>
       </li>
+
+      <% } %>
       <li><a class="nav-link" href="/logout"><i class="icofont-logout"></i>logout</a></li>
     </ul>
     <div class="nav-info-group">

@@ -132,7 +132,7 @@
               <% } %>
 
             </div>
-            <div class="details-action-group"><a class="details-wish wish <%= (wishlist && wishlist.products.some((el) => el.product._id.toString() == product._id.toString())) ? 'active': '' ; %>" data-pid="<%= product._id %>" href="#" title="Add Your Wishlist"><i class="icofont-heart"></i><span>add to wish</span></a><a class="details-compare" href="compare.html" title="Compare This Item"><i class="fas fa-random"></i><span>Compare This</span></a></div>
+            <div class="details-action-group"><a class="details-wish wish <%= (wishlist && wishlist.products.some((el) => el.product._id.toString() == product._id.toString())) ? 'active': '' ; %>" data-pid="<%= product._id %>" href="#" title="Add Your Wishlist"><i class="icofont-heart"></i><span>add to wish</span></a><a class="details-compare" href="#" title="Compare This Item"><i class="fas fa-random"></i><span>Compare This</span></a></div>
           </div>
         </div>
       </div>
@@ -430,7 +430,7 @@
                     <i class="icofont-heart"></i>
                     <span>add to wish</span>
                   </a>
-                  <a class="view-compare" href="compare.html" title="Compare This Item">
+                  <a class="view-compare" href="#" title="Compare This Item">
                     <i class="fas fa-random"></i>
                     <span>Compare This</span>
                   </a>

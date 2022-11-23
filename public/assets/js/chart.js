@@ -415,7 +415,7 @@ $(document).ready(async function () {
         /*var activePoints = myBarChart.getElementsAtEvent(e);
       var selectedIndex = activePoints[0]._index; */
         /* alert(this.data.datasets[0].data[selectedIndex]);
-      console.log(this.data.datasets[0].data[selectedIndex]);
+       .log(this.data.datasets[0].data[selectedIndex]);
       */
       },
     });

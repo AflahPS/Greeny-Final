@@ -139,7 +139,7 @@
                 <div class="card-body">
                   <div class="row ec-vendor-uploads">
 
-                    <form class="row g-3" action="/admin/category-update?id=<%= category._id %>" method="post" enctype="multipart/form-data">
+                    <form class="row g-3" id="category-update-form" data-cat-id="<%= category._id %>" action="/admin/category-update?id=<%= category._id %>" method="post" enctype="multipart/form-data">
 
                       <div class="col-lg-4">
                         <div class="ec-vendor-img-upload">
@@ -160,12 +160,14 @@
                       </div>
                       <div class="col-lg-8">
                         <div class="ec-vendor-upload-detail">
-                          <div class="col-md-6">
+                          <div class="col-md-6 col-lg-10">
                             <label for="name" class="form-label">Product Name</label>
                             <input type="text" name="name" class="form-control slug-title" id="name" value="<%= category.name %>" required>
                           </div>
-                          <div class="col-md-12 mt-3">
+                          <div class="col-md-12 col-lg-8 mt-3">
                             <button type="submit" class="btn btn-primary">Submit</button>
+                            <p class="mt-2" id="error-msg" style="color: orangered ;"><%= message %></p>
+                            <p class="mt-2" id="success-msg" style="color: green ;"><%= message %></p>
                           </div>
                         </div>
                       </div>

@@ -137,26 +137,6 @@ exports.addAddressCheckout = catchAsync.user(async (req, res, next) => {
 });
 
 //////////////////////////////////////////////////////////////////////////////
-exports.addPaymentProfile = catchAsync.user(async (req, res, next) => {
-  const data = { ...req.body };
-  const user = await User.findById(req.session.user._id);
-  user.payment.push(data);
-  await User.findByIdAndUpdate(user._id, user);
-
-  res.redirect('/profile');
-});
-
-//////////////////////////////////////////////////////////////////////////////
-exports.addPaymentCheckout = catchAsync.user(async (req, res, next) => {
-  const data = { ...req.body };
-  const user = await User.findById(req.session.user._id);
-  user.payment.push(data);
-  await User.findByIdAndUpdate(user._id, user);
-
-  res.redirect('/checkout');
-});
-
-//////////////////////////////////////////////////////////////////////////////
 exports.editProfile = catchAsync.user(async (req, res, next) => {
   const data = { ...req.body };
   if (req.file) {
@@ -199,16 +179,6 @@ exports.removeAddressProfile = catchAsync.user(async (req, res, next) => {
   const user = await User.findById(req.session.user._id);
   console.log(user.address);
   user.address.splice(index, 1);
-  await User.findByIdAndUpdate(user._id, user);
-
-  req.session.user = await User.findById(user._id);
-});
-
-//////////////////////////////////////////////////////////////////////////////
-exports.removePaymentProfile = catchAsync.user(async (req, res, next) => {
-  const { index } = req.body;
-  const user = await User.findById(req.session.user._id);
-  user.payment.splice(index, 1);
   await User.findByIdAndUpdate(user._id, user);
 
   req.session.user = await User.findById(user._id);

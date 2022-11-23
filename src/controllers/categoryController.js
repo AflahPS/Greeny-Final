@@ -74,12 +74,12 @@ const upload = multer({
 exports.uploadCategoryThumb = upload.single('thumbnail');
 
 ////////////////////////////////////////////////////////////////////////////
-exports.resizeCategoryThumb = (req, res, next) => {
+exports.resizeCategoryThumb = catchAsync.other(async (req, res, next) => {
   if (!req.file || !req.file.buffer) return next();
 
   req.file.filename = `${req.body.name}-${Date.now()}.jpeg`;
 
-  sharp(req.file.buffer)
+  await sharp(req.file.buffer)
     .resize(150, 150)
     .toFormat('jpeg')
     .jpeg({
@@ -88,7 +88,7 @@ exports.resizeCategoryThumb = (req, res, next) => {
     .toFile(`public/images/category/${req.file.filename}`);
 
   next();
-};
+});
 
 ////////////////////////////////////////////////////////////////////////
 exports.addCategory = catchAsync.admin(async (req, res, next) => {
@@ -120,7 +120,7 @@ exports.addCategory = catchAsync.admin(async (req, res, next) => {
 });
 
 ////////////////////////////////////////////////////////////////////////
-exports.updateCategory = catchAsync.admin(async (req, res, next) => {
+exports.updateCategory = catchAsync.other(async (req, res, next) => {
   // Validation
   const { id } = req.query;
   const body = { ...req.body };
@@ -129,28 +129,38 @@ exports.updateCategory = catchAsync.admin(async (req, res, next) => {
   }
   if (!body.name) {
     message = 'No/Invalid data provided!';
-    return res.redirect('/admin/category-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
   // data refinement
   if (req.file) {
     body.thumbnail = req.file.filename;
   }
   body.lastUpdatedBy = req.session.user._id;
-
-  const category = await Category.findByIdAndUpdate(id, body);
+  const category = await Category.findByIdAndUpdate(id, body, {
+    runValidators: true,
+  });
 
   // Check if category updated
   if (!category) {
     message = 'Category Not found in database!';
-    return res.redirect('/admin/category-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
 
   message = 'Category updated successfully !';
-  res.redirect('/admin/category-list');
+  res.json({
+    status: 'success',
+    message,
+  });
 });
 
 ////////////////////////////////////////////////////////////////////////
-exports.deleteCategory = catchAsync.admin(async (req, res, next) => {
+exports.deleteCategory = catchAsync.other(async (req, res, next) => {
   // Validation
   const { id } = req.query;
   if (!id) {
@@ -160,13 +170,19 @@ exports.deleteCategory = catchAsync.admin(async (req, res, next) => {
   // Check if category has products in it
   if (category.totalProducts > 0) {
     message = `Category is not empty, total products: ${category.totalProducts}`;
-    return res.redirect('/admin/category-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
 
   // Deletion
   await Category.findByIdAndDelete(id);
   message = 'Successfully deleted the category !';
-  res.redirect('/admin/category-list');
+  res.json({
+    status: 'success',
+    message,
+  });
 });
 
 //////////////////////////////////////////////////////////////////////
