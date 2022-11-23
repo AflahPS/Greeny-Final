@@ -120,7 +120,7 @@ exports.addCoupon = catchAsync.admin(async (req, res, next) => {
 });
 
 ////////////////////////////////////////////////////////////////////////////
-exports.editCoupon = catchAsync.admin(async (req, res, next) => {
+exports.editCoupon = catchAsync.other(async (req, res, next) => {
   const { id } = req.query;
   const data = { ...req.body };
   // Validation
@@ -139,14 +139,20 @@ exports.editCoupon = catchAsync.admin(async (req, res, next) => {
     !data.description
   ) {
     message = 'Not found valid data on fields while creating Coupon !';
-    res.redirect('/admin/coupon-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
   if (
     (data.couponType === 'percentage' && parseFloat(data.couponType) > 90) ||
     parseFloat(data.couponType) <= 0
   ) {
     message = 'Not found valid data on fields while creating Coupon !';
-    res.redirect('/admin/coupon-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
 
   // data refinement
@@ -167,22 +173,31 @@ exports.editCoupon = catchAsync.admin(async (req, res, next) => {
 
   if (!newCoupon) {
     message = 'Not found the Coupon !';
-    return res.redirect('/admin/coupon-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
 
   message = 'coupon Edited successfully !';
-  res.redirect('/admin/coupon-list');
+  res.json({
+    status: 'success',
+    message,
+  });
 });
 
 ////////////////////////////////////////////////////////////////////////////
-exports.deleteCoupon = catchAsync.admin(async (req, res, next) => {
+exports.deleteCoupon = catchAsync.other(async (req, res, next) => {
   const { id } = req.query;
   if (!id) {
     throw new Error('Invalid id provided for the coupon');
   }
   await Coupon.findByIdAndDelete(id);
   message = 'Successfully deleted the coupon !';
-  res.redirect('/admin/coupon-list');
+  res.json({
+    status: 'success',
+    message,
+  });
 });
 
 ////////////////////////////////////////////////////////////////////////////

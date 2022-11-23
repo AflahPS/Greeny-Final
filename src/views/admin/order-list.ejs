@@ -182,7 +182,7 @@
                                 <a class="dropdown-item" href="/admin/order-single?id=<%= order._id %>">Detail</a>
                                 <% if (order.status != 'cancelled' && order.status != 'delivered') { %>
 
-                                <a class="dropdown-item" onclick="return confirm('Are you sure you want to cancel this order ?');" href="/admin/order-cancel?id=<%= order._id %>">Cancel</a>
+                                <button class="dropdown-item" onclick="orderCancel(this)" data-oid="<%= order._id %>">Cancel</button>
                                 <% } %>
                               </div>
                             </div>

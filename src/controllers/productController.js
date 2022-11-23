@@ -183,7 +183,7 @@ exports.addProduct = catchAsync.admin(async (req, res, next) => {
 });
 
 ////////////////////////////////////////////////////////////////////////
-exports.updateProduct = catchAsync.admin(async (req, res, next) => {
+exports.updateProduct = catchAsync.other(async (req, res, next) => {
   const { id } = req.query;
   const data = { ...req.body };
   // Validation
@@ -200,7 +200,10 @@ exports.updateProduct = catchAsync.admin(async (req, res, next) => {
     !data.tags
   ) {
     message = 'Failed to add product: invalid/no data on fields !';
-    return res.redirect('/admin/product-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
 
   // data refinement
@@ -212,14 +215,21 @@ exports.updateProduct = catchAsync.admin(async (req, res, next) => {
 
   // Update the product
   await Product.findByIdAndUpdate(id, data);
-  message = 'Product edited successfully !';
-  res.redirect(`/admin/product-single?id=${id}`);
+  message = 'Product updated successfully !';
+  res.json({
+    status: 'success',
+    message,
+  });
 });
 
 ////////////////////////////////////////////////////////////////////////
-exports.deleteProduct = catchAsync.admin(async (req, res, next) => {
+exports.deleteProduct = catchAsync.other(async (req, res, next) => {
   // Validation
   const { id } = req.query;
+  console.log(
+    '🚀 ~ file: productController.js ~ line 229 ~ exports.deleteProduct ~ id',
+    id
+  );
   if (!id) {
     throw new Error('No Id to delete the product!');
   }
@@ -236,7 +246,10 @@ exports.deleteProduct = catchAsync.admin(async (req, res, next) => {
   // Deletion
   await Product.findByIdAndDelete(id);
   message = 'Successfully deleted the product !';
-  res.redirect('/admin/product-list');
+  res.json({
+    status: 'success',
+    message,
+  });
 });
 
 //////////////////////////////////////////////////////////////////////

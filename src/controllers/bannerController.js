@@ -101,9 +101,17 @@ exports.addBanner = catchAsync.admin(async (req, res, next) => {
 });
 
 ////////////////////////////////////////////////////////////////////////////
-exports.editBanner = catchAsync.admin(async (req, res, next) => {
+exports.editBanner = catchAsync.other(async (req, res, next) => {
   const data = { ...req.body };
   const { id } = req.query;
+  console.log(
+    '🚀 ~ file: bannerController.js ~ line 107 ~ exports.editBanner=catchAsync.other ~ id',
+    id
+  );
+  console.log(
+    '🚀 ~ file: bannerController.js ~ line 107 ~ exports.editBanner=catchAsync.other ~ id',
+    typeof id
+  );
 
   // Validation
   if (
@@ -114,7 +122,10 @@ exports.editBanner = catchAsync.admin(async (req, res, next) => {
     !data.textContent
   ) {
     message = 'Not found valid data on fields while creating Banner !';
-    res.redirect('/admin/banner-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
 
   // data refinement
@@ -130,22 +141,31 @@ exports.editBanner = catchAsync.admin(async (req, res, next) => {
 
   if (!banner) {
     message = 'Not found valid data to create Banner !';
-    res.redirect('/admin/banner-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
 
   message = 'banner updated successfully !';
-  res.redirect('/admin/banner-list');
+  res.json({
+    status: 'success',
+    message,
+  });
 });
 
 ////////////////////////////////////////////////////////////////////////////
-exports.deleteBanner = catchAsync.admin(async (req, res, next) => {
+exports.deleteBanner = catchAsync.other(async (req, res, next) => {
   const { id } = req.query;
   if (!id) {
     throw new Error('Invalid id provided for the banner');
   }
   await Banner.findByIdAndDelete(id);
   message = 'Successfully deleted the coupon !';
-  res.redirect('/admin/banner-list');
+  res.json({
+    status: 'success',
+    message,
+  });
 });
 
 ////////////////////////////////////////////////////////////////////////////

@@ -1,8 +1,8 @@
 /* eslint-disable */
 
-const errMessage = document.querySelector('#errMessage');
-if (errMessage != undefined && errMessage) {
+const eMessage = document.querySelector('#errMessage');
+if (eMessage != undefined && eMessage) {
   setTimeout(() => {
-    errMessage.style.display = 'none';
+    eMessage.style.display = 'none';
   }, 3500);
 }

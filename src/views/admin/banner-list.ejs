@@ -132,6 +132,10 @@
             </div>
             <% } %>
             <div>
+              <p class="mt-2" id="error-msg" style="color: orangered ;"></p>
+              <p class="mt-2" id="success-msg" style="color: green ;"></p>
+            </div>
+            <div>
               <div>
                 <a href="/admin/banner-add" class="btn btn-primary">Add Banner</a>
               </div>
@@ -167,7 +171,7 @@
                           <td><%= moment(banner.createdAt).format("MMM Do YY") %></td>
                           <td>
                             <div class="btn-group mb-1">
-                              <a type="button" href="/admin/banner-single?id=<%= banner._id %>" class="btn btn-outline-success">Info</a>
+                              <a type="button" href="/admin/banner-update?id=<%= banner._id %>" class="btn btn-outline-success">Info</a>
                               <button type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <span class="sr-only">Info</span>
                               </button>
@@ -179,7 +183,7 @@
                                 <% } else { %>
                                 <a class="dropdown-item" href="/admin/ban-banner?id=<%= banner._id %>" onclick="return confirm('Are you sure you want to activate this banner?');">Activate</a>
                                 <% } %>
-                                <a class="dropdown-item" href="/admin/delete-banner?id=<%= banner._id %>" onclick="return confirm('Are you sure you want to delete this banner?');">Delete</a>
+                                <button class="dropdown-item" data-bid="<%= banner._id %>" onclick="deleteBanner(this)">Delete</button>
                               </div>
                             </div>
                           </td>

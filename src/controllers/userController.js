@@ -85,17 +85,21 @@ exports.addUser = catchAsync.admin(async (req, res, next) => {
 });
 
 ////////////////////////////////////////////////////////////////////////
-exports.deleteUser = catchAsync.admin(async (req, res, next) => {
+exports.deleteUser = catchAsync.other(async (req, res, next) => {
   // Validation
   const { id } = req.query;
+
   if (!id) {
     throw new Error('Invalid id provided for the user');
   }
 
   // Deletion
-  await User.findOneAndDelete(id);
+  await User.findByIdAndDelete(id);
   message = 'Successfully deleted the user !';
-  res.redirect('/admin/user-list');
+  res.json({
+    status: 'success',
+    message,
+  });
 });
 
 ////////////////////////////////////////////////////////////////////////

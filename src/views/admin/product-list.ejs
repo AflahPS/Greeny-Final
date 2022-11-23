@@ -131,6 +131,11 @@
                 <span><strong>Last Action: </strong></span><%= message %></span>
             </div>
             <% } %>
+
+            <div>
+              <p class="mt-2" id="error-msg" style="color: orangered ;"></p>
+              <p class="mt-2" id="success-msg" style="color: green ;"></p>
+            </div>
             <div>
               <div>
                 <a href="/admin/product-add" class="btn btn-primary"> Add Porduct</a>
@@ -197,7 +202,7 @@
                                 <% } else { %>
                                 <a class="dropdown-item" href="/admin/ban-product?id=<%= product._id %>" onclick="return confirm('Are you sure you want to activate this product?');">Activate</a>
                                 <% } %>
-                                <a class="dropdown-item" href="/admin/delete-product?id=<%= product._id %>" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+                                <button class="dropdown-item" data-pid="<%= product._id %>" onclick="deleteProduct(this)">Delete</button>
                               </div>
                             </div>
                           </td>

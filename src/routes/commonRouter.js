@@ -25,7 +25,6 @@ router
   .post(authController.resetAndMailPassword);
 
 router.route('/logout').get(authController.logout);
-//TODO: PATCH method
 router
   .route('/change-password')
   .get(authController.redirectLogin, authController.renderChanePassword)
@@ -85,7 +84,7 @@ router
     userController.userPopulator,
     orderController.renderOrderListUser
   );
-//TODO: PATCH method
+
 router
   .route('/profile-add-address')
   .post(
@@ -93,7 +92,7 @@ router
     userController.userPopulator,
     userController.addAddressProfile
   );
-//TODO: PATCH method
+
 router
   .route('/profile-edit-details')
   .post(
@@ -104,7 +103,6 @@ router
     userController.editProfile
   );
 
-//TODO: PATCH method
 router
   .route('/profile-edit-address')
   .post(
@@ -112,41 +110,41 @@ router
     userController.userPopulator,
     userController.editAddressProfile
   );
-//TODO: PATCH method
+
 router
   .route('/profile-remove-address')
-  .post(authController.redirectLogin, userController.removeAddressProfile);
+  .patch(authController.redirectLogin, userController.removeAddressProfile);
 
 ///////////////////////////////////////////////////////////////////////////
 ////////////////////////////////// CART ///////////////////////////////////
 
 router
   .route('/cart-main')
-  .post(
+  .patch(
     cartController.checkUserBeforeCartAction,
     userController.userPopulator,
     cartController.addToCartAction
   );
-//TODO: PATCH method
+
 router
   .route('/cart-plus')
-  .post(
+  .patch(
     cartController.checkUserBeforeCartAction,
     userController.userPopulator,
     cartController.plusAction
   );
-//TODO: PATCH method
+
 router
   .route('/cart-minus')
-  .post(
+  .patch(
     cartController.checkUserBeforeCartAction,
     userController.userPopulator,
     cartController.minusAction
   );
-//TODO: PATCH method
+
 router
   .route('/cart-remove')
-  .post(
+  .patch(
     cartController.checkUserBeforeCartAction,
     userController.userPopulator,
     cartController.removeProductFromCart
@@ -162,18 +160,18 @@ router
     userController.userPopulator,
     commonController.renderWishlist
   );
-//TODO: PATCH method
+
 router
   .route('/wish-main')
-  .post(
+  .patch(
     cartController.checkUserBeforeWishAction,
     userController.userPopulator,
     cartController.addToWishAction
   );
-//TODO: PATCH method
+
 router
   .route('/wish-remove')
-  .post(
+  .patch(
     cartController.checkUserBeforeWishAction,
     userController.userPopulator,
     cartController.removeProductFromWish
@@ -189,7 +187,7 @@ router
     userController.userPopulator,
     orderController.renderCheckout
   );
-//TODO: PATCH method
+
 router
   .route('/checkout-add-address')
   .post(
@@ -197,11 +195,11 @@ router
     userController.userPopulator,
     userController.addAddressCheckout
   );
-//TODO: PATCH method
+
 router
   .route('/checkout-remove-address')
-  .post(authController.redirectLogin, userController.removeAddressCheckout);
-//TODO: PATCH method
+  .patch(authController.redirectLogin, userController.removeAddressCheckout);
+
 router
   .route('/checkout-edit-address')
   .post(
@@ -233,7 +231,7 @@ router
     userController.userPopulator,
     couponController.verifyCoupon
   );
-//TODO: PATCH method
+
 router
   .route('/order-cancel')
   .get(

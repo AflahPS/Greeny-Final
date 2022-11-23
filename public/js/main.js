@@ -74,7 +74,7 @@ $(window).on('scroll', function () {
     const pid = $(this).data('pid');
 
     const res = await axios({
-      method: 'post',
+      method: 'patch',
       url: '/wish-main',
       data: {
         pid,
@@ -135,7 +135,7 @@ $(window).on('scroll', function () {
     }
 
     const res = await axios({
-      method: 'post',
+      method: 'patch',
       url: '/cart-main',
       data: {
         pid,
@@ -394,7 +394,7 @@ $('a.trash.wishlist').on('click', async function (ev) {
   ev.preventDefault();
   const pid = $(this).data('pid');
   const res = await axios({
-    method: 'POST',
+    method: 'patch',
     url: '/wish-remove',
     data: {
       pid,
@@ -484,7 +484,7 @@ function setEventListenersCart() {
 
     const pid = $(this).data('pid');
     const res = await axios({
-      method: 'post',
+      method: 'patch',
       url: '/cart-remove',
       data: {
         pid,
@@ -521,7 +521,7 @@ function setEventListenersCart() {
 
     if (value == 1) {
       const resp = await axios({
-        method: 'post',
+        method: 'patch',
         url: '/cart-remove',
         data: {
           pid,
@@ -606,7 +606,7 @@ function setEventListenersCart() {
       }
     } else if (value > 0) {
       const res = await axios({
-        method: 'post',
+        method: 'patch',
         url: '/cart-minus',
         data: {
           pid,
@@ -727,7 +727,7 @@ function setEventListenersCart() {
       });
     } else {
       const res = await axios({
-        method: 'post',
+        method: 'patch',
         url: '/cart-plus',
         data: {
           pid,
@@ -850,7 +850,7 @@ function recursive() {
     e.preventDefault();
     const pid = $(this).data('pid');
     const res = await axios({
-      method: 'post',
+      method: 'patch',
       url: '/cart-remove',
       data: {
         pid,

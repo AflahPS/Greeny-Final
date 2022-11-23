@@ -280,7 +280,7 @@ exports.renderOrderSingle = catchAsync.admin(async (req, res, next) => {
 
 //////////////////////////////////////////////////////////////////////////////
 
-exports.cancelOrderAdmin = catchAsync.admin(async (req, res, next) => {
+exports.cancelOrderAdmin = catchAsync.other(async (req, res, next) => {
   // Validation
   const { id } = req.query;
   if (!id) {
@@ -295,7 +295,10 @@ exports.cancelOrderAdmin = catchAsync.admin(async (req, res, next) => {
   order.status = 'cancelled';
   await order.save();
   message = `Order (Order Id: ${order.oid}) cancelled`;
-  res.redirect('/admin/order-list');
+  res.json({
+    status: 'success',
+    message,
+  });
 });
 //////////////////////////////////////////////////////////////////////////////
 

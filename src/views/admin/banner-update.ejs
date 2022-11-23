@@ -139,7 +139,7 @@
 
                 <div class="card-body">
                   <div class="row ec-vendor-uploads">
-                    <form class="row g-3" action="/admin/banner-update?id=<%= banner._id %>" method="post" enctype="multipart/form-data">
+                    <form class="row g-3" id="banner-update-form" data-bid="<%=  banner._id %>" enctype="multipart/form-data">
                       <div class="col-lg-4">
                         <div class="ec-vendor-img-upload my-5">
                           <div class="ec-vendor-main-img">
@@ -189,6 +189,8 @@
 
                           <div class="col-lg-12 my-5">
                             <button type="submit" class="btn btn-primary">Submit</button>
+                            <p class="mt-2" id="error-msg" style="color: orangered ;"></p>
+                            <p class="mt-2" id="success-msg" style="color: green ;"></p>
                           </div>
                     </form>
                   </div>
