@@ -1,15 +1,19 @@
 <aside class="nav-sidebar">
   <div class="nav-header"><a href="#"><img src="/images/logo.png" alt="logo"></a><button class="nav-close"><i class="icofont-close"></i></button></div>
   <div class="nav-content">
-    <div class="nav-btn"><a href="/login" class="btn btn-inline"><i class="fa fa-unlock-alt"></i><span>join
-          here</span></a></div>
-
+    <% if (typeof user == 'undefined' || !user) { %>
+    <div class="nav-btn">
+      <a href="/login" class="btn btn-inline">
+        <i class="fa fa-unlock-alt"></i><span>join here</span>
+      </a>
+    </div>
+    <% } %>
     <ul class="nav-list">
-      <li><a class="nav-link dropdown-link" href="#"><i class="icofont-home"></i>Home</a>
+      <li><a class="nav-link dropdown-link" href="/"><i class="icofont-home"></i>Home</a>
       </li>
-      <li><a class="nav-link dropdown-link" href="#"><i class="icofont-food-cart"></i>shop</a>
+      <li><a class="nav-link dropdown-link" href="/shop"><i class="icofont-food-cart"></i>shop</a>
       </li>
-      <% if (user != 'undefined' && user) { %>
+      <% if (typeof user != 'undefined' && user) { %>
 
       <li><a class="nav-link dropdown-link" href="#"><i class="icofont-bag-alt"></i>my account</a>
         <ul class="dropdown-list">
@@ -20,8 +24,8 @@
         </ul>
       </li>
 
-      <% } %>
       <li><a class="nav-link" href="/logout"><i class="icofont-logout"></i>logout</a></li>
+      <% } %>
     </ul>
     <div class="nav-info-group">
       <div class="nav-info"><i class="icofont-ui-touch-phone"></i>

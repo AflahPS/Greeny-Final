@@ -159,7 +159,7 @@ function profileDataValidator(data) {
 }
 
 //////////////////////////////////////////////////////////////////////////////
-exports.editProfile = catchAsync.user(async (req, res, next) => {
+exports.editProfile = catchAsync.other(async (req, res, next) => {
   const data = { ...req.body };
   const valid = profileDataValidator(data);
 

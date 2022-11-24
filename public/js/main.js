@@ -86,10 +86,16 @@ $(window).on('scroll', function () {
       $('.header-widget-group>a.header-widget>sup.wishlist-count').text(
         res.data.wishlist.products.length
       );
+      $('#mob-wish-sup').text(res.data.wishlist.products.length);
       $('#wish-round').css('filter', 'drop-shadow(0px 0px 12px red)');
       $('#wish-round').css('transition', 'all 0.25s ease-out');
+      $('#mob-wish-round').css('color', 'orangered');
+      $('#mob-wish-round').css('filter', 'drop-shadow(0px 0px 12px red)');
+      $('#mob-wish-round').css('transition', 'all 0.25s ease-out');
       setTimeout(() => {
         $('#wish-round').css('filter', 'none');
+        $('#mob-wish-round').css('filter', 'none');
+        $('#mob-wish-round').css('color', '#555555');
       }, 1000);
     } else {
       alert(res.data.message);
@@ -148,11 +154,17 @@ $(window).on('scroll', function () {
     ) {
       $('button.header-cart>sup').text(res.data.cart.products.length);
       $('button.header-cart>span>small').text(`₹ ${res.data.cart.totalAmount}`);
+      $('#mob-cart-sup').text(res.data.cart.products.length);
 
       $('#cart-round').css('filter', 'drop-shadow(0px 0px 12px red)');
       $('#cart-round').css('transition', 'all 0.25s ease-out');
+      $('#mob-cart-round').css('filter', 'drop-shadow(0px 0px 5px red)');
+      $('#mob-cart-round').css('color', 'orangered');
+      $('#mob-cart-round').css('transition', 'all 0.25s ease-out');
       setTimeout(() => {
         $('#cart-round').css('filter', 'none');
+        $('#mob-cart-round').css('filter', 'none');
+        $('#mob-cart-round').css('color', '#555555');
       }, 1000);
 
       const htmlToInsert = htmlGeneratorCart(res.data.cart);
@@ -407,10 +419,17 @@ $('a.trash.wishlist').on('click', async function (ev) {
     $('.header-widget-group>a.header-widget>sup.wishlist-count').text(
       res.data.wishlist.products.length
     );
+    $('#mob-wish-sup').text(res.data.wishlist.products.length);
+
     $('#wish-round').css('filter', 'drop-shadow(0px 0px 12px red)');
     $('#wish-round').css('transition', 'all 0.25s ease-out');
+    $('#mob-wish-round').css('filter', 'drop-shadow(0px 0px 5px red)');
+    $('#mob-wish-round').css('color', 'orangered');
+    $('#mob-wish-round').css('transition', 'all 0.25s ease-out');
     setTimeout(() => {
       $('#wish-round').css('filter', 'none');
+      $('#mob-wish-round').css('filter', 'none');
+      $('#mob-wish-round').css('color', '#555555');
     }, 1000);
   }
 });
@@ -502,6 +521,7 @@ function setEventListenersCart() {
 
       $('button.header-cart>sup').text(res.data.cart.products.length);
       $('button.header-cart>span>small').text(`₹ ${res.data.cart.totalAmount}`);
+      $('#mob-cart-sup').text(res.data.cart.products.length);
 
       const htmlToInsertCheckout = htmlGeneratorCheckout(res.data.cart);
       $('#append-here').empty();
@@ -539,6 +559,7 @@ function setEventListenersCart() {
         $('button.header-cart>span>small').text(
           `₹ ${resp.data.cart.totalAmount}`
         );
+        $('#mob-cart-sup').text(resp.data.cart.products.length);
 
         const htmlToInsertCheckout = htmlGeneratorCheckout(resp.data.cart);
         $('#append-here').empty();
@@ -634,6 +655,7 @@ function setEventListenersCart() {
           .text(productObj.product.price * productObj.quantity);
 
         $('button.header-cart>sup').text(res.data.cart.products.length);
+        $('#mob-cart-sup').text(res.data.cart.products.length);
         $('button.header-cart>span>small').text(
           `₹ ${res.data.cart.totalAmount}`
         );
@@ -867,6 +889,7 @@ function recursive() {
       });
 
       $('button.header-cart>sup').text(res.data.cart.products.length);
+      $('#mob-cart-sup').text(res.data.cart.products.length);
       $('button.header-cart>span>small').text(`₹ ${res.data.cart.totalAmount}`);
       recursive();
 
