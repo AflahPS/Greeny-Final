@@ -181,29 +181,29 @@
   <div class="modal fade" id="profile-edit">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content"><button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
-        <form class="modal-form" action="/profile-edit-details" method="POST" enctype="multipart/form-data">
+        <form class="modal-form" id="edit-profile" action="/profile-edit-details" method="POST" enctype="multipart/form-data">
           <div class="form-title">
             <h3>edit profile info</h3>
           </div>
           <div class="form-group">
             <label class="form-label">profile image</label>
-            <input class="form-control" name="image" type="file" accept="image/*" value="<%= user.image %>">
+            <input class="form-control" name="image" id="profile-img" type="file" accept="image/*" value="<%= user.image %>">
           </div>
           <div class="form-group">
             <label class="form-label">name</label>
-            <input class="form-control" name="name" type="text" value="<%= user.name %>" required>
+            <input class="form-control" name="name" id="profile-name" type="text" value="<%= user.name %>" minlength="2" required>
           </div>
           <div class="form-group">
             <label class="form-label">email</label>
-            <input class="form-control" type="text" name="email" value="<%= user.email %>" required>
+            <input class="form-control" type="email" id="profile-email" name="email" value="<%= user.email %>" required>
           </div>
           <div class="form-group">
             <label class="form-label">phone</label>
-            <input class="form-control" type="text" name="contactNumber" value="<%= user.contactNumber %>" required>
+            <input class="form-control" type="number" minlength="10" maxlength="10" id="profile-phone" name="contactNumber" value="<%= user.contactNumber %>" required>
           </div>
           <div class="form-group">
             <label class="form-label">age</label>
-            <input class="form-control" type="number" name="age" value="<%= user.age %>" required>
+            <input class="form-control" type="number" id="profile-age" name="age" min="1" max="125" minlength="1" maxlength="3" value="<%= user.age %>" required>
           </div>
           <button class="form-btn" type="submit">save profile info</button>
         </form>

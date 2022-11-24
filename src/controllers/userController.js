@@ -139,10 +139,34 @@ exports.addAddressCheckout = catchAsync.user(async (req, res, next) => {
 
   res.redirect('/checkout');
 });
+//////////////////////////////////////////////////////////////////////
+function profileDataValidator(data) {
+  console.log(data);
+  const { name } = data;
+  const { email } = data;
+  const phone = data.contactNumber;
+  const { age } = data;
+
+  const matchEmail = email.match(/^[^ ]+@[^ ]+\.[a-z]{2,3}$/);
+  const matchName = name.match(/^[a-zA-Z ]*$/gm);
+  const matchPhone = phone.length === 10;
+  const matchAge = parseInt(age, 10) > 1 && parseInt(age, 10) < 125;
+
+  if (matchName && matchEmail && matchPhone && matchAge) {
+    return true;
+  }
+  return false;
+}
 
 //////////////////////////////////////////////////////////////////////////////
 exports.editProfile = catchAsync.user(async (req, res, next) => {
   const data = { ...req.body };
+  const valid = profileDataValidator(data);
+
+  if (!data || !valid) {
+    throw new Error('Valid data is required');
+  }
+
   if (req.file) {
     data.image = req.file.filename;
   }
@@ -150,7 +174,10 @@ exports.editProfile = catchAsync.user(async (req, res, next) => {
   await User.findByIdAndUpdate(req.session.user._id, data);
   req.session.user = await User.findById(req.session.user._id);
 
-  res.redirect('/profile');
+  res.json({
+    status: 'success',
+    message: 'Edited successfully',
+  });
 });
 
 //////////////////////////////////////////////////////////////////////////////

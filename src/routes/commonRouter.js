@@ -95,7 +95,7 @@ router
 
 router
   .route('/profile-edit-details')
-  .post(
+  .patch(
     authController.redirectLogin,
     userController.userPopulator,
     userController.uploadProfilePic,
