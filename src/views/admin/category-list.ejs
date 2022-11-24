@@ -175,7 +175,7 @@
                           <td><span style="color: red ;">SUSPENDED</span></td>
                           <% } %>
 
-                          <td><%= cat.lastUpdatedBy.name %></td>
+                          <td><%= cat.lastUpdatedBy?.name %></td>
                           <td>
                             <div class="btn-group">
                               <a type="button" href="/admin/category-update?id=<%= cat._id %>" class="btn btn-outline-success">Info</a>

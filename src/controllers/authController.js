@@ -20,22 +20,46 @@ exports.renderChanePassword = catchAsync.user(async (req, res, next) => {
 });
 
 ////////////////////////////////////////////////////////////////////////////////
-exports.register = catchAsync.user(async (req, res, next) => {
+exports.register = catchAsync.other(async (req, res, next) => {
   const { name, email, password, repeatPassword } = req.body;
 
   // Validation
   if (!name || !email || !password || !repeatPassword) {
-    res.locals.message = 'Please fill all the fields with valid data.';
-    return res.render('auth/register');
+    return res.json({
+      status: 'failed',
+      message: 'Fill in the fields !!',
+    });
+  }
+  if (!name.match(/^[a-zA-Z ]*$/gm)) {
+    return res.json({
+      status: 'failed',
+      message: 'Only letters allowed for name !!',
+    });
+  }
+  if (!email.match(/^[^ ]+@[^ ]+\.[a-z]{2,3}$/)) {
+    return res.json({
+      status: 'failed',
+      message: 'Incorrect email format !!',
+    });
+  }
+  if (password.length < 6 || password.length > 20) {
+    return res.json({
+      status: 'failed',
+      message: 'Password length: Min = 6, Max = 20 !!',
+    });
   }
   if (password !== repeatPassword) {
-    res.locals.message = 'Passwords do not match.';
-    return res.render('auth/register');
+    return res.json({
+      status: 'failed',
+      message: 'Retyped password does not match !!',
+    });
   }
   const user = await User.find({ email });
   if (user.email === email) {
-    res.locals.message = 'Email already exists.';
-    return res.render('auth/register');
+    return res.json({
+      status: 'failed',
+      message: 'Email already exists.',
+    });
   }
 
   // data refinement
@@ -48,30 +72,52 @@ exports.register = catchAsync.user(async (req, res, next) => {
     email,
     password: hashPassword,
   });
-  res.render('auth/login');
+  res.json({
+    status: 'success',
+    message: 'You have successfully registered !',
+  });
 });
 
 ////////////////////////////////////////////////////////////////////////////////
-exports.login = catchAsync.user(async (req, res, next) => {
+exports.login = catchAsync.other(async (req, res, next) => {
   // Validations
   const { email, password } = req.body;
   if (!email || !password) {
-    return res.render('auth/login', { message: 'Fill in the fields !!' });
+    return res.json({
+      status: 'failed',
+      message: 'Fill in the fields !!',
+    });
   }
+  if (!email.match(/^[^ ]+@[^ ]+\.[a-z]{2,3}$/)) {
+    return res.json({
+      status: 'failed',
+      message: 'Incorrect email format !!',
+    });
+  }
+  if (password.length < 6 || password.length > 20) {
+    return res.json({
+      status: 'failed',
+      message: 'Password length: Min = 6, Max = 20 !!',
+    });
+  }
+
   const user = await User.findOne({ email }).populate('cart wishlist');
   if (!user) {
-    return res.render('auth/login', {
+    return res.json({
+      status: 'failed',
       message: 'Email or Password does not match !!',
     });
   }
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    return res.render('auth/login', {
+    return res.json({
+      status: 'failed',
       message: 'Email or Password does not match !!',
     });
   }
   if (user.isBanned) {
-    return res.render('auth/login', {
+    return res.json({
+      status: 'failed',
       message: 'Your account has been suspended !!',
     });
   }
@@ -81,7 +127,9 @@ exports.login = catchAsync.user(async (req, res, next) => {
     delete user.password;
     req.session.user = user;
     req.session.isAuth = true;
-    return res.redirect('/admin');
+    return res.json({
+      status: 'success',
+    });
   }
 
   // If user
@@ -89,7 +137,9 @@ exports.login = catchAsync.user(async (req, res, next) => {
   delete user.password;
   req.session.user = user;
   req.session.isAuth = true;
-  res.redirect('/home');
+  res.json({
+    status: 'success',
+  });
 });
 
 ////////////////////////////////////////////////////////////////////////////////
