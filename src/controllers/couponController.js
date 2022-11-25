@@ -305,8 +305,21 @@ exports.verifyCoupon = catchAsync.other(async (req, res, next) => {
   let couponDiscount;
   if (coupon.couponType === 'flat') {
     couponDiscount = coupon.discount;
+    if (totalNoDiscount - cartActualDiscount - couponDiscount < 50) {
+      return res.json({
+        status: 'failed',
+        message:
+          'Cannot apply this coupon, Total amount should be greater than ₹50!',
+      });
+    }
   } else if (coupon.couponType === 'percentage') {
     couponDiscount = (totalNoDiscount * coupon.discount) / 100;
+    if (couponDiscount > 2000) {
+      return res.json({
+        status: 'failed',
+        message: 'Maximum discount amount is ₹2000!',
+      });
+    }
   }
 
   if (action === 'apply') {

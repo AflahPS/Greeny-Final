@@ -59,7 +59,9 @@ const couponSchema = new mongoose.Schema(
 );
 
 couponSchema.post(/^find/, (docs, next) => {
-  docs.isActive = new Date(docs.endDate) > Date.now();
+  if (docs && docs.length) {
+    docs.isActive = new Date(docs.endDate) > Date.now();
+  }
   next();
 });
 
