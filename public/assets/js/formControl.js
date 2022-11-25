@@ -198,7 +198,7 @@ async function deleteUser(e) {
   // Handling response
   if (res.data.status === 'success') {
     await Swal.fire('Deleted!', res.data.message, 'success');
-    window.location.reload();
+    window.location.href = '/admin/user-list';
   } else {
     Swal.fire({
       icon: 'error',

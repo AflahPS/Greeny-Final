@@ -51,7 +51,7 @@ exports.renderDashboard = catchAsync.admin(async (req, res, next) => {
     createdAt: { $gte: startOfToday },
   }).count();
 
-  const newCustomers = await User.find().sort('-createdAt').limit(10);
+  const newCustomers = await User.find().sort('-createdAt').limit(5);
 
   const dailyReviews = await Review.find({
     createdAt: { $gte: startOfToday },

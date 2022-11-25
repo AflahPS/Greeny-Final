@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const Product = require('../models/product');
 const Category = require('../models/category');
+const Review = require('../models/review');
 const catchAsync = require('../utils/catchAsync');
 
 let message = null;
@@ -54,6 +55,10 @@ exports.renderProductSingle = catchAsync.admin(async (req, res, next) => {
     throw new Error('Product not found in database !');
   }
 
+  res.locals.reviews = await Review.find({ product: id })
+    .populate('user')
+    .sort('-createdAt')
+    .limit(4);
   res.locals.categories = await Category.find();
   res.render('admin/product-single', { product, moment });
 });

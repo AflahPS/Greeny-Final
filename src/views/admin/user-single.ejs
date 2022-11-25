@@ -132,7 +132,10 @@
                     <div class="card-body">
                       <h4 class="py-2 text-dark"><%= user.name %></h4>
                       <p><%= user.email %></p>
-                      <a class="btn btn-primary my-3" onclick="return confirm('Are you sure you want to do this action?');" href="/admin/ban-user?id=<%= user._id %>"><%= (user.isBanned) ? "Un-ban" : "Ban" ; %></a>
+                      <div>
+                        <button class="btn btn-primary mx-3 my-3" onclick="deleteUser(this)" data-uid="<%= user._id %>">Delete</button>
+                        <a class="btn btn-primary mx-2 my-3" onclick="return confirm('Are you sure you want to do this action?');" href="/admin/ban-user?id=<%= user._id %>"><%= (user.isBanned) ? "Un-ban" : "Ban" ; %></a>
+                      </div>
                     </div>
                   </div>
 
@@ -154,7 +157,7 @@
                     </div>
 
                     <div class="text-center pb-4">
-                      <h6 class="text-dark pb-2">₹3200</h6>
+                      <h6 class="text-dark pb-2">₹<%= totalSpent || 0 %></h6>
                       <p>Spent total</p>
                     </div>
 
@@ -238,7 +241,7 @@
                               </div>
 
                               <div class="media-body align-self-center">
-                                <h4 class="text-primary mb-2">02</h4>
+                                <h4 class="text-primary mb-2"><%= locals.couponTotal || 0 %></h4>
                                 <p>Coupons</p>
                               </div>
                             </div>
@@ -264,93 +267,25 @@
                                     </ul>
                                   </div>
                                 </div>
-
                               </div>
+
                               <div class="card-body compact-notifications" data-simplebar style="height: 434px;">
+
+                                <% user.orders.forEach(order => { %>
+
                                 <div class="media pb-3 align-items-center justify-content-between">
                                   <div class="d-flex rounded-circle align-items-center justify-content-center mr-3 media-icon iconbox-45 bg-primary text-white">
                                     <i class="mdi mdi-cart-outline font-size-20"></i>
                                   </div>
                                   <div class="media-body pr-3 ">
-                                    <a class="mt-0 mb-1 font-size-15 text-dark" href="#">New Order</a>
-                                    <p>Selena has placed an new order</p>
+                                    <a class="mt-0 mb-1 font-size-15 text-dark" href="/admin/order-single?id=<%= order._id %>">Status: <%= order.status %></a>
+                                    <p><%= `${user.name} has ordered ${order.products.length} products of total INR ${order.totalAmount} on ${new Date(order.createdAt).toLocaleString()}` %></p>
                                   </div>
-                                  <span class=" font-size-12 d-inline-block"><i class="mdi mdi-clock-outline"></i> 10
-                                    AM</span>
+
                                 </div>
 
-                                <div class="media py-3 align-items-center justify-content-between">
-                                  <div class="d-flex rounded-circle align-items-center justify-content-center mr-3 media-icon iconbox-45 bg-success text-white">
-                                    <i class="mdi mdi-email-outline font-size-20"></i>
-                                  </div>
-                                  <div class="media-body pr-3">
-                                    <a class="mt-0 mb-1 font-size-15 text-dark" href="#">New Enquiry</a>
-                                    <p>Phileine has placed an new order</p>
-                                  </div>
-                                  <span class=" font-size-12 d-inline-block"><i class="mdi mdi-clock-outline"></i> 9
-                                    AM</span>
-                                </div>
+                                <% }) %>
 
-
-                                <div class="media py-3 align-items-center justify-content-between">
-                                  <div class="d-flex rounded-circle align-items-center justify-content-center mr-3 media-icon iconbox-45 bg-warning text-white">
-                                    <i class="mdi mdi-stack-exchange font-size-20"></i>
-                                  </div>
-                                  <div class="media-body pr-3">
-                                    <a class="mt-0 mb-1 font-size-15 text-dark" href="#">Support Ticket</a>
-                                    <p>Emma has placed an new order</p>
-                                  </div>
-                                  <span class=" font-size-12 d-inline-block"><i class="mdi mdi-clock-outline"></i> 10
-                                    AM</span>
-                                </div>
-
-                                <div class="media py-3 align-items-center justify-content-between">
-                                  <div class="d-flex rounded-circle align-items-center justify-content-center mr-3 media-icon iconbox-45 bg-primary text-white">
-                                    <i class="mdi mdi-cart-outline font-size-20"></i>
-                                  </div>
-                                  <div class="media-body pr-3">
-                                    <a class="mt-0 mb-1 font-size-15 text-dark" href="#">New order</a>
-                                    <p>Ryan has placed an new order</p>
-                                  </div>
-                                  <span class=" font-size-12 d-inline-block"><i class="mdi mdi-clock-outline"></i> 10
-                                    AM</span>
-                                </div>
-
-                                <div class="media py-3 align-items-center justify-content-between">
-                                  <div class="d-flex rounded-circle align-items-center justify-content-center mr-3 media-icon iconbox-45 bg-info text-white">
-                                    <i class="mdi mdi-calendar-blank font-size-20"></i>
-                                  </div>
-                                  <div class="media-body pr-3">
-                                    <a class="mt-0 mb-1 font-size-15 text-dark" href="">Comapny Meetup</a>
-                                    <p>Phileine has placed an new order</p>
-                                  </div>
-                                  <span class=" font-size-12 d-inline-block"><i class="mdi mdi-clock-outline"></i> 10
-                                    AM</span>
-                                </div>
-
-                                <div class="media py-3 align-items-center justify-content-between">
-                                  <div class="d-flex rounded-circle align-items-center justify-content-center mr-3 media-icon iconbox-45 bg-warning text-white">
-                                    <i class="mdi mdi-stack-exchange font-size-20"></i>
-                                  </div>
-                                  <div class="media-body pr-3">
-                                    <a class="mt-0 mb-1 font-size-15 text-dark" href="#">Support Ticket</a>
-                                    <p>Emma has placed an new order</p>
-                                  </div>
-                                  <span class=" font-size-12 d-inline-block"><i class="mdi mdi-clock-outline"></i> 10
-                                    AM</span>
-                                </div>
-
-                                <div class="media py-3 align-items-center justify-content-between">
-                                  <div class="d-flex rounded-circle align-items-center justify-content-center mr-3 media-icon iconbox-45 bg-success text-white">
-                                    <i class="mdi mdi-email-outline font-size-20"></i>
-                                  </div>
-                                  <div class="media-body pr-3">
-                                    <a class="mt-0 mb-1 font-size-15 text-dark" href="#">New Enquiry</a>
-                                    <p>Phileine has placed an new order</p>
-                                  </div>
-                                  <span class=" font-size-12 d-inline-block"><i class="mdi mdi-clock-outline"></i> 9
-                                    AM</span>
-                                </div>
 
                               </div>
                               <div class="mt-3"></div>

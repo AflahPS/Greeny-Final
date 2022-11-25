@@ -295,13 +295,17 @@
 
                             <!-- Iterate reviews -->
 
+                            <% reviews.forEach(rev => { %>
+
+
+
                             <div class="ec-t-review-item">
                               <div class="ec-t-review-avtar">
-                                <img src="/assets/img/review-image/1.jpg" alt="">
+                                <img src="/images/users/<%= rev.user.image %>" alt="">
                               </div>
                               <div class="ec-t-review-content">
                                 <div class="ec-t-review-top">
-                                  <p class="ec-t-review-name">Jeny Doe</p>
+                                  <p class="ec-t-review-name"><%= rev.user.name %></p>
                                   <div class="ec-t-rate">
                                     <i class="mdi mdi-star is-rated"></i>
                                     <i class="mdi mdi-star is-rated"></i>
@@ -311,14 +315,13 @@
                                   </div>
                                 </div>
                                 <div class="ec-t-review-bottom">
-                                  <p>Lorem Ipsum is simply dummy text of the printing
-                                    and
-                                    typesetting industry.
+                                  <p><%= rev.content %>
                                   </p>
                                 </div>
                               </div>
                             </div>
 
+                            <% }) %>
                             <!--/ Iterate reviews -->
 
                           </div>

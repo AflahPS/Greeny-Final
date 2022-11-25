@@ -20,7 +20,7 @@ exports.renderUserSingle = catchAsync.admin(async (req, res, next) => {
   }
 
   // fetching the user from database
-  const user = await User.findById(id);
+  const user = await User.findById(id).populate('orders');
   if (!user) {
     throw new Error('User not found');
   }
@@ -29,7 +29,18 @@ exports.renderUserSingle = catchAsync.admin(async (req, res, next) => {
   if (wishlist && wishlist.products) {
     wishlistCount = wishlist.products.length || null;
   }
+
+  res.locals.totalSpent = user.orders.reduce(
+    (acc, cur) => acc + cur.totalAmount,
+    0
+  );
+  res.locals.couponTotal = user.orders.reduce(
+    (acc, cur) => (cur.couponUsed ? acc + 1 : acc),
+    0
+  );
   res.locals.wishlistCount = wishlistCount;
+  res.locals.user = user;
+  res.locals.moment = moment;
   res.render('admin/user-single', { user, moment });
 });
 
@@ -99,7 +110,9 @@ exports.deleteUser = catchAsync.other(async (req, res, next) => {
   if (user.image !== 'user.png') {
     fs.unlink(
       path.join(__dirname, `../../public/images/users/${user.image}`),
-      (err) => console.log(err)
+      (err) => {
+        if (err) console.error(err);
+      }
     );
   }
 
@@ -136,7 +149,6 @@ exports.addAddressProfile = catchAsync.user(async (req, res, next) => {
   const user = await User.findById(req.session.user._id);
   user.address.push(data);
   await user.save();
-
   res.redirect('/profile');
 });
 
@@ -146,7 +158,6 @@ exports.addAddressCheckout = catchAsync.user(async (req, res, next) => {
   const user = await User.findById(req.session.user._id);
   user.address.push(data);
   await user.save();
-
   res.redirect('/checkout');
 });
 //////////////////////////////////////////////////////////////////////
