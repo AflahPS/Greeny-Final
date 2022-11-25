@@ -1,5 +1,5 @@
 <%- include('./partials/__admin-head.ejs') %>
-<title>Greeny | 404</title>
+<title>Greeny | Update Cpoupon</title>
 </head>
 
 <body class="ec-header-fixed ec-sidebar-fixed ec-sidebar-dark ec-header-light" id="body">
@@ -178,7 +178,7 @@
 
                           <div class="col-md-6 my-5">
                             <label for="discount" class="form-label">Discount in %</label>
-                            <input type="number" name="discount" class="form-control slug-title" value="<%= coupon.discount %>" max="100" id="discount">
+                            <input type="number" name="discount" class="form-control slug-title" value="<%= coupon.discount %>" id="discount">
                           </div>
                           <div class="col-md-6">
                             <label for="startDate" class="form-label">Start Date</label>
@@ -186,7 +186,7 @@
                           </div>
                           <div class="col-md-6 my-5">
                             <label for="endDate" class="form-label">End Date</label>
-                            <input type="date" name="endDate" value="<%= formatDate(coupon.startDate) %>" class="form-control slug-title" id="endDate">
+                            <input type="date" name="endDate" value="<%= formatDate(coupon.endDate) %>" class="form-control slug-title" id="endDate">
                           </div>
                           <div class="col-md-6 my-5">
                             <label for="couponCode" class="form-label">Coupon Code</label>

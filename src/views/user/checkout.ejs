@@ -104,6 +104,7 @@
                     <button type="submit"><span id="submit-span">remove</span>
                     </button>
                   </form>
+                  <p class="text-success" id="coupon-display">APPLIED COUPON: <%= cart.couponUsed.name %>, <%= cart.couponUsed.couponType === 'flat' ? `-₹${cart.couponUsed.discount}` : `-${cart.couponUsed.discount}% OFF` ; %> </p>
 
 
                   <% } else { %>
@@ -114,6 +115,7 @@
                     <button type="submit"><span id="submit-span">apply</span>
                     </button>
                   </form>
+                  <p class="text-success" id="coupon-display"></p>
                   <% } %>
 
                 </div>
@@ -451,7 +453,6 @@
     <script src="/js/venobox.js"></script>
     <script src="/js/slick.js"></script>
     <script src="/js/main.js"></script>
-
     <script src="/js/checkout.js"> </script>
 
 </body>

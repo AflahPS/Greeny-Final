@@ -136,6 +136,7 @@ if (regForm != 'undefined' && regForm) {
         },
       }).then((result) => {
         /* Read more about handling dismissals below */
+        window.location.href = '/login';
         if (result.dismiss === Swal.DismissReason.timer) {
           window.location.href = '/login';
         }

@@ -5,7 +5,6 @@
 const loginEmail = document.querySelector('#login-email');
 const loginPassword = document.querySelector('#login-password');
 const loginForm = document.querySelector('#login-form');
-// const resetForm = document.querySelector('#form-reset-password');
 
 const patternCheckBorderColor = (pattern, element, errMessage) => {
   const regErr = document.querySelectorAll('.reg-err') || null;
@@ -80,7 +79,7 @@ if (loginForm !== 'undefined' && loginForm) {
     });
     console.log(res.data);
     if (res.data.status === 'success') {
-      window.location.href = '/';
+      window.location.href = !res.data.isUser ? '/admin' : '/';
     } else {
       errMessage.textContent = res.data.message;
       setTimeout(() => (errMessage.textContent = ''), 2000);

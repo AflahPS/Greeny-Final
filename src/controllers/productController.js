@@ -2,27 +2,29 @@ const mongoose = require('mongoose');
 const sharp = require('sharp');
 const multer = require('multer');
 const moment = require('moment');
+const fs = require('fs');
+const path = require('path');
 const Product = require('../models/product');
 const Category = require('../models/category');
 const catchAsync = require('../utils/catchAsync');
 
 let message = null;
 
-// Render functions
-
+////////////////////////////////////////////////////////////////////////
+///////////////////////// Render functions /////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 exports.renderProductList = catchAsync.admin(async (req, res, next) => {
   // For pagination
-  const page = req.query.page * 1 || 1;
-  const limit = req.query.limit * 1 || 20;
-  const skip = (page - 1) * limit;
+  // const page = req.query.page * 1 || 1;
+  // const limit = req.query.limit * 1 || 20;
+  // const skip = (page - 1) * limit;
 
   // Fetching the products from the database
   const products = await Product.find()
     .sort('-createdAt')
     .select('-__v')
-    .skip(skip)
-    .limit(limit)
+    // .skip(skip)
+    // .limit(limit)
     .populate('category');
 
   res.locals.message = message;
@@ -74,8 +76,9 @@ exports.renderProductUpdate = catchAsync.admin(async (req, res, next) => {
   res.render('admin/product-update', { product });
 });
 
-// Non-Render functions
-////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+//////////////////// Non-Render functions /////////////////////////////
+///////////////////////////////////////////////////////////////////////
 
 //Multer setup
 const multerStorage = multer.memoryStorage();
@@ -213,6 +216,40 @@ exports.updateProduct = catchAsync.other(async (req, res, next) => {
   data.tags = data.tags.split(',');
   data.category = mongoose.Types.ObjectId(data.category);
 
+  // Delete old images from storage
+  if (data.thumbnail) {
+    const product = await Product.findById(id);
+    if (product.thumbnail !== '01.jpg') {
+      const filePath = path.join(
+        __dirname,
+        `../../public/images/product/${product.thumbnail}`
+      );
+      fs.unlink(filePath, (err) => {
+        console.log(
+          '🚀 ~ file: productController.js ~ line 226 ~ fs.unlink ~ err',
+          err
+        );
+      });
+    }
+  }
+  if (data.images) {
+    const product = await Product.findById(id);
+    if (product.images.length) {
+      product.images.forEach((img) => {
+        const filePath = path.join(
+          __dirname,
+          `../../public/images/product/${img}`
+        );
+        fs.unlink(filePath, (err) => {
+          console.log(
+            '🚀 ~ file: productController.js ~ line 243 ~ fs.unlink ~ err',
+            err
+          );
+        });
+      });
+    }
+  }
+
   // Update the product
   await Product.findByIdAndUpdate(id, data);
   message = 'Product updated successfully !';
@@ -236,6 +273,34 @@ exports.deleteProduct = catchAsync.other(async (req, res, next) => {
   const product = await Product.findById(id);
   if (!product) {
     throw new Error('Product not found!');
+  }
+
+  // Deleting the images from storage
+  if (product.thumbnail && product.thumbnail !== '01.jpg') {
+    const filePath = path.join(
+      __dirname,
+      `../../public/images/product/${product.thumbnail}`
+    );
+    fs.unlink(filePath, (err) => {
+      console.log(
+        '🚀 ~ file: productController.js ~ line 283 ~ fs.unlink ~ err',
+        err
+      );
+    });
+  }
+  if (product.images && product.images.length) {
+    product.images.forEach((img) => {
+      const filePath = path.join(
+        __dirname,
+        `../../public/images/product/${img}`
+      );
+      fs.unlink(filePath, (err) => {
+        console.log(
+          '🚀 ~ file: productController.js ~ line 297 ~ fs.unlink ~ err',
+          err
+        );
+      });
+    });
   }
 
   // Decrement the product count in the category.totalProducts

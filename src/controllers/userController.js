@@ -2,6 +2,8 @@ const bcrypt = require('bcryptjs');
 const sharp = require('sharp');
 const multer = require('multer');
 const moment = require('moment');
+const fs = require('fs');
+const path = require('path');
 const User = require('../models/user');
 const Cart = require('../models/cart');
 const catchAsync = require('../utils/catchAsync');
@@ -93,6 +95,14 @@ exports.deleteUser = catchAsync.other(async (req, res, next) => {
     throw new Error('Invalid id provided for the user');
   }
 
+  const user = await User.findById(id);
+  if (user.image !== 'user.png') {
+    fs.unlink(
+      path.join(__dirname, `../../public/images/users/${user.image}`),
+      (err) => console.log(err)
+    );
+  }
+
   // Deletion
   await User.findByIdAndDelete(id);
   message = 'Successfully deleted the user !';
@@ -168,6 +178,13 @@ exports.editProfile = catchAsync.other(async (req, res, next) => {
   }
 
   if (req.file) {
+    const user = await User.findById(req.session.user._id);
+    if (user.image !== 'user.png') {
+      fs.unlink(
+        path.join(__dirname, `../../public/images/users/${user.image}`),
+        (err) => console.log(err)
+      );
+    }
     data.image = req.file.filename;
   }
   data.age = parseInt(data.age, 10);

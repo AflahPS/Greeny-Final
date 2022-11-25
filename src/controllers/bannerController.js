@@ -1,6 +1,8 @@
 const moment = require('moment');
 const multer = require('multer');
 const sharp = require('sharp');
+const fs = require('fs');
+const path = require('path');
 const Banner = require('../models/banner');
 const catchAsync = require('../utils/catchAsync');
 
@@ -104,14 +106,6 @@ exports.addBanner = catchAsync.admin(async (req, res, next) => {
 exports.editBanner = catchAsync.other(async (req, res, next) => {
   const data = { ...req.body };
   const { id } = req.query;
-  console.log(
-    '🚀 ~ file: bannerController.js ~ line 107 ~ exports.editBanner=catchAsync.other ~ id',
-    id
-  );
-  console.log(
-    '🚀 ~ file: bannerController.js ~ line 107 ~ exports.editBanner=catchAsync.other ~ id',
-    typeof id
-  );
 
   // Validation
   if (
@@ -130,6 +124,18 @@ exports.editBanner = catchAsync.other(async (req, res, next) => {
 
   // data refinement
   if (req.file) {
+    const banner = await Banner.findById(id);
+    if (banner.image !== '01.png') {
+      fs.unlink(
+        path.join(__dirname, `../../public/images/banner/${banner.image}`),
+        (err) => {
+          console.log(
+            '🚀 ~ file: bannerController.js ~ line 130 ~ exports.editBanner=catchAsync.other ~ err',
+            err
+          );
+        }
+      );
+    }
     data.image = req.file.filename;
   } else {
     delete data.image;
@@ -160,6 +166,20 @@ exports.deleteBanner = catchAsync.other(async (req, res, next) => {
   if (!id) {
     throw new Error('Invalid id provided for the banner');
   }
+
+  const banner = await Banner.findById(id);
+  if (banner.image !== '01.png') {
+    fs.unlink(
+      path.join(__dirname, `../../public/images/banner/${banner.image}`),
+      (err) => {
+        console.log(
+          '🚀 ~ file: bannerController.js ~ line 175 ~ exports.deleteBanner ~ err',
+          err
+        );
+      }
+    );
+  }
+
   await Banner.findByIdAndDelete(id);
   message = 'Successfully deleted the coupon !';
   res.json({

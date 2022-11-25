@@ -1,6 +1,8 @@
 const multer = require('multer');
 const sharp = require('sharp');
 const moment = require('moment');
+const fs = require('fs');
+const path = require('path');
 const Coupon = require('../models/coupon');
 const Cart = require('../models/cart');
 const catchAsync = require('../utils/catchAsync');
@@ -157,6 +159,19 @@ exports.editCoupon = catchAsync.other(async (req, res, next) => {
 
   // data refinement
   if (req.file) {
+    const coupon = await Coupon.findById(id);
+    if (coupon.thumbnail !== '01.png') {
+      const filePath = path.join(
+        __dirname,
+        `../../public/images/coupon/${coupon.thumbnail}`
+      );
+      fs.unlink(filePath, (err) => {
+        console.log(
+          '🚀 ~ file: couponController.js ~ line 169 ~ fs.unlink ~ err',
+          err
+        );
+      });
+    }
     data.thumbnail = req.file.filename;
   } else {
     delete data.thumbnail;
@@ -192,6 +207,21 @@ exports.deleteCoupon = catchAsync.other(async (req, res, next) => {
   if (!id) {
     throw new Error('Invalid id provided for the coupon');
   }
+
+  const coupon = await Coupon.findById(id);
+  if (coupon.thumbnail !== '01.png') {
+    const filePath = path.join(
+      __dirname,
+      `../../public/images/coupon/${coupon.thumbnail}`
+    );
+    fs.unlink(filePath, (err) => {
+      console.log(
+        '🚀 ~ file: couponController.js ~ line 218 ~ fs.unlink ~ err',
+        err
+      );
+    });
+  }
+
   await Coupon.findByIdAndDelete(id);
   message = 'Successfully deleted the coupon !';
   res.json({
@@ -225,7 +255,7 @@ exports.verifyCoupon = catchAsync.other(async (req, res, next) => {
   const cart = await Cart.findById(req.session.cart).populate(
     'products.product'
   );
-  let coupon;
+  let coupon = null;
 
   if (req.body.couponCode) {
     const { couponCode } = req.body;
@@ -267,9 +297,12 @@ exports.verifyCoupon = catchAsync.other(async (req, res, next) => {
     cart.totalAmount = totalNoDiscount;
     cart.couponDiscount = couponDiscount;
     await cart.save();
+    const newCart = await Cart.findById(req.session.cart).populate(
+      'couponUsed'
+    );
     return res.json({
       status: 'success',
-      cart,
+      cart: newCart,
     });
   }
   if (action === 'remove') {

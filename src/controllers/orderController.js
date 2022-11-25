@@ -78,6 +78,8 @@ exports.renderCheckout = catchAsync.user(async (req, res, next) => {
   cart.totalAmount = totalNoDiscount;
   await cart.save();
 
+  cart.couponUsed = coupon || null;
+
   res.locals.cart = cart;
   res.locals.states = states;
   res.locals.categories = await Category.find();

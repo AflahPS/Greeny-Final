@@ -129,6 +129,7 @@ exports.login = catchAsync.other(async (req, res, next) => {
     req.session.isAuth = true;
     return res.json({
       status: 'success',
+      isUser: false,
     });
   }
 
@@ -139,6 +140,7 @@ exports.login = catchAsync.other(async (req, res, next) => {
   req.session.isAuth = true;
   res.json({
     status: 'success',
+    isUser: true,
   });
 });
 

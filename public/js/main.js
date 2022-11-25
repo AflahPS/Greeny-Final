@@ -364,6 +364,14 @@ $('.coupon-form').on('submit', async function (e) {
     $(this).children('input').attr('readonly', 'readonly');
     $(this).children('button').children('span').text('remove');
     $('#submit-span').parent('button').closest('div').children('small').hide();
+    const coupon = res.data.cart.couponUsed;
+    $('#coupon-display').text(
+      `APPLIED COUPON: ${coupon.name}, ${
+        coupon.couponType === 'flat'
+          ? `-₹${coupon.discount}`
+          : `${coupon.discount}% OFF`
+      }`
+    );
     $('#coupon-discount-li').replaceWith(
       `<li id="coupon-discount-li"><span>Coupon Discount</span><span>-₹${res.data.cart.couponDiscount}</span></li>`
     );
@@ -380,6 +388,7 @@ $('.coupon-form').on('submit', async function (e) {
     $(this).children('input').removeAttr('readonly');
     $(this).children('button').children('span').text('apply');
     $('#submit-span').parent('button').closest('div').children('small').hide();
+    $('#coupon-display').text('');
 
     $('#coupon-discount-li').replaceWith(
       `<li id="coupon-discount-li"><span>Total Discount</span><span>-₹${res.data.cart.couponDiscount}</span></li>`

@@ -81,7 +81,6 @@ router
   .post(userController.addUser)
   .delete(userController.deleteUser);
 
-// router.route('/delete-user').get(userController.deleteUser);
 router.route('/ban-user').get(userController.banUser);
 
 //////////////////////////////// Order ////////////////////////////////

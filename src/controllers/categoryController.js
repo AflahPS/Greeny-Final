@@ -1,5 +1,7 @@
 const multer = require('multer');
 const sharp = require('sharp');
+const fs = require('fs');
+const path = require('path');
 const Category = require('../models/category');
 const catchAsync = require('../utils/catchAsync');
 
@@ -136,6 +138,21 @@ exports.updateCategory = catchAsync.other(async (req, res, next) => {
   }
   // data refinement
   if (req.file) {
+    // To remove the image from the storage
+    const category = await Category.findById(id);
+    if (category.thumbnail !== 'dairy.jpg') {
+      const filePath = path.join(
+        __dirname,
+        `../../public/images/category/${category.thumbnail}`
+      );
+      fs.unlink(filePath, (err) => {
+        console.log(
+          '🚀 ~ file: categoryController.js ~ line 149 ~ fs.unlink ~ err',
+          err
+        );
+      });
+    }
+
     body.thumbnail = req.file.filename;
   }
   body.lastUpdatedBy = req.session.user._id;
@@ -173,6 +190,20 @@ exports.deleteCategory = catchAsync.other(async (req, res, next) => {
     return res.json({
       status: 'failed',
       message,
+    });
+  }
+
+  // Delete category thumbnail
+  if (category.thumbnail !== 'dairy.jpg') {
+    const filePath = path.join(
+      __dirname,
+      `../../public/images/category/${category.thumbnail}`
+    );
+    fs.unlink(filePath, (err) => {
+      console.log(
+        '🚀 ~ file: categoryController.js ~ line 203 ~ fs.unlink ~ err',
+        err
+      );
     });
   }
 
