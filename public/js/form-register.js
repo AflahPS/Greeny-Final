@@ -30,7 +30,7 @@ const lengthCheckBorderColor = (min, max, element) => {
   if (regErr.length) {
     regErr.forEach((el) => (el.style.display = 'none'));
   }
-  if (element.value.length > min + 1 && element.value.length < max - 1) {
+  if (element.value.length >= min && element.value.length <= max) {
     element.style.borderColor = '#008000';
     return true;
   } else {
@@ -77,7 +77,7 @@ if (regForm != 'undefined' && regForm) {
 
   // Password
   regPwd.addEventListener('keyup', (e) => {
-    matchPassword = lengthCheckBorderColor(6, 20, regPwd);
+    matchPassword = lengthCheckBorderColor(8, 20, regPwd);
   });
 
   regPwd.addEventListener('focusout', (e) => {
@@ -96,16 +96,17 @@ if (regForm != 'undefined' && regForm) {
     }
   });
 
-  regRepPwd.addEventListener('focusout', (e) => {
-    regRepPwd.style.borderColor = '#e8e8e8';
-  });
+  // regRepPwd.addEventListener('focusout', (e) => {
+  //   regRepPwd.style.borderColor = '#e8e8e8';
+  // });
 
   regForm.addEventListener('submit', async function (e) {
     e.preventDefault();
     let errMessage = document.querySelector('#err-msg');
-    if (!matchEmail || !matchName || !matchPassword || !matchRepeatPassword)
-      return;
-
+    if (!matchEmail || !matchName || !matchPassword || !matchRepeatPassword) {
+      errMessage.textContent = 'Please enter valid data in the fields!';
+      return setTimeout(() => (errMessage.textContent = ''), 2000);
+    }
     const res = await axios({
       method: 'POST',
       url: '/register',

@@ -54,8 +54,8 @@ exports.register = catchAsync.other(async (req, res, next) => {
       message: 'Retyped password does not match !!',
     });
   }
-  const user = await User.find({ email });
-  if (user.email === email) {
+  const user = await User.findOne({ email });
+  if (user) {
     return res.json({
       status: 'failed',
       message: 'Email already exists.',
