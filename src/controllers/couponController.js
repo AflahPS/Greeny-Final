@@ -72,7 +72,7 @@ exports.renderAddCoupon = catchAsync.admin(async (req, res, next) => {
 
 // CRUD Ops
 ////////////////////////////////////////////////////////////////////////////
-exports.addCoupon = catchAsync.admin(async (req, res, next) => {
+exports.addCoupon = catchAsync.other(async (req, res, next) => {
   const data = { ...req.body };
 
   // Validation
@@ -87,22 +87,33 @@ exports.addCoupon = catchAsync.admin(async (req, res, next) => {
     !data.description
   ) {
     message = 'Not found valid data on fields while creating Coupon !';
-    res.redirect('/admin/coupon-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
   if (
-    (data.couponType === 'percentage' && parseFloat(data.couponType) > 90) ||
-    parseFloat(data.couponType) <= 0
+    (data.couponType === 'percentage' && parseFloat(data.discount) > 90) ||
+    parseFloat(data.discount) <= 0
   ) {
-    message = 'Not found valid data on fields while creating Coupon !';
-    res.redirect('/admin/coupon-list');
+    message = 'Coupon offer should be between 0-90% !';
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
 
-  const coupon = await Coupon.find({ couponCode: data.couponCode });
+  const coupon = await Coupon.find({
+    couponCode: data.couponCode.toUpperCase(),
+  });
 
   // Coupon already exists
   if (coupon.length > 0) {
     message = 'Coupon already exists';
-    res.redirect('/admin/coupon-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
 
   // data refinement
@@ -118,7 +129,10 @@ exports.addCoupon = catchAsync.admin(async (req, res, next) => {
   // Create coupon
   await Coupon.create(data);
   message = 'coupon created successfully !';
-  res.redirect('/admin/coupon-list');
+  return res.json({
+    status: 'success',
+    message,
+  });
 });
 
 ////////////////////////////////////////////////////////////////////////////
@@ -147,10 +161,10 @@ exports.editCoupon = catchAsync.other(async (req, res, next) => {
     });
   }
   if (
-    (data.couponType === 'percentage' && parseFloat(data.couponType) > 90) ||
-    parseFloat(data.couponType) <= 0
+    (data.couponType === 'percentage' && parseFloat(data.discount) > 90) ||
+    parseFloat(data.discount) <= 0
   ) {
-    message = 'Not found valid data on fields while creating Coupon !';
+    message = 'Coupon offer should be between 0-90% !';
     return res.json({
       status: 'failed',
       message,
@@ -166,10 +180,12 @@ exports.editCoupon = catchAsync.other(async (req, res, next) => {
         `../../public/images/coupon/${coupon.thumbnail}`
       );
       fs.unlink(filePath, (err) => {
-        console.log(
-          '🚀 ~ file: couponController.js ~ line 169 ~ fs.unlink ~ err',
-          err
-        );
+        if (err) {
+          console.log(
+            '🚀 ~ file: couponController.js ~ line 169 ~ fs.unlink ~ err',
+            err
+          );
+        }
       });
     }
     data.thumbnail = req.file.filename;
@@ -215,10 +231,12 @@ exports.deleteCoupon = catchAsync.other(async (req, res, next) => {
       `../../public/images/coupon/${coupon.thumbnail}`
     );
     fs.unlink(filePath, (err) => {
-      console.log(
-        '🚀 ~ file: couponController.js ~ line 218 ~ fs.unlink ~ err',
-        err
-      );
+      if (err) {
+        console.log(
+          '🚀 ~ file: couponController.js ~ line 218 ~ fs.unlink ~ err',
+          err
+        );
+      }
     });
   }
 

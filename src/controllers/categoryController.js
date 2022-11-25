@@ -93,18 +93,24 @@ exports.resizeCategoryThumb = catchAsync.other(async (req, res, next) => {
 });
 
 ////////////////////////////////////////////////////////////////////////
-exports.addCategory = catchAsync.admin(async (req, res, next) => {
+exports.addCategory = catchAsync.other(async (req, res, next) => {
   const body = { ...req.body };
   // Validation
   if (!body.name) {
     message = 'Not found valid data on fields while creating category !';
-    res.redirect('/admin/category-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
-  const category = await Category.find({ name: body.name });
+  const category = await Category.find({ name: body.name.toLowerCase() });
   // Check: Category already exists ?
   if (category.length > 0) {
     message = 'Category already exists';
-    res.redirect('/admin/category-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
 
   // data refinement
@@ -113,12 +119,16 @@ exports.addCategory = catchAsync.admin(async (req, res, next) => {
   } else {
     delete body.thumbnail;
   }
+  body.name = body.name.toLowerCase();
   body.lastUpdatedBy = req.session.user._id;
 
   // Create Category
   await Category.create(body);
   message = 'Category created successfully !';
-  res.redirect('/admin/category-list');
+  res.json({
+    status: 'success',
+    message,
+  });
 });
 
 ////////////////////////////////////////////////////////////////////////
@@ -154,6 +164,7 @@ exports.updateCategory = catchAsync.other(async (req, res, next) => {
     }
 
     body.thumbnail = req.file.filename;
+    body.name = body.name.toLowerCase();
   }
   body.lastUpdatedBy = req.session.user._id;
   const category = await Category.findByIdAndUpdate(id, body, {

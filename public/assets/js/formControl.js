@@ -9,12 +9,18 @@ const productUpdateForm = document.querySelector('#product-update-form');
 const couponUpdateForm = document.querySelector('#coupon-update-form');
 const bannerUpdateForm = document.querySelector('#banner-update-form');
 
+const categoryAddForm = document.querySelector('#category-add-form');
+const productAddForm = document.querySelector('#product-add-form');
+const couponAddForm = document.querySelector('#coupon-add-form');
+const bannerAddForm = document.querySelector('#banner-add-form');
+
 // Event & On-Click handlers
 
 // 1/6) Category
 if (categoryUpdateForm != 'undefined' && categoryUpdateForm) {
   categoryUpdateForm.addEventListener('submit', async function (ev) {
     ev.preventDefault();
+    // Do front end validations later
     const categoryId = this.dataset.catId;
     const formData = new FormData(categoryUpdateForm);
     // API request
@@ -26,8 +32,32 @@ if (categoryUpdateForm != 'undefined' && categoryUpdateForm) {
     // Handling response
     if (res.data.status === 'success') {
       successMessage.textContent = res.data.message;
+      setTimeout(() => (successMessage.textContent = ''), 3000);
     } else {
       errorMessage.textContent = res.data.message;
+      setTimeout(() => (errorMessage.textContent = ''), 3000);
+    }
+  });
+}
+
+if (categoryAddForm != 'undefined' && categoryAddForm) {
+  categoryAddForm.addEventListener('submit', async function (ev) {
+    ev.preventDefault();
+    // Do front end validations later
+    const formData = new FormData(categoryAddForm);
+    // API request
+    const res = await axios({
+      method: 'POST',
+      url: `/admin/category`,
+      data: formData,
+    });
+    // Handling response
+    if (res.data.status === 'success') {
+      successMessage.textContent = res.data.message;
+      setTimeout(() => (successMessage.textContent = ''), 3000);
+    } else {
+      errorMessage.textContent = res.data.message;
+      setTimeout(() => (errorMessage.textContent = ''), 3000);
     }
   });
 }
@@ -80,8 +110,32 @@ if (productUpdateForm != 'undefined' && productUpdateForm) {
     // Handling response
     if (res.data.status === 'success') {
       successMessage.textContent = res.data.message;
+      setTimeout(() => (successMessage.textContent = ''), 3000);
     } else {
       errorMessage.textContent = res.data.message;
+      setTimeout(() => (errorMessage.textContent = ''), 3000);
+    }
+  });
+}
+
+if (productAddForm != 'undefined' && productAddForm) {
+  productAddForm.addEventListener('submit', async function (ev) {
+    ev.preventDefault();
+    // Do front end validations later
+    const formData = new FormData(productAddForm);
+    // API request
+    const res = await axios({
+      method: 'POST',
+      url: `/admin/product`,
+      data: formData,
+    });
+    // Handling response
+    if (res.data.status === 'success') {
+      successMessage.textContent = res.data.message;
+      setTimeout(() => (successMessage.textContent = ''), 3000);
+    } else {
+      errorMessage.textContent = res.data.message;
+      setTimeout(() => (errorMessage.textContent = ''), 3000);
     }
   });
 }
@@ -204,9 +258,33 @@ if (couponUpdateForm != 'undefined' && couponUpdateForm) {
     if (res.data.status === 'success') {
       errorMessage.textContent = '';
       successMessage.textContent = res.data.message;
+      setTimeout(() => (successMessage.textContent = ''), 3000);
     } else {
       successMessage.textContent = '';
       errorMessage.textContent = res.data.message;
+      setTimeout(() => (errorMessage.textContent = ''), 3000);
+    }
+  });
+}
+
+if (couponAddForm != 'undefined' && couponAddForm) {
+  couponAddForm.addEventListener('submit', async function (ev) {
+    ev.preventDefault();
+    // Do front end validations later
+    const formData = new FormData(couponAddForm);
+    // API request
+    const res = await axios({
+      method: 'POST',
+      url: `/admin/coupon`,
+      data: formData,
+    });
+    // Handling response
+    if (res.data.status === 'success') {
+      successMessage.textContent = res.data.message;
+      setTimeout(() => (successMessage.textContent = ''), 3000);
+    } else {
+      errorMessage.textContent = res.data.message;
+      setTimeout(() => (errorMessage.textContent = ''), 3000);
     }
   });
 }
@@ -260,9 +338,33 @@ if (bannerUpdateForm != 'undefined' && bannerUpdateForm) {
     if (res.data.status === 'success') {
       errorMessage.textContent = '';
       successMessage.textContent = res.data.message;
+      setTimeout(() => (successMessage.textContent = ''), 3000);
     } else {
       successMessage.textContent = '';
       errorMessage.textContent = res.data.message;
+      setTimeout(() => (errorMessage.textContent = ''), 3000);
+    }
+  });
+}
+
+if (bannerAddForm != 'undefined' && bannerAddForm) {
+  bannerAddForm.addEventListener('submit', async function (ev) {
+    ev.preventDefault();
+    // Do front end validations later
+    const formData = new FormData(bannerAddForm);
+    // API request
+    const res = await axios({
+      method: 'POST',
+      url: `/admin/banner`,
+      data: formData,
+    });
+    // Handling response
+    if (res.data.status === 'success') {
+      successMessage.textContent = res.data.message;
+      setTimeout(() => (successMessage.textContent = ''), 3000);
+    } else {
+      errorMessage.textContent = res.data.message;
+      setTimeout(() => (errorMessage.textContent = ''), 3000);
     }
   });
 }

@@ -67,7 +67,7 @@ exports.resizeBannerImage = (req, res, next) => {
 };
 
 ////////////////////////////////////////////////////////////////////////////
-exports.addBanner = catchAsync.admin(async (req, res, next) => {
+exports.addBanner = catchAsync.other(async (req, res, next) => {
   const data = { ...req.body };
 
   // Validation
@@ -79,15 +79,21 @@ exports.addBanner = catchAsync.admin(async (req, res, next) => {
     !data.textContent
   ) {
     message = 'Not found valid data on fields while creating Banner !';
-    res.redirect('/admin/banner-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
 
-  const banner = await Banner.find({ name: data.name });
+  const banner = await Banner.find({ name: data.name.toLowerCase() });
 
   // Coupon already exists
   if (banner.length > 0) {
     message = 'Banner name already exists';
-    res.redirect('/admin/banner-list');
+    res.json({
+      status: 'failed',
+      message,
+    });
   }
 
   // data refinement
@@ -99,7 +105,10 @@ exports.addBanner = catchAsync.admin(async (req, res, next) => {
   // Create coupon
   await Banner.create(data);
   message = 'banner created successfully !';
-  res.redirect('/admin/banner-list');
+  res.json({
+    status: 'success',
+    message,
+  });
 });
 
 ////////////////////////////////////////////////////////////////////////////
@@ -129,13 +138,16 @@ exports.editBanner = catchAsync.other(async (req, res, next) => {
       fs.unlink(
         path.join(__dirname, `../../public/images/banner/${banner.image}`),
         (err) => {
-          console.log(
-            '🚀 ~ file: bannerController.js ~ line 130 ~ exports.editBanner=catchAsync.other ~ err',
-            err
-          );
+          if (err) {
+            console.log(
+              '🚀 ~ file: bannerController.js ~ line 130 ~ exports.editBanner=catchAsync.other ~ err',
+              err
+            );
+          }
         }
       );
     }
+    data.name = data.name.toLowerCase();
     data.image = req.file.filename;
   } else {
     delete data.image;
@@ -172,10 +184,12 @@ exports.deleteBanner = catchAsync.other(async (req, res, next) => {
     fs.unlink(
       path.join(__dirname, `../../public/images/banner/${banner.image}`),
       (err) => {
-        console.log(
-          '🚀 ~ file: bannerController.js ~ line 175 ~ exports.deleteBanner ~ err',
-          err
-        );
+        if (err) {
+          console.log(
+            '🚀 ~ file: bannerController.js ~ line 175 ~ exports.deleteBanner ~ err',
+            err
+          );
+        }
       }
     );
   }

@@ -137,7 +137,7 @@
                 <div class="card-body">
                   <div class="row ec-vendor-uploads">
 
-                    <form class="row g-3" action="/admin/category" method="post" enctype="multipart/form-data">
+                    <form class="row g-3" id="category-add-form" enctype="multipart/form-data">
 
                       <div class="col-lg-4">
                         <div class="ec-vendor-img-upload">
@@ -164,6 +164,8 @@
                           </div>
                           <div class="col-md-12 mt-3">
                             <button type="submit" class="btn btn-primary">Submit</button>
+                            <p class="mt-2" id="error-msg" style="color: orangered ;"><%= message %></p>
+                            <p class="mt-2" id="success-msg" style="color: green ;"><%= message %></p>
                           </div>
                         </div>
                       </div>

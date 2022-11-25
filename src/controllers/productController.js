@@ -142,7 +142,7 @@ exports.resizeProductPic = catchAsync.admin(async (req, res, next) => {
 });
 
 ////////////////////////////////////////////////////////////////////////
-exports.addProduct = catchAsync.admin(async (req, res, next) => {
+exports.addProduct = catchAsync.other(async (req, res, next) => {
   const data = { ...req.body };
   // Validation
   if (
@@ -155,20 +155,27 @@ exports.addProduct = catchAsync.admin(async (req, res, next) => {
     !data.tags
   ) {
     message = 'Failed to add product: invalid/no data on fields !';
-    return res.redirect('/admin/product-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
   if (!data.brand) {
     delete data.brand;
   }
 
   // Check: Product name already exists ?
-  const product = await Product.find({ name: data.name });
+  const product = await Product.find({ name: data.name.toLowerCase() });
   if (product.length > 0) {
     message = 'Product name already exists !';
-    return res.redirect('/admin/product-list');
+    return res.json({
+      status: 'failed',
+      message,
+    });
   }
 
   // data refinement
+  data.name = data.name.toLowerCase();
   data.stock = parseInt(data.stock, 10);
   data.price = parseInt(data.price, 10);
   data.tags = data.tags.split(',');
@@ -182,7 +189,10 @@ exports.addProduct = catchAsync.admin(async (req, res, next) => {
   // Create product
   await Product.create(data);
   message = 'Product created successfully !';
-  res.redirect('/admin/product-list');
+  return res.json({
+    status: 'success',
+    message,
+  });
 });
 
 ////////////////////////////////////////////////////////////////////////
@@ -210,6 +220,7 @@ exports.updateProduct = catchAsync.other(async (req, res, next) => {
   }
 
   // data refinement
+  data.name = data.name.toLowerCase();
   data.stock = parseInt(data.stock, 10);
   data.price = parseInt(data.price, 10);
   data.discount = parseInt(data.discount, 10);
@@ -225,10 +236,12 @@ exports.updateProduct = catchAsync.other(async (req, res, next) => {
         `../../public/images/product/${product.thumbnail}`
       );
       fs.unlink(filePath, (err) => {
-        console.log(
-          '🚀 ~ file: productController.js ~ line 226 ~ fs.unlink ~ err',
-          err
-        );
+        if (err) {
+          console.log(
+            '🚀 ~ file: productController.js ~ line 226 ~ fs.unlink ~ err',
+            err
+          );
+        }
       });
     }
   }
@@ -236,16 +249,20 @@ exports.updateProduct = catchAsync.other(async (req, res, next) => {
     const product = await Product.findById(id);
     if (product.images.length) {
       product.images.forEach((img) => {
-        const filePath = path.join(
-          __dirname,
-          `../../public/images/product/${img}`
-        );
-        fs.unlink(filePath, (err) => {
-          console.log(
-            '🚀 ~ file: productController.js ~ line 243 ~ fs.unlink ~ err',
-            err
+        if (img !== '01.jpg') {
+          const filePath = path.join(
+            __dirname,
+            `../../public/images/product/${img}`
           );
-        });
+          fs.unlink(filePath, (err) => {
+            if (err) {
+              console.log(
+                '🚀 ~ file: productController.js ~ line 243 ~ fs.unlink ~ err',
+                err
+              );
+            }
+          });
+        }
       });
     }
   }
