@@ -15,7 +15,8 @@
 
   <section class="error-part">
     <div class="container">
-      <h1>404 | Not Found</h1>
+      <% let statusCode = locals.statusCode || null %>
+      <h1><%= statusCode ? `${statusCode} | Internal server error` : `404 | Not Found` ; %></h1>
 
       <% if (typeof(message) != "undefined" && message ) { %>
       <h3><%= message %></h3>

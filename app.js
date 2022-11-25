@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const morgan = require('morgan');
+// const morgan = require('morgan');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const path = require('path');
@@ -14,8 +14,14 @@ const userController = require('./src/controllers/userController');
 const adminRouter = require('./src/routes/adminRouter');
 const commonRouter = require('./src/routes/commonRouter');
 
-const app = express();
+// Safety net to catch uncaughtException
+process.on('uncaughtException', (err) => {
+  console.error(err.name, err.message);
+  console.error('Uncought Exception, Server is shutting down..');
+  process.exit(1);
+});
 
+const app = express();
 dotenv.config({ path: './config.env' });
 
 // DB Connection
@@ -31,12 +37,10 @@ mongoose
   });
 
 // Express setups
-
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/src/views'));
 
 // Middlewares
-
 const sessionAge = 1000 * 60 * 60 * 24; // 24 hours
 app.use(
   session({
@@ -55,7 +59,6 @@ app.use((req, res, next) => {
   next();
 });
 app.use(cors());
-app.use(morgan('short'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -75,7 +78,6 @@ app.use(
 );
 
 // catch 404 and forward to error handler
-
 app.all('*', (req, res, next) => {
   if (req.session && req.session.isAuth) {
     return res.render('user/error', { user: req.session.user });
@@ -87,3 +89,33 @@ const port = process.env.PORT || '3000';
 app.listen(port, '127.0.0.1', () =>
   console.log(`Server running on port: ${port}`)
 );
+
+// Global error handler
+app.use((err, req, res, next) => {
+  if (req.session && req.session.user && req.session.user.role === 'admin') {
+    console.error(err.message);
+    res.locals.statusCode = 500;
+    res.locals.message = 'Sorry, something went wrong!';
+    res.locals.user = req.session.user;
+    return res.render('admin/404');
+  }
+  if (req.session && req.session.user && req.session.user) {
+    console.error(err.message);
+    res.locals.statusCode = 500;
+    res.locals.message = 'Sorry, something went wrong!';
+    res.locals.user = req.session.user;
+    return res.render('user/error');
+  }
+  console.error(err.message);
+  res.locals.statusCode = 500;
+  res.locals.message = 'Sorry, something went wrong!';
+  res.locals.user = null;
+  res.render('user/error');
+});
+
+// Safety net to catch uncaughtExceptions
+process.on('unhandledRejection', (err) => {
+  console.error(err.name, err.message);
+  console.error('Unhandled Rejection, Server is shutting down..');
+  process.exit(1);
+});

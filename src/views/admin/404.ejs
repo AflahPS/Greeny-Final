@@ -116,12 +116,13 @@
           <div class="error-wrapper border bg-white px-5">
             <div class="row justify-content-center align-items-center text-center">
               <div class="col-xl-4">
-                <h1 class="text-primary bold error-title">404</h1>
+                <% let statusCode = locals.statusCode || null %>
+                <h1 class="text-primary bold error-title"><%= statusCode || '404' %></h1>
 
                 <% if (typeof(message) != "undefined" && message ) { %>
                 <p class="pt-4 pb-5 error-subtitle"><%= message %> </p>
                 <% } else { %>
-                <p class="pt-4 pb-5 error-subtitle">Looks like something went VERY VERy VERY wrong.</p>
+                <p class="pt-4 pb-5 error-subtitle">Looks like something went VERY wrong.</p>
                 <% } %>
 
                 <a href="/admin" class="btn btn-primary btn-pill">Back to Home</a>
