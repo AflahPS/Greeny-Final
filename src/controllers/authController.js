@@ -254,7 +254,7 @@ exports.resetAndMailPassword = catchAsync.user(async (req, res, next) => {
       message: `Hello ${user.name}, 
       Your newly generated password is : ${newPassword}
       Generated at : ${generatedAt}
-      Please login again --> greeny.com/login`,
+      Please login again --> greenystore.shop/login`,
     };
     await sendEmail(emailOptions);
     return res.render('auth/login', {
