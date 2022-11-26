@@ -138,6 +138,8 @@
 
                 <div class="card-body">
                   <div class="row ec-vendor-uploads">
+                    <% let category = locals.category || null %>
+                    <% if category { %>
 
                     <form class="row g-3" id="category-update-form" data-cat-id="<%= category._id %>" action="/admin/category-update?id=<%= category._id %>" method="post" enctype="multipart/form-data">
 
@@ -166,6 +168,7 @@
                           </div>
                           <div class="col-md-12 col-lg-8 mt-3">
                             <button type="submit" class="btn btn-primary">Submit</button>
+                            <% let message = locals.message || null %>
                             <p class="mt-2" id="error-msg" style="color: orangered ;"><%= message %></p>
                             <p class="mt-2" id="success-msg" style="color: green ;"><%= message %></p>
                           </div>
@@ -174,7 +177,7 @@
                   </div>
 
                   </form>
-
+                  <% } %>
                 </div>
               </div>
             </div>

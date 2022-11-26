@@ -132,6 +132,8 @@
 
                 <div class="card-body">
                   <div class="row ec-vendor-uploads">
+                    <% let coupon = locals.coupon || null %>
+                    <% if (coupon) { %>
                     <form class="row g-3" id="coupon-update-form" data-coup-id="<%= coupon._id %>" enctype="multipart/form-data">
                       <div class="col-lg-4">
                         <div class="ec-vendor-img-upload  my-5">
@@ -202,6 +204,7 @@
                             <p class="mt-2" id="success-msg" style="color: green ;"></p>
                           </div>
                     </form>
+                    <% } %>
                   </div>
                 </div>
               </div>

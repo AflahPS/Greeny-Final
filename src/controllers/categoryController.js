@@ -3,6 +3,7 @@ const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 const Category = require('../models/category');
+const Product = require('../models/product');
 const catchAsync = require('../utils/catchAsync');
 
 let message = null;
@@ -246,6 +247,21 @@ exports.banCategory = catchAsync.admin(async (req, res, next) => {
   // Banning
   category.isActive = !category.isActive;
   await category.save();
+
+  // Banning products int this category
+  const productsOnCategory = await Product.find({ category: id });
+  if (category.isActive && productsOnCategory.length) {
+    productsOnCategory.forEach((product) => {
+      product.isActive = true;
+      product.save();
+    });
+  } else if (!category.isActive && productsOnCategory.length) {
+    productsOnCategory.forEach((product) => {
+      product.isActive = false;
+      product.save();
+    });
+  }
+
   message = category.isActive
     ? 'Successfully activated the category !'
     : 'Successfully deactivated the category !';

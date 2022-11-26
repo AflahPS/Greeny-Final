@@ -139,6 +139,8 @@
 
                 <div class="card-body">
                   <div class="row ec-vendor-uploads">
+                    <% let banner = locals.banner || null %>
+                    <% if (banner){ %>
                     <form class="row g-3" id="banner-update-form" data-bid="<%=  banner._id %>" enctype="multipart/form-data">
                       <div class="col-lg-4">
                         <div class="ec-vendor-img-upload my-5">
@@ -193,6 +195,7 @@
                             <p class="mt-2" id="success-msg" style="color: green ;"></p>
                           </div>
                     </form>
+                    <% } %>
                   </div>
                 </div>
               </div>

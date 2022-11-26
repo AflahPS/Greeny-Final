@@ -160,7 +160,8 @@
                       <tbody>
 
                         <!----------- Iterate through products  -->
-
+                        <% let banners = locals.banners || null %>
+                        <% if (banners){ %>
                         <% banners.forEach(banner => { %>
 
                         <tr>
@@ -190,6 +191,7 @@
                         </tr>
 
                         <% }) %>
+                        <% } %>
 
 
                         <!-----------/ Iterate through products  -->

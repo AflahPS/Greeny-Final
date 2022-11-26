@@ -157,7 +157,8 @@
                       <tbody>
 
                         <!------------------ Iterate through userlist ------------------------------>
-
+                        <% let users = locals.users || null %>
+                        <% if (users) {%>
                         <% users.forEach(user => { %>
 
                         <tr>
@@ -200,6 +201,7 @@
                         </tr>
 
                         <% }) %>
+                        <% } %>
 
                         <!------------------/ Iterate through userlist ------------------------------>
 

@@ -110,7 +110,8 @@
       <!-- Header -->
       <%- include('./partials/__admin-header.ejs') %>
 
-
+      <% let product = locals.product %>
+      <% if (product) {%>
       <!-- CONTENT WRAPPER -->
       <div class="ec-content-wrapper">
         <div class="content">
@@ -293,6 +294,7 @@
           </div>
         </div> <!-- End Content -->
       </div> <!-- End Content Wrapper -->
+      <% } %>
 
       <!-- Footer -->
       <%- include('./partials/__admin-footer.ejs') %>

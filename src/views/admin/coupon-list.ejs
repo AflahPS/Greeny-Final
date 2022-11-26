@@ -159,7 +159,8 @@
                       </thead>
 
                       <tbody>
-
+                        <% let coupons = locals.coupons %>
+                        <% if (coupons) { %>
                         <!-- Iterate through coupons -->
                         <% coupons.forEach(coupon => { %>
 
@@ -198,7 +199,7 @@
 
                         <% }) %>
                         <!--/ Iterate through coupons -->
-
+                        <% } %>
                       </tbody>
                     </table>
                   </div>

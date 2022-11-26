@@ -354,6 +354,15 @@ exports.banProduct = catchAsync.admin(async (req, res, next) => {
   // Banning
   product.isActive = !product.isActive;
   await product.save();
+
+  if (product.isActive) {
+    const category = await Category.findById(product.category);
+    if (!category.isActive) {
+      category.isActive = true;
+      category.save();
+    }
+  }
+
   message = product.isActive
     ? 'Successfully activated the product !'
     : 'Successfully deactivated the product !';
