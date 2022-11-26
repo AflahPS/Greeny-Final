@@ -60,8 +60,13 @@ if (formEdit != 'undefined' && formEdit) {
     });
   }
   if (phone !== 'undefined' && phone) {
+    const pattern = /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/;
     phone.addEventListener('keyup', (e) => {
-      matchPhone = lengthCheckBorderColor(10, 10, phone);
+      matchPhone = patternCheckBorderColor(
+        pattern,
+        phone,
+        'Invalid phone number!'
+      );
     });
   }
 

@@ -27,14 +27,14 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="orderlist-filter">
-            <h5>total order <span>- (<%= orders.length %>)</span></h5>
-            <div class="filter-short"><label class="form-label">short by:</label><select class="form-select">
+            <h5>Total orders <span>- <%= orders.length %></span></h5>
+            <!-- <div class="filter-short"><label class="form-label">short by:</label><select class="form-select">
                 <option value="all" selected>all order</option>
                 <option value="recieved">recieved order</option>
                 <option value="processed">processed order</option>
                 <option value="shipped">shipped order</option>
                 <option value="delivered">delivered order</option>
-              </select></div>
+              </select></div> -->
           </div>
         </div>
       </div>
@@ -166,8 +166,8 @@
                 </div>
               </div>
               <% if (order.status != 'cancelled' && order.status != 'delivered') { %>
-              <div class="text-center">
-                <a href="/order-cancel?id=<%= order._id %>" data-oid="<%= order._id %>" class="btn btn-dark order-cancel-button">Cancel this order</a>
+              <div class="text-center mb-4">
+                <a href="/order-cancel?id=<%= order._id %>" data-oid="<%= order._id %>" class="btn btn-secondary order-cancel-button">Cancel this order</a>
               </div>
 
               <% } %>

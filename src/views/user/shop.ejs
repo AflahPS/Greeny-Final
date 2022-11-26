@@ -57,8 +57,8 @@
               <div class="shop-widget-group">
                 <label for="price">Minimum</label>
                 <label for="price">Maximum</label>
-                <input type="text" name="price" value="<%= shopPrice ? shopPrice[0] : '0' ; %>" placeholder="Min - 00" />
-                <input type="text" name="price" value="<%= shopPrice ? shopPrice[1] : '5000' ; %>" placeholder="Max - 10k" />
+                <input type="number" min="0" name="price" value="<%= shopPrice ? shopPrice[0] : '0' ; %>" placeholder="Min - 00" />
+                <input type="number" name="price" value="<%= shopPrice ? shopPrice[1] : '5000' ; %>" placeholder="Max - 10k" />
               </div>
               <button class="shop-widget-btn" type="submit">
                 <i class="fas fa-search"></i><span>search</span>
@@ -249,12 +249,7 @@
                       <i class="icofont-plus"></i>
                     </button>
                   </div>
-                  <!-- <button class="product-add" data-pid="<%= prod._id %>" data-action="add" title="Add to Cart">
-                    <i class="fas fa-shopping-basket"></i><span>add</span>
-                  </button>
-                  <div class="product-action" data-pid="<%= prod._id %>" data-action="remove">
-                    <input class="action-input" data-pid="<%= prod._id %>" title="Quantity Number" type="text" name="quantity" value="Added to cart" disabled>
-                  </div> -->
+
 
                   <% } else if (!user) { %>
                   <button class="product-add" title="Add to Cart">

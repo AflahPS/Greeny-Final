@@ -170,7 +170,8 @@ function profileDataValidator(data) {
 
   const matchEmail = email.match(/^[^ ]+@[^ ]+\.[a-z]{2,3}$/);
   const matchName = name.match(/^[a-zA-Z ]*$/gm);
-  const matchPhone = phone.length === 10;
+  // eslint-disable-next-line no-useless-escape
+  const matchPhone = phone.match(/^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/);
   const matchAge = parseInt(age, 10) > 1 && parseInt(age, 10) < 125;
 
   if (matchName && matchEmail && matchPhone && matchAge) {
