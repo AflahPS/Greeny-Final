@@ -77,7 +77,6 @@ if (loginForm !== 'undefined' && loginForm) {
         password: loginPassword.value,
       },
     });
-    console.log(res.data);
     if (res.data.status === 'success') {
       window.location.href = !res.data.isUser ? '/admin' : '/';
     } else {

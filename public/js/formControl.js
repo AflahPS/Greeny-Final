@@ -11,7 +11,7 @@ const remAddressCheckout = async (i) => {
     });
     // console.log(res.status);
   } catch (err) {
-    console.log(err.message);
+    console.error(err.message);
   }
 };
 
@@ -26,7 +26,7 @@ const remAddressProfile = async (i) => {
     });
     // console.log(res.status);
   } catch (err) {
-    console.log(err.message);
+    console.error(err.message);
   }
 };
 

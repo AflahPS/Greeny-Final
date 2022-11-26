@@ -139,7 +139,7 @@ exports.editBanner = catchAsync.other(async (req, res, next) => {
         path.join(__dirname, `../../public/images/banner/${banner.image}`),
         (err) => {
           if (err) {
-            console.log(
+            console.error(
               '🚀 ~ file: bannerController.js ~ line 130 ~ exports.editBanner=catchAsync.other ~ err',
               err
             );
@@ -185,7 +185,7 @@ exports.deleteBanner = catchAsync.other(async (req, res, next) => {
       path.join(__dirname, `../../public/images/banner/${banner.image}`),
       (err) => {
         if (err) {
-          console.log(
+          console.error(
             '🚀 ~ file: bannerController.js ~ line 175 ~ exports.deleteBanner ~ err',
             err
           );

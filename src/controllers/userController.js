@@ -162,7 +162,6 @@ exports.addAddressCheckout = catchAsync.user(async (req, res, next) => {
 });
 //////////////////////////////////////////////////////////////////////
 function profileDataValidator(data) {
-  console.log(data);
   const { name } = data;
   const { email } = data;
   const phone = data.contactNumber;
@@ -237,7 +236,6 @@ exports.editAddressCheckout = catchAsync.user(async (req, res, next) => {
 exports.removeAddressProfile = catchAsync.user(async (req, res, next) => {
   const { index } = req.body;
   const user = await User.findById(req.session.user._id);
-  console.log(user.address);
   user.address.splice(index, 1);
   await User.findByIdAndUpdate(user._id, user);
 

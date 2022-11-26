@@ -181,10 +181,12 @@ exports.editCoupon = catchAsync.other(async (req, res, next) => {
       );
       fs.unlink(filePath, (err) => {
         if (err) {
-          console.log(
-            '🚀 ~ file: couponController.js ~ line 169 ~ fs.unlink ~ err',
-            err
-          );
+          if (err) {
+            console.error(
+              '🚀 ~ file: couponController.js ~ line 169 ~ fs.unlink ~ err',
+              err
+            );
+          }
         }
       });
     }
@@ -232,10 +234,12 @@ exports.deleteCoupon = catchAsync.other(async (req, res, next) => {
     );
     fs.unlink(filePath, (err) => {
       if (err) {
-        console.log(
-          '🚀 ~ file: couponController.js ~ line 218 ~ fs.unlink ~ err',
-          err
-        );
+        if (err) {
+          console.error(
+            '🚀 ~ file: couponController.js ~ line 218 ~ fs.unlink ~ err',
+            err
+          );
+        }
       }
     });
   }

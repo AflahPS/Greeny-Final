@@ -1,7 +1,6 @@
 /* eslint-disable */
 
 async function generatePDF() {
-  console.log(await propsMake());
   var pdfObject = jsPDFInvoiceTemplate.default(await propsMake()); //returns number of pages created
   console.log('object Created', pdfObject);
 }

@@ -44,7 +44,7 @@ $(document).ready(async function () {
       url: '/admin/chart-daily',
     });
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
   }
   if (
     typeof curveeml_ctx !== 'undefined' &&

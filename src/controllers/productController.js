@@ -242,7 +242,7 @@ exports.updateProduct = catchAsync.other(async (req, res, next) => {
       );
       fs.unlink(filePath, (err) => {
         if (err) {
-          console.log(
+          console.error(
             '🚀 ~ file: productController.js ~ line 226 ~ fs.unlink ~ err',
             err
           );
@@ -261,7 +261,7 @@ exports.updateProduct = catchAsync.other(async (req, res, next) => {
           );
           fs.unlink(filePath, (err) => {
             if (err) {
-              console.log(
+              console.error(
                 '🚀 ~ file: productController.js ~ line 243 ~ fs.unlink ~ err',
                 err
               );
@@ -285,10 +285,6 @@ exports.updateProduct = catchAsync.other(async (req, res, next) => {
 exports.deleteProduct = catchAsync.other(async (req, res, next) => {
   // Validation
   const { id } = req.query;
-  console.log(
-    '🚀 ~ file: productController.js ~ line 229 ~ exports.deleteProduct ~ id',
-    id
-  );
   if (!id) {
     throw new Error('No Id to delete the product!');
   }
@@ -304,10 +300,12 @@ exports.deleteProduct = catchAsync.other(async (req, res, next) => {
       `../../public/images/product/${product.thumbnail}`
     );
     fs.unlink(filePath, (err) => {
-      console.log(
-        '🚀 ~ file: productController.js ~ line 283 ~ fs.unlink ~ err',
-        err
-      );
+      if (err) {
+        console.error(
+          '🚀 ~ file: productController.js ~ line 283 ~ fs.unlink ~ err',
+          err
+        );
+      }
     });
   }
   if (product.images && product.images.length) {
@@ -317,10 +315,12 @@ exports.deleteProduct = catchAsync.other(async (req, res, next) => {
         `../../public/images/product/${img}`
       );
       fs.unlink(filePath, (err) => {
-        console.log(
-          '🚀 ~ file: productController.js ~ line 297 ~ fs.unlink ~ err',
-          err
-        );
+        if (err) {
+          console.error(
+            '🚀 ~ file: productController.js ~ line 297 ~ fs.unlink ~ err',
+            err
+          );
+        }
       });
     });
   }

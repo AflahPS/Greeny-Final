@@ -325,13 +325,13 @@ $(window).on('scroll', function () {
         };
         var rzp1 = new Razorpay(options);
         rzp1.on('payment.failed', function (response) {
-          console.log(response.error.code);
-          console.log(response.error.description);
-          console.log(response.error.source);
-          console.log(response.error.step);
-          console.log(response.error.reason);
-          console.log(response.error.metadata.order_id);
-          console.log(response.error.metadata.payment_id);
+          console.error(response.error.code);
+          console.error(response.error.description);
+          console.error(response.error.source);
+          console.error(response.error.step);
+          console.error(response.error.reason);
+          console.error(response.error.metadata.order_id);
+          console.error(response.error.metadata.payment_id);
           $('#proceed-button').next('p').hide();
           $('#proceed-button').after(
             `<p class="text-danger">We are really sorry, Something went wrong !</p>`

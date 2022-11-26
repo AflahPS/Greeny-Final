@@ -149,7 +149,7 @@ exports.logout = catchAsync.user(async (req, res, next) => {
   req.session.isAuth = false;
   req.session.destroy((err) => {
     if (err) {
-      console.log(err.message);
+      console.error(err.message);
       return res.redirect('/home');
     }
   });
@@ -261,7 +261,7 @@ exports.resetAndMailPassword = catchAsync.user(async (req, res, next) => {
       message: 'New password sent, Please login with your new password',
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     const message = `Sorry, something went wrong ! Please try again.`;
     res.render('auth/reset-password', { message });
   }

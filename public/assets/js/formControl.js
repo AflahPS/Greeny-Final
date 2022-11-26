@@ -194,7 +194,6 @@ async function deleteUser(e) {
     url: `/admin/user?id=${id}`,
   });
 
-  console.log(res.data);
   // Handling response
   if (res.data.status === 'success') {
     await Swal.fire('Deleted!', res.data.message, 'success');

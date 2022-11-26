@@ -156,10 +156,12 @@ exports.updateCategory = catchAsync.other(async (req, res, next) => {
         `../../public/images/category/${category.thumbnail}`
       );
       fs.unlink(filePath, (err) => {
-        console.log(
-          '🚀 ~ file: categoryController.js ~ line 149 ~ fs.unlink ~ err',
-          err
-        );
+        if (err) {
+          console.error(
+            '🚀 ~ file: categoryController.js ~ line 149 ~ fs.unlink ~ err',
+            err
+          );
+        }
       });
     }
 
@@ -211,10 +213,12 @@ exports.deleteCategory = catchAsync.other(async (req, res, next) => {
       `../../public/images/category/${category.thumbnail}`
     );
     fs.unlink(filePath, (err) => {
-      console.log(
-        '🚀 ~ file: categoryController.js ~ line 203 ~ fs.unlink ~ err',
-        err
-      );
+      if (err) {
+        console.error(
+          '🚀 ~ file: categoryController.js ~ line 203 ~ fs.unlink ~ err',
+          err
+        );
+      }
     });
   }
 
