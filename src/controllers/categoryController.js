@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 const multer = require('multer');
 const sharp = require('sharp');
 const fs = require('fs');
@@ -251,15 +252,16 @@ exports.banCategory = catchAsync.admin(async (req, res, next) => {
   // Banning products int this category
   const productsOnCategory = await Product.find({ category: id });
   if (category.isActive && productsOnCategory.length) {
-    productsOnCategory.forEach((product) => {
+    // productsOnCategory.forEach((product) =>
+    for (const product of productsOnCategory) {
       product.isActive = true;
       product.save();
-    });
+    }
   } else if (!category.isActive && productsOnCategory.length) {
-    productsOnCategory.forEach((product) => {
+    for (const product of productsOnCategory) {
       product.isActive = false;
       product.save();
-    });
+    }
   }
 
   message = category.isActive
