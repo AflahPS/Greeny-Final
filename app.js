@@ -16,8 +16,9 @@ const commonRouter = require('./src/routes/commonRouter');
 
 // Safety net to catch uncaughtException
 process.on('uncaughtException', (err) => {
+  const now = new Date(Date.now()).toLocaleString();
   console.error(err.name, err.message);
-  console.error('Uncought Exception, Server is shutting down..');
+  console.error(`Uncought Exception, Server is shutting down.. at ${now}`);
   process.exit(1);
 });
 
@@ -86,9 +87,10 @@ app.all('*', (req, res, next) => {
 });
 
 const port = process.env.PORT || '3000';
-app.listen(port, '127.0.0.1', () =>
-  console.log(`Server running on port: ${port}`)
-);
+app.listen(port, '127.0.0.1', () => {
+  const now = new Date(Date.now()).toLocaleString();
+  console.log(`Server running on port- ${port} at time -${now}`);
+});
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -115,7 +117,8 @@ app.use((err, req, res, next) => {
 
 // Safety net to catch uncaughtExceptions
 process.on('unhandledRejection', (err) => {
+  const now = new Date(Date.now()).toLocaleString();
   console.error(err.name, err.message);
-  console.error('Unhandled Rejection, Server is shutting down..');
+  console.error(`Unhandled Rejection, Server is shutting down.. at ${now}`);
   process.exit(1);
 });
